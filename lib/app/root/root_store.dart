@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
@@ -38,6 +39,13 @@ abstract class _RootStoreBase with Store {
   @action
   @action
   setUser() async {
+    // FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    //   if (user == null) {
+    //     status = AuthStatus.signed_out;
+    //   } else {
+    //     status = AuthStatus.signed_in;
+    //   }
+    // });
     // if (token != null) {
     //   status = AuthStatus.signed_in;
     // } else {

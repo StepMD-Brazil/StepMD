@@ -27,7 +27,7 @@ class SplashPageState extends State<SplashPage> {
       (_) async {
         print(rootStore.status);
         if (rootStore.status == AuthStatus.signed_in) {
-          rootStore.setSelectedTrunk(1);
+          rootStore.setSelectedTrunk(2);
         } else if (rootStore.status == AuthStatus.signed_out) {
           rootStore.setSelectedTrunk(0);
         }
