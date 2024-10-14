@@ -8,6 +8,7 @@ class HomePage extends StatefulWidget {
   @override
   HomePageState createState() => HomePageState();
 }
+
 class HomePageState extends State<HomePage> {
   final HomeStore store = Modular.get();
 
@@ -15,7 +16,7 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Home"),
       ),
       body: Column(
         children: <Widget>[],
