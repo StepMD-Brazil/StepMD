@@ -1,0 +1,93 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'splash_store.dart';
+
+// **************************************************************************
+// StoreGenerator
+// **************************************************************************
+
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
+
+mixin _$SplashStore on _SplashStoreBase, Store {
+  late final _$valueAtom =
+      Atom(name: '_SplashStoreBase.value', context: context);
+
+  @override
+  int get value {
+    _$valueAtom.reportRead();
+    return super.value;
+  }
+
+  @override
+  set value(int value) {
+    _$valueAtom.reportWrite(value, super.value, () {
+      super.value = value;
+    });
+  }
+
+  late final _$statusAtom =
+      Atom(name: '_SplashStoreBase.status', context: context);
+
+  @override
+  AuthStatus get status {
+    _$statusAtom.reportRead();
+    return super.status;
+  }
+
+  @override
+  set status(AuthStatus value) {
+    _$statusAtom.reportWrite(value, super.status, () {
+      super.status = value;
+    });
+  }
+
+  late final _$selectedTrunkAtom =
+      Atom(name: '_SplashStoreBase.selectedTrunk', context: context);
+
+  @override
+  int get selectedTrunk {
+    _$selectedTrunkAtom.reportRead();
+    return super.selectedTrunk;
+  }
+
+  @override
+  set selectedTrunk(int value) {
+    _$selectedTrunkAtom.reportWrite(value, super.selectedTrunk, () {
+      super.selectedTrunk = value;
+    });
+  }
+
+  late final _$_SplashStoreBaseActionController =
+      ActionController(name: '_SplashStoreBase', context: context);
+
+  @override
+  dynamic setSelectedTrunk(int value) {
+    final _$actionInfo = _$_SplashStoreBaseActionController.startAction(
+        name: '_SplashStoreBase.setSelectedTrunk');
+    try {
+      return super.setSelectedTrunk(value);
+    } finally {
+      _$_SplashStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void increment() {
+    final _$actionInfo = _$_SplashStoreBaseActionController.startAction(
+        name: '_SplashStoreBase.increment');
+    try {
+      return super.increment();
+    } finally {
+      _$_SplashStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  String toString() {
+    return '''
+value: ${value},
+status: ${status},
+selectedTrunk: ${selectedTrunk}
+    ''';
+  }
+}
