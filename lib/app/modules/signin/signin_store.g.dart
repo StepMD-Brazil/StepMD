@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'splash_store.dart';
+part of 'signin_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,9 +8,9 @@ part of 'splash_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$SplashStore on _SplashStoreBase, Store {
+mixin _$SigninStore on _SigninStoreBase, Store {
   late final _$valueAtom =
-      Atom(name: '_SplashStoreBase.value', context: context);
+      Atom(name: '_SigninStoreBase.value', context: context);
 
   @override
   int get value {
@@ -25,17 +25,17 @@ mixin _$SplashStore on _SplashStoreBase, Store {
     });
   }
 
-  late final _$_SplashStoreBaseActionController =
-      ActionController(name: '_SplashStoreBase', context: context);
+  late final _$_SigninStoreBaseActionController =
+      ActionController(name: '_SigninStoreBase', context: context);
 
   @override
   void increment() {
-    final _$actionInfo = _$_SplashStoreBaseActionController.startAction(
-        name: '_SplashStoreBase.increment');
+    final _$actionInfo = _$_SigninStoreBaseActionController.startAction(
+        name: '_SigninStoreBase.increment');
     try {
       return super.increment();
     } finally {
-      _$_SplashStoreBaseActionController.endAction(_$actionInfo);
+      _$_SigninStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
