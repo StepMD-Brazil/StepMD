@@ -6,6 +6,7 @@ import 'package:stepmd/app/root/root_module.dart';
 import 'package:stepmd/app/splash/splash_module.dart';
 import 'package:stepmd/app/splash/splash_store.dart';
 
+import 'modules/db_questions/dbQuestions_store.dart';
 import 'modules/home/home_store.dart';
 
 class AppModule extends Module {
@@ -14,6 +15,7 @@ class AppModule extends Module {
     i.addSingleton(HomeStore.new);
     i.addSingleton(SplashStore.new);
     i.addSingleton(SigninStore.new);
+    i.addSingleton(DbQuestionsStore.new);
   }
 
   @override

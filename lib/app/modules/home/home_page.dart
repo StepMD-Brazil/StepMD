@@ -37,8 +37,6 @@ class HomePageState extends State<HomePage> {
   ];
 
   _onItemTapped(int index) {
-
-    
     setState(() {
       _selectedIndex = index;
     });
@@ -47,228 +45,376 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Home"),
-      ),
       body: Center(
-        child: _widgetOptions[_selectedIndex],
-      ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
+        child: Row(
           children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.5,
-                height: MediaQuery.of(context).size.height * 0.01,
-                child: SvgPicture.asset(
-                  'assets/svg/logo.svg',
-                  width: 20,
-                  height: 20,
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: appColorDeafut,
+                  width: 0.5, // Set the border width
+                ),
+              ),
+              child: Drawer(
+                width: MediaQuery.of(context).size.width * 0.13,
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        child: SvgPicture.asset(
+                          'assets/svg/logo.svg',
+                          color: const Color(0xFF226D9F),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.05,
+                        height: 35,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              width: 1,
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                              color: Color(0xFFCBD5E1),
+                            ),
+                            borderRadius: BorderRadius.circular(9999),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Icon(
+                                Icons.search,
+                                color: appColorDeafut,
+                              ),
+                              const SizedBox(width: 3),
+                              SizedBox(
+                                width: 100,
+                                child: TextFormField(
+                                  decoration: const InputDecoration(
+                                    hintText: 'Pesquisar',
+                                    hintStyle: TextStyle(
+                                      color: appColorPrimary,
+                                      fontSize: 14,
+                                      fontFamily: appFont,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ListTile(
+                      title: const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.home_outlined,
+                            color: appColorDeafut,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Home',
+                            style: TextStyle(
+                              color: appColorPrimary,
+                              fontSize: 14,
+                              fontFamily: appFont,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      selected: _selectedIndex == 0,
+                      onTap: () {
+                        // Update the state of the app
+                        _onItemTapped(0);
+                        // Then close the drawer
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.quiz_outlined,
+                            color: appColorDeafut,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Banco de questões',
+                            style: TextStyle(
+                              color: appColorPrimary,
+                              fontSize: 14,
+                              fontFamily: appFont,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      selected: _selectedIndex == 1,
+                      onTap: () {
+                        // Update the state of the app
+                        _onItemTapped(1);
+                        // Then close the drawer
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svg/flash.svg',
+                            color: appColorDeafut,
+                          ),
+                          const SizedBox(width: 10),
+                          const Text(
+                            'Flashcards',
+                            style: TextStyle(
+                              color: appColorPrimary,
+                              fontSize: 14,
+                              fontFamily: appFont,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      selected: _selectedIndex == 2,
+                      onTap: () {
+                        // Update the state of the app
+                        _onItemTapped(2);
+                        // Then close the drawer
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svg/book.svg',
+                            color: appColorDeafut,
+                          ),
+                          const SizedBox(width: 10),
+                          const Text(
+                            'Meu caderno',
+                            style: TextStyle(
+                              color: appColorPrimary,
+                              fontSize: 14,
+                              fontFamily: appFont,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      selected: _selectedIndex == 3,
+                      onTap: () {
+                        // Update the state of the app
+                        _onItemTapped(3);
+                        // Then close the drawer
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svg/add_notes.svg',
+                            color: appColorDeafut,
+                          ),
+                          const SizedBox(width: 10),
+                          const Text(
+                            'Notes',
+                            style: TextStyle(
+                              color: appColorPrimary,
+                              fontSize: 14,
+                              fontFamily: appFont,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      selected: _selectedIndex == 4,
+                      onTap: () {
+                        // Update the state of the app
+                        _onItemTapped(4);
+                        // Then close the drawer
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svg/notes.svg',
+                            color: appColorDeafut,
+                          ),
+                          const SizedBox(width: 10),
+                          const Text(
+                            'Artigos e resumos',
+                            style: TextStyle(
+                              color: appColorPrimary,
+                              fontSize: 14,
+                              fontFamily: appFont,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      selected: _selectedIndex == 5,
+                      onTap: () {
+                        // Update the state of the app
+                        _onItemTapped(5);
+                        // Then close the drawer
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.lightbulb_outline_sharp,
+                            color: appColorDeafut,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Dicas importantes',
+                            style: TextStyle(
+                              color: appColorPrimary,
+                              fontSize: 14,
+                              fontFamily: appFont,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      selected: _selectedIndex == 5,
+                      onTap: () {
+                        // Update the state of the app
+                        _onItemTapped(5);
+                        // Then close the drawer
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 270,
+                    ),
+                    ListTile(
+                      title: const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.help_outline_outlined,
+                            color: appColorDeafut,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Suporte',
+                            style: TextStyle(
+                              color: appColorPrimary,
+                              fontSize: 14,
+                              fontFamily: appFont,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      selected: _selectedIndex == 5,
+                      onTap: () {
+                        // Update the state of the app
+                        _onItemTapped(5);
+                        // Then close the drawer
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.settings_rounded,
+                            color: appColorDeafut,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Configurações',
+                            style: TextStyle(
+                              color: appColorPrimary,
+                              fontSize: 14,
+                              fontFamily: appFont,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      selected: _selectedIndex == 5,
+                      onTap: () {
+                        // Update the state of the app
+                        _onItemTapped(5);
+                        // Then close the drawer
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.login,
+                            color: appColorDeafut,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Log out',
+                            style: TextStyle(
+                              color: appColorPrimary,
+                              fontSize: 14,
+                              fontFamily: appFont,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      selected: _selectedIndex == 5,
+                      onTap: () {
+                        // Update the state of the app
+                        _onItemTapped(5);
+                        // Then close the drawer
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
-            ListTile(
-              title: const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.home_outlined,
-                    color: appColorDeafut,
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'Home',
-                    style: TextStyle(
-                      color: appColorDeafut,
-                      fontSize: 14,
-                      fontFamily: appFont,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              selected: _selectedIndex == 0,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(0);
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.quiz_outlined,
-                    color: appColorDeafut,
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'Banco de questões',
-                    style: TextStyle(
-                      color: appColorDeafut,
-                      fontSize: 14,
-                      fontFamily: appFont,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              selected: _selectedIndex == 1,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(1);
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.flash_on_rounded,
-                    color: appColorDeafut,
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'Flashcards',
-                    style: TextStyle(
-                      color: appColorDeafut,
-                      fontSize: 14,
-                      fontFamily: appFont,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              selected: _selectedIndex == 2,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(2);
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.menu_book,
-                    color: appColorDeafut,
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'Meu caderno',
-                    style: TextStyle(
-                      color: appColorDeafut,
-                      fontSize: 14,
-                      fontFamily: appFont,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              selected: _selectedIndex == 3,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(3);
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.note_add_rounded,
-                    color: appColorDeafut,
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'Notes',
-                    style: TextStyle(
-                      color: appColorDeafut,
-                      fontSize: 14,
-                      fontFamily: appFont,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              selected: _selectedIndex == 4,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(4);
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.note,
-                    color: appColorDeafut,
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'Artigos e resumos',
-                    style: TextStyle(
-                      color: appColorDeafut,
-                      fontSize: 14,
-                      fontFamily: appFont,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              selected: _selectedIndex == 5,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(5);
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.note,
-                    color: appColorDeafut,
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'Artigos e resumos',
-                    style: TextStyle(
-                      color: appColorDeafut,
-                      fontSize: 14,
-                      fontFamily: appFont,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              selected: _selectedIndex == 5,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(5);
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
+            Expanded(child: _widgetOptions[_selectedIndex]),
           ],
         ),
       ),
