@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:stepmd/app/modules/db_questions/dbQuestions_module.dart';
 import 'package:stepmd/app/modules/db_questions/dbQuestions_store.dart';
 import 'package:stepmd/app/shared/constants.dart';
 
@@ -29,6 +28,9 @@ class Test extends StatelessWidget {
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.white,
+                iconTheme: const IconThemeData(
+                  color: Color(0xFF4091C6), // Define a cor do botão de voltar
+                ),
                 title: Container(
                   width: MediaQuery.of(context).size.width,
                   height: 60,
@@ -904,399 +906,101 @@ class Test extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 16),
-                                Image.network('${snapshot.data!['imageUrl']}'),
+                                Image.network(
+                                    width: 468,
+                                    height: 258,
+                                    '${snapshot.data!['imageUrl']}'),
                                 const SizedBox(height: 16),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 12),
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFFFE4E4),
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(
-                                          color: Color(0xFFFCC3C3),
-                                          width: 1,
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 36,
-                                            height: 36,
-                                            padding: const EdgeInsets.all(8),
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFFA22727),
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    width: 1,
-                                                    color: Color(0xFFA22727)),
-                                                borderRadius:
-                                                    BorderRadius.circular(9999),
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                'A',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
+                                    Column(
+                                      children:
+                                          (snapshot.data!['options'] ?? [])
+                                              .map<Widget>((option) {
+                                        // Evita erros ao verificar se cada campo existe
+                                        final isCorrect =
+                                            option['isCorrect'] ?? false;
+                                        final text = option['text'] ?? '';
+
+                                        return Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 12),
+                                          decoration: BoxDecoration(
+                                            color: isCorrect
+                                                ? Color(0xFFE4F7E4)
+                                                : Color(0xFFFFE4E4),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            border: Border.all(
+                                              color: isCorrect
+                                                  ? Color(0xFFA3CFA3)
+                                                  : Color(0xFFFCC3C3),
+                                              width: 1,
                                             ),
                                           ),
-                                          const SizedBox(width: 8),
-                                          Expanded(
-                                            child: SizedBox(
-                                              child: Text(
-                                                'Aumentar a resposta imune em crianças pequenas',
-                                                style: TextStyle(
-                                                  color: Color(0xFFA22727),
-                                                  fontSize: 16,
-                                                  fontFamily: appFont,
-                                                  fontWeight: FontWeight.w300,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Container(
-                                            width: 24,
-                                            height: 24,
-                                            child: Stack(
-                                              children: [
-                                                Positioned(
-                                                  left: 0,
-                                                  top: 0,
-                                                  child: Container(
-                                                    width: 24,
-                                                    height: 24,
-                                                    decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xFFD9D9D9)),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              // Ícone e Texto
+                                              Container(
+                                                width: 36,
+                                                height: 36,
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                decoration: ShapeDecoration(
+                                                  color: isCorrect
+                                                      ? Color(0xFF2E7D32)
+                                                      : Color(0xFFA22727),
+                                                  shape: RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                        width: 1,
+                                                        color: isCorrect
+                                                            ? Color(0xFF2E7D32)
+                                                            : Color(
+                                                                0xFFA22727)),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            9999),
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 12),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Color(0xFFDAE9EE),
-                                          width: 1,
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 36,
-                                            height: 36,
-                                            padding: const EdgeInsets.all(8),
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFFA22727),
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    width: 1,
-                                                    color: Color(0xFFA22727)),
-                                                borderRadius:
-                                                    BorderRadius.circular(9999),
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                'B',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Expanded(
-                                            child: SizedBox(
-                                              child: Text(
-                                                'Fornecer proteção adicional contra o tétano',
-                                                style: TextStyle(
-                                                  color: Color(0xFF51628A),
-                                                  fontSize: 16,
-                                                  fontFamily: 'Mulish',
-                                                  fontWeight: FontWeight.w300,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Container(
-                                            width: 24,
-                                            height: 24,
-                                            child: Stack(
-                                              children: [
-                                                Positioned(
-                                                  left: 0,
-                                                  top: 0,
-                                                  child: Container(
-                                                    width: 24,
-                                                    height: 24,
-                                                    decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xFFD9D9D9)),
+                                                child: Center(
+                                                  child: Text(
+                                                    isCorrect ? '✔' : '✘',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 12),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Color(0xFFDAE9EE),
-                                          width: 1,
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 36,
-                                            height: 36,
-                                            padding: const EdgeInsets.all(8),
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFFA22727),
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    width: 1,
-                                                    color: Color(0xFFA22727)),
-                                                borderRadius:
-                                                    BorderRadius.circular(9999),
                                               ),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                'C',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Expanded(
-                                            child: SizedBox(
-                                              child: Text(
-                                                'Proteger contra infecções bacterianas não relacionadas ao Hib',
-                                                style: TextStyle(
-                                                  color: Color(0xFF51628A),
-                                                  fontSize: 16,
-                                                  fontFamily: appFont,
-                                                  fontWeight: FontWeight.w300,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Container(
-                                            width: 24,
-                                            height: 24,
-                                            child: Stack(
-                                              children: [
-                                                Positioned(
-                                                  left: 0,
-                                                  top: 0,
-                                                  child: Container(
-                                                    width: 24,
-                                                    height: 24,
-                                                    decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xFFD9D9D9)),
+                                              const SizedBox(width: 8),
+                                              Expanded(
+                                                child: SizedBox(
+                                                  child: Text(
+                                                    text,
+                                                    style: TextStyle(
+                                                      color: isCorrect
+                                                          ? Color(0xFF2E7D32)
+                                                          : Color(0xFFA22727),
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                    ),
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 12),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Color(0xFFDAE9EE),
-                                          width: 1,
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 36,
-                                            height: 36,
-                                            padding: const EdgeInsets.all(8),
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFFA22727),
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    width: 1,
-                                                    color: Color(0xFFA22727)),
-                                                borderRadius:
-                                                    BorderRadius.circular(9999),
                                               ),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                'D',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
+                                            ],
                                           ),
-                                          const SizedBox(width: 8),
-                                          Expanded(
-                                            child: SizedBox(
-                                              child: Text(
-                                                'Reduzir a necessidade de doses adicionais da vacina Hib',
-                                                style: TextStyle(
-                                                  color: Color(0xFF51628A),
-                                                  fontSize: 16,
-                                                  fontFamily: appFont,
-                                                  fontWeight: FontWeight.w300,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Container(
-                                            width: 24,
-                                            height: 24,
-                                            child: Stack(
-                                              children: [
-                                                Positioned(
-                                                  left: 0,
-                                                  top: 0,
-                                                  child: Container(
-                                                    width: 24,
-                                                    height: 24,
-                                                    decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xFFD9D9D9)),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 12),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Color(0xFFDAE9EE),
-                                          width: 1,
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 36,
-                                            height: 36,
-                                            padding: const EdgeInsets.all(8),
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFFA22727),
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    width: 1,
-                                                    color: Color(0xFFA22727)),
-                                                borderRadius:
-                                                    BorderRadius.circular(9999),
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                'E',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Expanded(
-                                            child: SizedBox(
-                                              child: Text(
-                                                'Diminuir o risco de reações adversas à vacina',
-                                                style: TextStyle(
-                                                  color: Color(0xFF51628A),
-                                                  fontSize: 16,
-                                                  fontFamily: appFont,
-                                                  fontWeight: FontWeight.w300,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Container(
-                                            width: 24,
-                                            height: 24,
-                                            child: Stack(
-                                              children: [
-                                                Positioned(
-                                                  left: 0,
-                                                  top: 0,
-                                                  child: Container(
-                                                    width: 24,
-                                                    height: 24,
-                                                    decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xFFD9D9D9)),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                        );
+                                      }).toList(),
+                                    )
                                   ],
                                 ),
                                 const SizedBox(height: 16),
@@ -1431,37 +1135,42 @@ class Test extends StatelessWidget {
                     ),
                     const SizedBox(width: 16),
                     Expanded(
-                      child: Container(
-                        height: 40,
-                        clipBehavior: Clip.antiAlias,
-                        decoration: ShapeDecoration(
-                          color: Color(0xFF4091C6),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Próxima',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
+                      child: InkWell(
+                        onTap: () {
+                          dbStore.setQuestion(snapshot.data!.id, "9PNftaz5UBEaSyo3tEPe", 0);
+                        },
+                        child: Container(
+                          height: 40,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: ShapeDecoration(
+                            color: Color(0xFF4091C6),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Próxima',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 10),
-                            Container(
-                              width: 24,
-                              height: 24,
-                              child: const Icon(
-                                Icons.arrow_forward_outlined,
-                                color: Colors.white,
+                              const SizedBox(width: 10),
+                              Container(
+                                width: 24,
+                                height: 24,
+                                child: const Icon(
+                                  Icons.arrow_forward_outlined,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

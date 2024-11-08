@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobx/mobx.dart';
 
 part 'dbQuestions_store.g.dart';
@@ -11,5 +12,18 @@ abstract class _DbQuestionsStoreBase with Store {
   @action
   void increment() {
     value++;
+  }
+
+  @action
+  setQuestion(String questionId, String testId, int timeSpend) async {
+    
+    var response = await FirebaseFirestore.instance.collection("answers").add({
+        "questionId": questionId,
+        "testId": testId,
+        "status": true,
+        "timeSpend": timeSpend
+    });
+
+    print(response);
   }
 }
