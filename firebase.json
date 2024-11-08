@@ -1,16 +1,1 @@
-{
-  "hosting": {
-    "public": "public",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  }
-}
+{"hosting":{"public":"build/web","ignore":["firebase.json","**/.*","**/node_modules/**"],"rewrites":[{"source":"**","destination":"/index.html"}]},"flutter":{"platforms":{"android":{"default":{"projectId":"stepmd-ebcd9","appId":"1:562194623173:android:de0afe5f3b4b4e166d5eac","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"stepmd-ebcd9","configurations":{"android":"1:562194623173:android:de0afe5f3b4b4e166d5eac","ios":"1:562194623173:ios:002ca38bbe49dab26d5eac","web":"1:562194623173:web:a2fcbb97b40a7bb66d5eac"}}}}}}

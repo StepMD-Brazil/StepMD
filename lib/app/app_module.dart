@@ -1,5 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:stepmd/app/modules/flashcards/flashcards_store.dart';
 import 'package:stepmd/app/modules/home/home_module.dart';
+import 'package:stepmd/app/modules/initialPage/initialPage_store.dart';
 import 'package:stepmd/app/modules/signin/signin_module.dart';
 import 'package:stepmd/app/modules/signin/signin_store.dart';
 import 'package:stepmd/app/root/root_module.dart';
@@ -16,6 +18,8 @@ class AppModule extends Module {
     i.addSingleton(SplashStore.new);
     i.addSingleton(SigninStore.new);
     i.addSingleton(DbQuestionsStore.new);
+    i.addSingleton(InitialPageStore.new);
+    i.addSingleton(FlashcardsStore.new);
   }
 
   @override

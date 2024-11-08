@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "562194623173",
+    "project_id": "stepmd-ebcd9",
+    "storage_bucket": "stepmd-ebcd9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562194623173:android:de0afe5f3b4b4e166d5eac",
+        "android_client_info": {
+          "package_name": "br.com.stepMD"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "562194623173-e0bc289cf5c3almppjcmgsm7nah40is3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsTb_Ny_E0Zv0ntCpk6LvwC3h25CLgAeY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "562194623173-e0bc289cf5c3almppjcmgsm7nah40is3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
