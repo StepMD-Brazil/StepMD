@@ -17,12 +17,16 @@
     <script defer src="/__/firebase/11.0.1/firebase-analytics-compat.js"></script>
     <script defer src="/__/firebase/11.0.1/firebase-remote-config-compat.js"></script>
     <script defer src="/__/firebase/11.0.1/firebase-performance-compat.js"></script>
+    <script type="text/javascript"> window.flutterWebRenderer = "html"; </script>
+
     <!-- 
       initialize the SDK after all desired features are loaded, set useEmulator to false
       to avoid connecting the SDK to running emulators.
     -->
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-
+    <script type="text/javascript">
+      window.flutterWebRenderer = "html";
+    </script>
     <style media="screen">
       body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
       #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
@@ -46,6 +50,7 @@
       <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
     </div>
     <p id="load">Firebase SDK Loading&hellip;</p>
+    <script type="text/javascript"> window.flutterWebRenderer = "html"; </script>
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -64,8 +69,20 @@
         // firebase.performance(); // call to activate
         //
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
+          _flutter.loader.loadEntrypoint({
+            serviceWorker: {
+              serviceWorkerVersion: serviceWorkerVersion,
+            },
+            onEntrypointLoaded: async function (engineInitializer) {
+              let appRunner = await engineInitializer.initializeEngine({
+                hostElement: document.querySelector("#flutter_app"),
+                renderer: "html"
+              }).then(function (appRunner) {
+                return appRunner.runApp();
+              });
+            }
+          });
+          try {
           let app = firebase.app();
           let features = [
             'auth', 

@@ -19,17 +19,17 @@ class DbQuestionsPage extends StatefulWidget {
 class DbQuestionsPageState extends State<DbQuestionsPage> {
   final DbQuestionsStore store = Modular.get();
   final HomeStore homeStore = Modular.get();
-  
+
   static final List<Widget> _widgetOptions = <Widget>[
     NovoTeste(),
     TestesRealizados()
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
-      return Scaffold(body: _widgetOptions[homeStore.selectedIndexDB]);
+      return Scaffold(
+          body: Center(child: _widgetOptions[homeStore.selectedIndexDB]));
     });
   }
 }

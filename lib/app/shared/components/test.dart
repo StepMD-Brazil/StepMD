@@ -904,10 +904,7 @@ class Test extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 16),
-                                Image.network(
-                                    width: 468,
-                                    height: 258,
-                                    '${snapshot.data!['imageUrl']}'),
+                                Image.network('${snapshot.data!['imageUrl']}'),
                                 const SizedBox(height: 16),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
