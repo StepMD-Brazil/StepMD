@@ -13,10 +13,7 @@ class Test extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('questions')
-            .doc('GkIVuh85OLC4tbtApnHR')
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('questions').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -344,502 +341,85 @@ class Test extends StatelessWidget {
                                         height: 656,
                                         padding: const EdgeInsets.only(
                                             top: 8, left: 8, right: 8),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.only(
+                                        child: ListView.builder(
+                                          itemCount: snapshot.data!.docs.length,
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                                padding: const EdgeInsets.only(
                                                   top: 8,
                                                   left: 16,
                                                   right: 8,
-                                                  bottom: 8),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Expanded(
-                                                    child: Container(
-                                                      height: 20,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Expanded(
-                                                            child: SizedBox(
-                                                              child: Text(
-                                                                '01 Uma pessoa com 36',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color(
-                                                                      0xFF51628A),
-                                                                  fontSize: 14,
-                                                                  fontFamily:
-                                                                      appFont,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
+                                                  bottom: 8,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    dbStore.setSelect(index);
+                                                  },
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                          height: 20,
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Expanded(
+                                                                child: SizedBox(
+                                                                  child: Text(
+                                                                    '${index + 1} - ${snapshot.data!.docs[index]['label']}',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Color(
+                                                                          0xFF51628A),
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          appFont,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
+                                                            ],
                                                           ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                      width: 24,
-                                                      height: 24,
-                                                      decoration:
-                                                          ShapeDecoration(
-                                                        color:
-                                                            Color(0xFFCFE6D8),
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      9999),
                                                         ),
                                                       ),
-                                                      child: Icon(Icons
-                                                          .check_circle_outlined)),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8,
-                                                  left: 16,
-                                                  right: 8,
-                                                  bottom: 8),
-                                              decoration: ShapeDecoration(
-                                                color: Color(0xFFE1F3FF),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6)),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Expanded(
-                                                    child: Container(
-                                                      height: 20,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Expanded(
-                                                            child: SizedBox(
-                                                              child: Text(
-                                                                '02 Durante a noite um rapaz',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color(
-                                                                      0xFF216D9E),
-                                                                  fontSize: 14,
-                                                                  fontFamily:
-                                                                      appFont,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                              ),
-                                                            ),
+                                                      Container(
+                                                        width: 24,
+                                                        height: 24,
+                                                        decoration:
+                                                            ShapeDecoration(
+                                                          color:
+                                                              Color(0xFFCFE6D8),
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        9999),
                                                           ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8,
-                                                  left: 16,
-                                                  right: 8,
-                                                  bottom: 8),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Expanded(
-                                                    child: Container(
-                                                      height: 20,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Expanded(
-                                                            child: SizedBox(
-                                                              child: Text(
-                                                                '03 Todas as noites um viajante',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color(
-                                                                      0xFF51628A),
-                                                                  fontSize: 14,
-                                                                  fontFamily:
-                                                                      appFont,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                      width: 24,
-                                                      height: 24,
-                                                      decoration:
-                                                          ShapeDecoration(
-                                                        color:
-                                                            Color(0xFFCFE6D8),
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      9999),
                                                         ),
+                                                        child: Icon(Icons
+                                                            .check_circle_outlined),
                                                       ),
-                                                      child: Icon(Icons
-                                                          .check_circle_outlined)),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8,
-                                                  left: 16,
-                                                  right: 8,
-                                                  bottom: 8),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Expanded(
-                                                    child: Container(
-                                                      height: 20,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Expanded(
-                                                            child: SizedBox(
-                                                              child: Text(
-                                                                '04',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color(
-                                                                      0xFF51628A),
-                                                                  fontSize: 14,
-                                                                  fontFamily:
-                                                                      appFont,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8,
-                                                  left: 16,
-                                                  right: 8,
-                                                  bottom: 8),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Expanded(
-                                                    child: Container(
-                                                      height: 20,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Expanded(
-                                                            child: SizedBox(
-                                                              child: Text(
-                                                                '05',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color(
-                                                                      0xFF51628A),
-                                                                  fontSize: 14,
-                                                                  fontFamily:
-                                                                      appFont,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8,
-                                                  left: 16,
-                                                  right: 8,
-                                                  bottom: 8),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Expanded(
-                                                    child: Container(
-                                                      height: 20,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Expanded(
-                                                            child: SizedBox(
-                                                              child: Text(
-                                                                '06',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color(
-                                                                      0xFF51628A),
-                                                                  fontSize: 14,
-                                                                  fontFamily:
-                                                                      appFont,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8,
-                                                  left: 16,
-                                                  right: 8,
-                                                  bottom: 8),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Expanded(
-                                                    child: Container(
-                                                      height: 20,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Expanded(
-                                                            child: SizedBox(
-                                                              child: Text(
-                                                                '07',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color(
-                                                                      0xFF51628A),
-                                                                  fontSize: 14,
-                                                                  fontFamily:
-                                                                      appFont,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8,
-                                                  left: 16,
-                                                  right: 8,
-                                                  bottom: 8),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Expanded(
-                                                    child: Container(
-                                                      height: 20,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Expanded(
-                                                            child: SizedBox(
-                                                              child: Text(
-                                                                '08',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color(
-                                                                      0xFF51628A),
-                                                                  fontSize: 14,
-                                                                  fontFamily:
-                                                                      appFont,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8,
-                                                  left: 16,
-                                                  right: 8,
-                                                  bottom: 8),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Expanded(
-                                                    child: Container(
-                                                      height: 20,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Expanded(
-                                                            child: SizedBox(
-                                                              child: Text(
-                                                                '09',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color(
-                                                                      0xFF51628A),
-                                                                  fontSize: 14,
-                                                                  fontFamily:
-                                                                      appFont,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
+                                                ));
+                                          },
                                         ),
                                       ),
                                     ),
@@ -872,7 +452,7 @@ class Test extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '02 ${snapshot.data!['label']} ',
+                                      '02 ${snapshot.data!.docs[dbStore.questionSelect]['label']} ',
                                       style: const TextStyle(
                                         color: Color(0xFF2E3F69),
                                         fontSize: 20,
@@ -896,7 +476,7 @@ class Test extends StatelessWidget {
                                 const SizedBox(height: 8),
                                 SizedBox(
                                   child: Text(
-                                    "${snapshot.data!['description']}",
+                                    "${snapshot.data!.docs[dbStore.questionSelect]['description']}",
                                     style: const TextStyle(
                                       color: Color(0xFF2E2E2E),
                                       fontSize: 16,
@@ -909,98 +489,205 @@ class Test extends StatelessWidget {
                                 Image.network(
                                     width: 468,
                                     height: 258,
-                                    '${snapshot.data!['imageUrl']}'),
+                                    '${snapshot.data!.docs[dbStore.questionSelect]['imageUrl']}'),
                                 const SizedBox(height: 16),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Column(
-                                      children:
-                                          (snapshot.data!['options'] ?? [])
-                                              .map<Widget>((option) {
-                                        // Evita erros ao verificar se cada campo existe
-                                        final isCorrect =
-                                            option['isCorrect'] ?? false;
-                                        final text = option['text'] ?? '';
+                                      children: [
+                                        ListView.builder(
+                                          shrinkWrap:
+                                              true, // Ajusta para o conteúdo e evita erro de overflow
+                                          physics:
+                                              NeverScrollableScrollPhysics(), // Desabilita o scroll da lista embutida
+                                          itemCount: (snapshot.data!.docs[
+                                                          dbStore
+                                                              .questionSelect]
+                                                      ['options'] ??
+                                                  [])
+                                              .length,
+                                          itemBuilder: (context, index) {
+                                            final option = snapshot.data!.docs[
+                                                        dbStore.questionSelect]
+                                                    ['options'][index] ??
+                                                {};
+                                            final isCorrect =
+                                                option['isCorrect'] ?? false;
+                                            final text = option['text'] ?? '';
+                                            final letter = String.fromCharCode(65 +
+                                                index); // Converte índice para letra ('A', 'B', etc.)
 
-                                        return Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16, vertical: 12),
-                                          decoration: BoxDecoration(
-                                            color: isCorrect
-                                                ? Color(0xFFE4F7E4)
-                                                : Color(0xFFFFE4E4),
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                              color: isCorrect
-                                                  ? Color(0xFFA3CFA3)
-                                                  : Color(0xFFFCC3C3),
-                                              width: 1,
-                                            ),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              // Ícone e Texto
-                                              Container(
-                                                width: 36,
-                                                height: 36,
+                                            if (dbStore.questionAnswered) {
+                                              return Container(
                                                 padding:
-                                                    const EdgeInsets.all(8),
-                                                decoration: ShapeDecoration(
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 16,
+                                                        vertical: 12),
+                                                decoration: BoxDecoration(
                                                   color: isCorrect
-                                                      ? Color(0xFF2E7D32)
-                                                      : Color(0xFFA22727),
-                                                  shape: RoundedRectangleBorder(
-                                                    side: BorderSide(
-                                                        width: 1,
+                                                      ? Color(0xFFE4F7E4)
+                                                      : Color(0xFFFFE4E4),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  border: Border.all(
+                                                    color: isCorrect
+                                                        ? Color(0xFFA3CFA3)
+                                                        : Color(0xFFFCC3C3),
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    // Ícone e Texto
+                                                    Container(
+                                                      width: 36,
+                                                      height: 36,
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8),
+                                                      decoration:
+                                                          ShapeDecoration(
                                                         color: isCorrect
                                                             ? Color(0xFF2E7D32)
-                                                            : Color(
-                                                                0xFFA22727)),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            9999),
-                                                  ),
+                                                            : Color(0xFFA22727),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          side: BorderSide(
+                                                            width: 1,
+                                                            color: isCorrect
+                                                                ? Color(
+                                                                    0xFF2E7D32)
+                                                                : Color(
+                                                                    0xFFA22727),
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      9999),
+                                                        ),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          isCorrect ? '✔' : '✘',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 8),
+                                                    Expanded(
+                                                      child: Text(
+                                                        text,
+                                                        style: TextStyle(
+                                                          color: isCorrect
+                                                              ? Color(
+                                                                  0xFF2E7D32)
+                                                              : Color(
+                                                                  0xFFA22727),
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                child: Center(
-                                                  child: Text(
-                                                    isCorrect ? '✔' : '✘',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                              );
+                                            } else {
+                                              return Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 12),
+                                                  decoration: BoxDecoration(
+                                                    border: Border(
+                                                      top: BorderSide(
+                                                        color:
+                                                            Color(0xAA51628B),
+                                                        width: 0.8,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ),
-                                              const SizedBox(width: 8),
-                                              Expanded(
-                                                child: SizedBox(
-                                                  child: Text(
-                                                    text,
-                                                    style: TextStyle(
-                                                      color: isCorrect
-                                                          ? Color(0xFF2E7D32)
-                                                          : Color(0xFFA22727),
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w300,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      dbStore.toggleAnswered();
+                                                    },
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        // Ícone e Texto
+                                                        Container(
+                                                          width: 36,
+                                                          height: 36,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          decoration:
+                                                              ShapeDecoration(
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              side: BorderSide(
+                                                                  width: 1,
+                                                                  color: Color(
+                                                                      0xAA51628B)),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          9999),
+                                                            ),
+                                                          ),
+                                                          child: Center(
+                                                            child: Text(
+                                                              letter, // Exibe a letra baseada no índice
+                                                              style: TextStyle(
+                                                                color: Color(
+                                                                    0xAA51628B),
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 8),
+                                                        Expanded(
+                                                          child: Text(
+                                                            text,
+                                                            style: TextStyle(
+                                                              color: Color(
+                                                                  0xAA51628B),
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w300,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }).toList(),
-                                    )
+                                                  ));
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 16),
@@ -1137,7 +824,7 @@ class Test extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          dbStore.setQuestion(snapshot.data!.id, "9PNftaz5UBEaSyo3tEPe", 0);
+                          dbStore.setSelect(dbStore.questionSelect + 1);
                         },
                         child: Container(
                           height: 40,

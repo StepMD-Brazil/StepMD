@@ -25,6 +25,47 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
     });
   }
 
+  late final _$questionSelectAtom =
+      Atom(name: '_DbQuestionsStoreBase.questionSelect', context: context);
+
+  @override
+  int get questionSelect {
+    _$questionSelectAtom.reportRead();
+    return super.questionSelect;
+  }
+
+  @override
+  set questionSelect(int value) {
+    _$questionSelectAtom.reportWrite(value, super.questionSelect, () {
+      super.questionSelect = value;
+    });
+  }
+
+  late final _$questionAnsweredAtom =
+      Atom(name: '_DbQuestionsStoreBase.questionAnswered', context: context);
+
+  @override
+  bool get questionAnswered {
+    _$questionAnsweredAtom.reportRead();
+    return super.questionAnswered;
+  }
+
+  @override
+  set questionAnswered(bool value) {
+    _$questionAnsweredAtom.reportWrite(value, super.questionAnswered, () {
+      super.questionAnswered = value;
+    });
+  }
+
+  late final _$setQuestionAsyncAction =
+      AsyncAction('_DbQuestionsStoreBase.setQuestion', context: context);
+
+  @override
+  Future setQuestion(String questionId, String testId, int timeSpend) {
+    return _$setQuestionAsyncAction
+        .run(() => super.setQuestion(questionId, testId, timeSpend));
+  }
+
   late final _$_DbQuestionsStoreBaseActionController =
       ActionController(name: '_DbQuestionsStoreBase', context: context);
 
@@ -40,9 +81,33 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
   }
 
   @override
+  void setSelect(int index) {
+    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
+        name: '_DbQuestionsStoreBase.setSelect');
+    try {
+      return super.setSelect(index);
+    } finally {
+      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void toggleAnswered() {
+    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
+        name: '_DbQuestionsStoreBase.toggleAnswered');
+    try {
+      return super.toggleAnswered();
+    } finally {
+      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-value: ${value}
+value: ${value},
+questionSelect: ${questionSelect},
+questionAnswered: ${questionAnswered}
     ''';
   }
 }

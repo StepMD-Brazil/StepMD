@@ -119,7 +119,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.3,
                       child: const Text(
-                        'Conteúdo da Home ainda será feito quando tiver todas as funcionalidades prontas\n\nìcones ainda vão ser mudados',
+                        'Conteúdo da Home ainda será feito quando tiver todas as funcionalidades prontas\n\nícones ainda vão ser mudados',
                         style: TextStyle(
                           color: Color(0xFF51628A),
                           fontSize: 22,

@@ -9,9 +9,26 @@ abstract class _DbQuestionsStoreBase with Store {
   @observable
   int value = 0;
 
+  @observable
+  int questionSelect = 0;
+
+  @observable
+  bool questionAnswered = false;
+
   @action
   void increment() {
     value++;
+  }
+
+  @action
+  void setSelect (int index) {
+    questionSelect = index;
+  }
+
+  @action
+  void toggleAnswered () {
+    questionAnswered = !questionAnswered;
+    print(questionAnswered);
   }
 
   @action
