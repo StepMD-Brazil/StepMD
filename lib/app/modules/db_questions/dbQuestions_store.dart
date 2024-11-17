@@ -21,26 +21,28 @@ abstract class _DbQuestionsStoreBase with Store {
   }
 
   @action
-  void setSelect (int index) {
+  void setSelect(int index) {
     questionSelect = index;
   }
 
   @action
-  void toggleAnswered () {
+  void toggleAnswered() {
     questionAnswered = !questionAnswered;
     print(questionAnswered);
   }
 
   @action
   setQuestion(String questionId, String testId, int timeSpend) async {
-    
-    var response = await FirebaseFirestore.instance.collection("answers").add({
+    try {
+      var response =
+          await FirebaseFirestore.instance.collection("answers").add({
         "questionId": questionId,
         "testId": testId,
         "status": true,
         "timeSpend": timeSpend
-    });
-
-    print(response);
+      });
+    } catch (e) {
+      print("Error adding document: $e");
+    }
   }
 }
