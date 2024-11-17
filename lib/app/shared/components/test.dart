@@ -252,9 +252,11 @@ class Test extends StatelessWidget {
               ),
               body: SingleChildScrollView(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.20,
+                      width: MediaQuery.of(context).size.width * 0.15,
                       height: MediaQuery.of(context).size.height,
                       decoration: const BoxDecoration(
                         border: Border(
@@ -328,7 +330,6 @@ class Test extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            decoration: BoxDecoration(color: Colors.white),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -348,8 +349,6 @@ class Test extends StatelessWidget {
                                               right: 8,
                                               bottom: 8,
                                             ),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white),
                                             child: InkWell(
                                               onTap: () {
                                                 dbStore.setSelect(index);

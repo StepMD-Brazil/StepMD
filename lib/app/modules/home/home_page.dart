@@ -6,6 +6,7 @@ import 'package:stepmd/app/modules/flashcards/flashcards_page.dart';
 import 'package:stepmd/app/modules/home/home_store.dart';
 import 'package:flutter/material.dart';
 import 'package:stepmd/app/modules/initialPage/initialPage_page.dart';
+import 'package:stepmd/app/modules/notebook/notebook_page.dart';
 import 'package:stepmd/app/shared/constants.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,9 +24,7 @@ class HomePageState extends State<HomePage> {
     InitialPagePage(),
     DbQuestionsPage(),
     FlashcardsPage(),
-    Text(
-      'Index 2: School',
-    ),
+    NotebookPage(),
     Text(
       'Index 3: blabla',
     ),
