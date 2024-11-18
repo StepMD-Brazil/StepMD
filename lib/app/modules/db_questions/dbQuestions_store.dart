@@ -32,7 +32,7 @@ abstract class _DbQuestionsStoreBase with Store {
   Timer? _timer;
 
   @observable
-  var answers = [[0, 0], [0, 0], [0, 0]];
+  var answers = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]];
 
   @action
   void setAnswer (index, value, indexAnswer) {

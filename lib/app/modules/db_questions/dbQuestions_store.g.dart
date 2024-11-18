@@ -73,6 +73,38 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
     });
   }
 
+  late final _$minutesAtom =
+      Atom(name: '_DbQuestionsStoreBase.minutes', context: context);
+
+  @override
+  int get minutes {
+    _$minutesAtom.reportRead();
+    return super.minutes;
+  }
+
+  @override
+  set minutes(int value) {
+    _$minutesAtom.reportWrite(value, super.minutes, () {
+      super.minutes = value;
+    });
+  }
+
+  late final _$hoursAtom =
+      Atom(name: '_DbQuestionsStoreBase.hours', context: context);
+
+  @override
+  int get hours {
+    _$hoursAtom.reportRead();
+    return super.hours;
+  }
+
+  @override
+  set hours(int value) {
+    _$hoursAtom.reportWrite(value, super.hours, () {
+      super.hours = value;
+    });
+  }
+
   late final _$timeIsRunningAtom =
       Atom(name: '_DbQuestionsStoreBase.timeIsRunning', context: context);
 
@@ -89,6 +121,22 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
     });
   }
 
+  late final _$answersAtom =
+      Atom(name: '_DbQuestionsStoreBase.answers', context: context);
+
+  @override
+  List<List<int>> get answers {
+    _$answersAtom.reportRead();
+    return super.answers;
+  }
+
+  @override
+  set answers(List<List<int>> value) {
+    _$answersAtom.reportWrite(value, super.answers, () {
+      super.answers = value;
+    });
+  }
+
   late final _$setQuestionAsyncAction =
       AsyncAction('_DbQuestionsStoreBase.setQuestion', context: context);
 
@@ -100,6 +148,17 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
 
   late final _$_DbQuestionsStoreBaseActionController =
       ActionController(name: '_DbQuestionsStoreBase', context: context);
+
+  @override
+  void setAnswer(dynamic index, dynamic value, dynamic indexAnswer) {
+    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
+        name: '_DbQuestionsStoreBase.setAnswer');
+    try {
+      return super.setAnswer(index, value, indexAnswer);
+    } finally {
+      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void startCounter() {
@@ -163,7 +222,10 @@ value: ${value},
 questionSelect: ${questionSelect},
 questionAnswered: ${questionAnswered},
 seconds: ${seconds},
-timeIsRunning: ${timeIsRunning}
+minutes: ${minutes},
+hours: ${hours},
+timeIsRunning: ${timeIsRunning},
+answers: ${answers}
     ''';
   }
 }
