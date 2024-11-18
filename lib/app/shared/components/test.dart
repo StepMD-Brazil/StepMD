@@ -22,7 +22,6 @@ class Test extends StatelessWidget {
           }
           dbStore.startCounter();
           return Observer(builder: (context) {
-            
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.white,
@@ -356,7 +355,7 @@ class Test extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 3),
                                           Text(
-                                            '(70%)',
+                                            '(${(dbStore.questionSelect + 1) / snapshot.data!.size * 100}%)',
                                             style: TextStyle(
                                               color: Color(0xFF51628A),
                                               fontSize: 12,
@@ -369,7 +368,9 @@ class Test extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 3),
                                     LinearProgressIndicator(
-                                      value: (dbStore.questionSelect + 1) / snapshot.data!.size, // Valor entre 0.0 e 1.0
+                                      value: (dbStore.questionSelect + 1) /
+                                          snapshot.data!
+                                              .size, // Valor entre 0.0 e 1.0
                                       backgroundColor: Colors.grey[300],
                                       color: Colors.blue,
                                       minHeight: 10,
@@ -448,30 +449,60 @@ class Test extends StatelessWidget {
                                                       Container(
                                                         width: 24,
                                                         height: 24,
-                                                        decoration: ShapeDecoration(
-                                                          color: dbStore.answers[index][0] == 1
-                                                              ? Color(0xFFCFE6D8) // Fundo verde para correto
-                                                              : dbStore.answers[index][0] == -1
-                                                                  ? Color(0xFFF8D7DA) // Fundo vermelho para incorreto
-                                                                  : Color(0xFFE0E0E0), // Fundo cinza claro para não respondida
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(9999),
+                                                        decoration:
+                                                            ShapeDecoration(
+                                                          color: dbStore.answers[
+                                                                          index]
+                                                                      [0] ==
+                                                                  1
+                                                              ? Color(
+                                                                  0xFFCFE6D8) // Fundo verde para correto
+                                                              : dbStore.answers[
+                                                                              index]
+                                                                          [0] ==
+                                                                      -1
+                                                                  ? Color(
+                                                                      0xFFF8D7DA) // Fundo vermelho para incorreto
+                                                                  : Color(
+                                                                      0xFFE0E0E0), // Fundo cinza claro para não respondida
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        9999),
                                                           ),
                                                         ),
                                                         child: Icon(
-                                                          dbStore.answers[index][0] == 1
-                                                              ? Icons.check_circle_outlined // Ícone verde para correto
-                                                              : dbStore.answers[index][0] == -1
-                                                                  ? Icons.error_outline // Ícone vermelho para incorreto
-                                                                  : Icons.info_outline, // Ícone cinza para não respondida
-                                                          color: dbStore.answers[index][0] == 1
-                                                              ? Colors.green // Ícone verde
-                                                              : dbStore.answers[index][0] == -1
-                                                                  ? Colors.red // Ícone vermelho
-                                                                  : Colors.grey, // Ícone cinza
+                                                          dbStore.answers[index]
+                                                                      [0] ==
+                                                                  1
+                                                              ? Icons
+                                                                  .check_circle_outlined // Ícone verde para correto
+                                                              : dbStore.answers[
+                                                                              index]
+                                                                          [0] ==
+                                                                      -1
+                                                                  ? Icons
+                                                                      .error_outline // Ícone vermelho para incorreto
+                                                                  : Icons
+                                                                      .info_outline, // Ícone cinza para não respondida
+                                                          color: dbStore.answers[
+                                                                          index]
+                                                                      [0] ==
+                                                                  1
+                                                              ? Colors
+                                                                  .green // Ícone verde
+                                                              : dbStore.answers[
+                                                                              index]
+                                                                          [0] ==
+                                                                      -1
+                                                                  ? Colors
+                                                                      .red // Ícone vermelho
+                                                                  : Colors
+                                                                      .grey, // Ícone cinza
                                                         ),
                                                       ),
-
                                                     ],
                                                   ),
                                                 ));
@@ -542,10 +573,16 @@ class Test extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 16),
-                                Image.network(
-                                    width: 468,
-                                    height: 258,
-                                    '${snapshot.data!.docs[dbStore.questionSelect]['imageUrl']}'),
+                                snapshot.data!.docs[dbStore.questionSelect]
+                                            ['imageUrl'] != ""
+                                    ? Image.network(
+                                        width: 468,
+                                        height: 258,
+                                        '${snapshot.data!.docs[dbStore.questionSelect]['imageUrl']}')
+                                    : Container(
+                                        width: 36,
+                                        height: 200,
+                                      ),
                                 const SizedBox(height: 16),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
