@@ -57,6 +57,38 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
     });
   }
 
+  late final _$secondsAtom =
+      Atom(name: '_DbQuestionsStoreBase.seconds', context: context);
+
+  @override
+  int get seconds {
+    _$secondsAtom.reportRead();
+    return super.seconds;
+  }
+
+  @override
+  set seconds(int value) {
+    _$secondsAtom.reportWrite(value, super.seconds, () {
+      super.seconds = value;
+    });
+  }
+
+  late final _$timeIsRunningAtom =
+      Atom(name: '_DbQuestionsStoreBase.timeIsRunning', context: context);
+
+  @override
+  bool get timeIsRunning {
+    _$timeIsRunningAtom.reportRead();
+    return super.timeIsRunning;
+  }
+
+  @override
+  set timeIsRunning(bool value) {
+    _$timeIsRunningAtom.reportWrite(value, super.timeIsRunning, () {
+      super.timeIsRunning = value;
+    });
+  }
+
   late final _$setQuestionAsyncAction =
       AsyncAction('_DbQuestionsStoreBase.setQuestion', context: context);
 
@@ -68,6 +100,28 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
 
   late final _$_DbQuestionsStoreBaseActionController =
       ActionController(name: '_DbQuestionsStoreBase', context: context);
+
+  @override
+  void startCounter() {
+    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
+        name: '_DbQuestionsStoreBase.startCounter');
+    try {
+      return super.startCounter();
+    } finally {
+      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void stopCounter() {
+    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
+        name: '_DbQuestionsStoreBase.stopCounter');
+    try {
+      return super.stopCounter();
+    } finally {
+      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void increment() {
@@ -107,7 +161,9 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
     return '''
 value: ${value},
 questionSelect: ${questionSelect},
-questionAnswered: ${questionAnswered}
+questionAnswered: ${questionAnswered},
+seconds: ${seconds},
+timeIsRunning: ${timeIsRunning}
     ''';
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobx/mobx.dart';
 
@@ -15,6 +17,55 @@ abstract class _DbQuestionsStoreBase with Store {
   @observable
   bool questionAnswered = false;
 
+  @observable
+  int seconds = 0;
+
+  @observable
+  int minutes = 0;
+
+  @observable
+  int hours = 0;
+
+  @observable
+  bool timeIsRunning = true;
+
+  Timer? _timer;
+
+  @observable
+  var answers = [[0, 0], [0, 0], [0, 0]];
+
+  @action
+  void setAnswer (index, value, indexAnswer) {
+    answers[index][0] = value;
+    answers[index][1] = indexAnswer;
+  }
+
+  @action
+  void startCounter() {
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      seconds++;
+      if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+      }
+      if (minutes >= 60) {
+        hours++;
+      }
+    });
+    timeIsRunning = true;
+  }
+
+  @action
+  void stopCounter() {
+    timeIsRunning = false;
+    _timer?.cancel();
+  }
+
+  void dispose() {
+    _timer?.cancel();
+  }
+
   @action
   void increment() {
     value++;
@@ -28,7 +79,6 @@ abstract class _DbQuestionsStoreBase with Store {
   @action
   void toggleAnswered() {
     questionAnswered = !questionAnswered;
-    print(questionAnswered);
   }
 
   @action
