@@ -322,7 +322,7 @@ class Test extends StatelessWidget {
                           ),
                         ),
                       ),
-                      child: Expanded(
+                      child: Container(
                         child: SingleChildScrollView(
                           scrollDirection: Axis.vertical,
                           child: Column(
@@ -331,6 +331,7 @@ class Test extends StatelessWidget {
                             children: [
                               Container(
                                 height: 56,
+                                width: MediaQuery.of(context).size.width * 0.20,
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 8),
                                 child: Column(
@@ -384,11 +385,13 @@ class Test extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Expanded(
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.20,
+                                      height: 656,
+                                      padding: const EdgeInsets.only(
+                                          top: 8, left: 8, right: 8),
                                       child: Container(
-                                        height: 656,
-                                        padding: const EdgeInsets.only(
-                                            top: 8, left: 8, right: 8),
                                         child: ListView.builder(
                                           itemCount: snapshot.data!.docs.length,
                                           itemBuilder: (context, index) {
@@ -412,7 +415,7 @@ class Test extends StatelessWidget {
                                                         CrossAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Expanded(
+                                                      Container(
                                                         child: Container(
                                                           height: 20,
                                                           child: Row(
@@ -423,7 +426,7 @@ class Test extends StatelessWidget {
                                                                 CrossAxisAlignment
                                                                     .center,
                                                             children: [
-                                                              Expanded(
+                                                              Container(
                                                                 child: SizedBox(
                                                                   child: Text(
                                                                     '${index + 1} - ${snapshot.data!.docs[index]['label']}',
@@ -518,7 +521,8 @@ class Test extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Expanded(
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.80,
                       child: Column(
                         children: <Widget>[
                           Container(
@@ -574,7 +578,8 @@ class Test extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 16),
                                 snapshot.data!.docs[dbStore.questionSelect]
-                                            ['imageUrl'] != ""
+                                            ['imageUrl'] !=
+                                        ""
                                     ? Image.network(
                                         width: 468,
                                         height: 258,
@@ -590,143 +595,67 @@ class Test extends StatelessWidget {
                                   children: [
                                     Column(
                                       children: [
-                                        ListView.builder(
-                                          shrinkWrap:
-                                              true, // Ajusta para o conteúdo e evita erro de overflow
-                                          physics:
-                                              NeverScrollableScrollPhysics(), // Desabilita o scroll da lista embutida
-                                          itemCount: (snapshot.data!.docs[
-                                                          dbStore
-                                                              .questionSelect]
-                                                      ['options'] ??
-                                                  [])
-                                              .length,
-                                          itemBuilder: (context, index) {
-                                            final option = snapshot.data!.docs[
-                                                        dbStore.questionSelect]
-                                                    ['options'][index] ??
-                                                {};
-                                            final isCorrect =
-                                                option['isCorrect'] ?? false;
-                                            final text = option['text'] ?? '';
-                                            final letter = String.fromCharCode(65 +
-                                                index); // Converte índice para letra ('A', 'B', etc.)
+                                        Container(
+                                          width: MediaQuery.sizeOf(context)
+                                              .width, // Ensure the ListView has bounded width
 
-                                            if (dbStore.answers[dbStore
-                                                    .questionSelect][0] ==
-                                                0) {
-                                              return Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 16,
-                                                      vertical: 12),
-                                                  decoration: BoxDecoration(
-                                                    border: Border(
-                                                      top: BorderSide(
-                                                        color:
-                                                            Color(0xAA51628B),
-                                                        width: 0.8,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      if (isCorrect) {
-                                                        dbStore.setAnswer(
+                                          child: ListView.builder(
+                                            shrinkWrap:
+                                                true, // Ajusta para o conteúdo e evita erro de overflow
+                                            physics:
+                                                NeverScrollableScrollPhysics(), // Desabilita o scroll da lista embutida
+                                            itemCount: (snapshot.data!.docs[
                                                             dbStore
-                                                                .questionSelect,
-                                                            1,
-                                                            index);
-                                                      } else {
-                                                        dbStore.setAnswer(
-                                                            dbStore
-                                                                .questionSelect,
-                                                            -1,
-                                                            index);
-                                                      }
-                                                    },
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        // Ícone e Texto
-                                                        Container(
-                                                          width: 36,
-                                                          height: 36,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8),
-                                                          decoration:
-                                                              ShapeDecoration(
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              side: BorderSide(
-                                                                  width: 1,
-                                                                  color: Color(
-                                                                      0xAA51628B)),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          9999),
-                                                            ),
-                                                          ),
-                                                          child: Center(
-                                                            child: Text(
-                                                              letter, // Exibe a letra baseada no índice
-                                                              style: TextStyle(
-                                                                color: Color(
-                                                                    0xAA51628B),
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 8),
-                                                        Expanded(
-                                                          child: Text(
-                                                            text,
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xAA51628B),
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w300,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ));
-                                            } else if (dbStore.answers[dbStore
-                                                    .questionSelect][0] ==
-                                                1) {
-                                              return isCorrect
-                                                  ? Container(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 16,
-                                                          vertical: 12),
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xFFE4F7E4),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                        border: Border.all(
+                                                                .questionSelect]
+                                                        ['options'] ??
+                                                    [])
+                                                .length,
+                                            itemBuilder: (context, index) {
+                                              final option =
+                                                  snapshot.data!.docs[dbStore
+                                                              .questionSelect]
+                                                          ['options'][index] ??
+                                                      {};
+                                              final isCorrect =
+                                                  option['isCorrect'] ?? false;
+                                              final text = option['text'] ?? '';
+                                              final letter =
+                                                  String.fromCharCode(65 +
+                                                      index); // Converte índice para letra ('A', 'B', etc.)
+
+                                              if (dbStore.answers[dbStore
+                                                      .questionSelect][0] ==
+                                                  0) {
+                                                return Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 16,
+                                                        vertical: 12),
+                                                    decoration: BoxDecoration(
+                                                      border: Border(
+                                                        top: BorderSide(
                                                           color:
-                                                              Color(0xFFA3CFA3),
-                                                          width: 1,
+                                                              Color(0xAA51628B),
+                                                          width: 0.8,
                                                         ),
                                                       ),
+                                                    ),
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        if (isCorrect) {
+                                                          dbStore.setAnswer(
+                                                              dbStore
+                                                                  .questionSelect,
+                                                              1,
+                                                              index);
+                                                        } else {
+                                                          dbStore.setAnswer(
+                                                              dbStore
+                                                                  .questionSelect,
+                                                              -1,
+                                                              index);
+                                                        }
+                                                      },
                                                       child: Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
@@ -744,16 +673,12 @@ class Test extends StatelessWidget {
                                                                     .all(8),
                                                             decoration:
                                                                 ShapeDecoration(
-                                                              color: Color(
-                                                                  0xFF2E7D32),
                                                               shape:
                                                                   RoundedRectangleBorder(
-                                                                side:
-                                                                    BorderSide(
-                                                                  width: 1,
-                                                                  color: Color(
-                                                                      0xFF2E7D32),
-                                                                ),
+                                                                side: BorderSide(
+                                                                    width: 1,
+                                                                    color: Color(
+                                                                        0xAA51628B)),
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
@@ -762,11 +687,11 @@ class Test extends StatelessWidget {
                                                             ),
                                                             child: Center(
                                                               child: Text(
-                                                                '✔',
+                                                                letter, // Exibe a letra baseada no índice
                                                                 style:
                                                                     TextStyle(
-                                                                  color: Colors
-                                                                      .white,
+                                                                  color: Color(
+                                                                      0xAA51628B),
                                                                   fontSize: 16,
                                                                   fontWeight:
                                                                       FontWeight
@@ -777,68 +702,179 @@ class Test extends StatelessWidget {
                                                           ),
                                                           const SizedBox(
                                                               width: 8),
-                                                          Expanded(
+                                                          Container(
                                                             child: Text(
                                                               text,
                                                               style: TextStyle(
+                                                                color: Color(
+                                                                    0xAA51628B),
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ));
+                                              } else if (dbStore.answers[dbStore
+                                                      .questionSelect][0] ==
+                                                  1) {
+                                                return isCorrect
+                                                    ? Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 16,
+                                                                vertical: 12),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xFFE4F7E4),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          border: Border.all(
+                                                            color: Color(
+                                                                0xFFA3CFA3),
+                                                            width: 1,
+                                                          ),
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            // Ícone e Texto
+                                                            Container(
+                                                              width: 36,
+                                                              height: 36,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8),
+                                                              decoration:
+                                                                  ShapeDecoration(
                                                                 color: Color(
                                                                     0xFF2E7D32),
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : Container(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 16,
-                                                          vertical: 12),
-                                                      decoration: BoxDecoration(
-                                                        border: Border(
-                                                          top: BorderSide(
-                                                            color: Color(
-                                                                0xAA51628B),
-                                                            width: 0.8,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          // Ícone e Texto
-                                                          Container(
-                                                            width: 36,
-                                                            height: 36,
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            decoration:
-                                                                ShapeDecoration(
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                side: BorderSide(
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  side:
+                                                                      BorderSide(
                                                                     width: 1,
                                                                     color: Color(
-                                                                        0xAA51628B)),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            9999),
+                                                                        0xFF2E7D32),
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              9999),
+                                                                ),
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  '✔',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
-                                                            child: Center(
+                                                            const SizedBox(
+                                                                width: 8),
+                                                            Container(
                                                               child: Text(
-                                                                letter, // Exibe a letra baseada no índice
+                                                                text,
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color(
+                                                                      0xFF2E7D32),
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    : Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 16,
+                                                                vertical: 12),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border(
+                                                            top: BorderSide(
+                                                              color: Color(
+                                                                  0xAA51628B),
+                                                              width: 0.8,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            // Ícone e Texto
+                                                            Container(
+                                                              width: 36,
+                                                              height: 36,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8),
+                                                              decoration:
+                                                                  ShapeDecoration(
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  side: BorderSide(
+                                                                      width: 1,
+                                                                      color: Color(
+                                                                          0xAA51628B)),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              9999),
+                                                                ),
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  letter, // Exibe a letra baseada no índice
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color(
+                                                                        0xAA51628B),
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                                width: 8),
+                                                            Container(
+                                                              child: Text(
+                                                                text,
                                                                 style:
                                                                     TextStyle(
                                                                   color: Color(
@@ -846,162 +882,170 @@ class Test extends StatelessWidget {
                                                                   fontSize: 16,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .bold,
+                                                                          .w300,
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 8),
-                                                          Expanded(
-                                                            child: Text(
-                                                              text,
-                                                              style: TextStyle(
-                                                                color: Color(
-                                                                    0xAA51628B),
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                            } else {
-                                              return index ==
-                                                      dbStore.answers[dbStore
-                                                          .questionSelect][1]
-                                                  ? Container(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 16,
-                                                          vertical: 12),
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xFFFFE4E4),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                        border: Border.all(
-                                                          color:
-                                                              Color(0xFFFCC3C3),
-                                                          width: 1,
+                                                          ],
                                                         ),
-                                                      ),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          // Ícone e Texto
-                                                          Container(
-                                                            width: 36,
-                                                            height: 36,
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            decoration:
-                                                                ShapeDecoration(
-                                                              color: Color(
-                                                                  0xFFA22727),
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                side:
-                                                                    BorderSide(
-                                                                  width: 1,
-                                                                  color: Color(
-                                                                      0xFFA22727),
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            9999),
-                                                              ),
-                                                            ),
-                                                            child: Center(
-                                                              child: Text(
-                                                                '✘',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                              ),
-                                                            ),
+                                                      );
+                                              } else {
+                                                return index ==
+                                                        dbStore.answers[dbStore
+                                                            .questionSelect][1]
+                                                    ? Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 16,
+                                                                vertical: 12),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xFFFFE4E4),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          border: Border.all(
+                                                            color: Color(
+                                                                0xFFFCC3C3),
+                                                            width: 1,
                                                           ),
-                                                          const SizedBox(
-                                                              width: 8),
-                                                          Expanded(
-                                                            child: Text(
-                                                              text,
-                                                              style: TextStyle(
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            // Ícone e Texto
+                                                            Container(
+                                                              width: 36,
+                                                              height: 36,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8),
+                                                              decoration:
+                                                                  ShapeDecoration(
                                                                 color: Color(
                                                                     0xFFA22727),
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : Container(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 16,
-                                                          vertical: 12),
-                                                      decoration: BoxDecoration(
-                                                        border: Border(
-                                                          top: BorderSide(
-                                                            color: Color(
-                                                                0xAA51628B),
-                                                            width: 0.8,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          // Ícone e Texto
-                                                          Container(
-                                                            width: 36,
-                                                            height: 36,
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            decoration:
-                                                                ShapeDecoration(
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                side: BorderSide(
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  side:
+                                                                      BorderSide(
                                                                     width: 1,
                                                                     color: Color(
-                                                                        0xAA51628B)),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            9999),
+                                                                        0xFFA22727),
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              9999),
+                                                                ),
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  '✘',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
-                                                            child: Center(
+                                                            const SizedBox(
+                                                                width: 8),
+                                                            Container(
                                                               child: Text(
-                                                                letter, // Exibe a letra baseada no índice
+                                                                text,
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color(
+                                                                      0xFFA22727),
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    : Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 16,
+                                                                vertical: 12),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border(
+                                                            top: BorderSide(
+                                                              color: Color(
+                                                                  0xAA51628B),
+                                                              width: 0.8,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            // Ícone e Texto
+                                                            Container(
+                                                              width: 36,
+                                                              height: 36,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8),
+                                                              decoration:
+                                                                  ShapeDecoration(
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  side: BorderSide(
+                                                                      width: 1,
+                                                                      color: Color(
+                                                                          0xAA51628B)),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              9999),
+                                                                ),
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  letter, // Exibe a letra baseada no índice
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color(
+                                                                        0xAA51628B),
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                                width: 8),
+                                                            Container(
+                                                              child: Text(
+                                                                text,
                                                                 style:
                                                                     TextStyle(
                                                                   color: Color(
@@ -1009,31 +1053,16 @@ class Test extends StatelessWidget {
                                                                   fontSize: 16,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .bold,
+                                                                          .w300,
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 8),
-                                                          Expanded(
-                                                            child: Text(
-                                                              text,
-                                                              style: TextStyle(
-                                                                color: Color(
-                                                                    0xAA51628B),
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                            }
-                                          },
+                                                          ],
+                                                        ),
+                                                      );
+                                              }
+                                            },
+                                          ),
                                         ),
                                       ],
                                     ),
