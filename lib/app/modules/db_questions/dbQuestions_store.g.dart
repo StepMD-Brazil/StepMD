@@ -9,22 +9,6 @@ part of 'dbQuestions_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
-  late final _$valueAtom =
-      Atom(name: '_DbQuestionsStoreBase.value', context: context);
-
-  @override
-  int get value {
-    _$valueAtom.reportRead();
-    return super.value;
-  }
-
-  @override
-  set value(int value) {
-    _$valueAtom.reportWrite(value, super.value, () {
-      super.value = value;
-    });
-  }
-
   late final _$questionSelectAtom =
       Atom(name: '_DbQuestionsStoreBase.questionSelect', context: context);
 
@@ -38,22 +22,6 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
   set questionSelect(int value) {
     _$questionSelectAtom.reportWrite(value, super.questionSelect, () {
       super.questionSelect = value;
-    });
-  }
-
-  late final _$questionAnsweredAtom =
-      Atom(name: '_DbQuestionsStoreBase.questionAnswered', context: context);
-
-  @override
-  bool get questionAnswered {
-    _$questionAnsweredAtom.reportRead();
-    return super.questionAnswered;
-  }
-
-  @override
-  set questionAnswered(bool value) {
-    _$questionAnsweredAtom.reportWrite(value, super.questionAnswered, () {
-      super.questionAnswered = value;
     });
   }
 
@@ -121,40 +89,168 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
     });
   }
 
+  late final _$countAnsweredsAtom =
+      Atom(name: '_DbQuestionsStoreBase.countAnswereds', context: context);
+
+  @override
+  int get countAnswereds {
+    _$countAnsweredsAtom.reportRead();
+    return super.countAnswereds;
+  }
+
+  @override
+  set countAnswereds(int value) {
+    _$countAnsweredsAtom.reportWrite(value, super.countAnswereds, () {
+      super.countAnswereds = value;
+    });
+  }
+
+  late final _$testModeAtom =
+      Atom(name: '_DbQuestionsStoreBase.testMode', context: context);
+
+  @override
+  String get testMode {
+    _$testModeAtom.reportRead();
+    return super.testMode;
+  }
+
+  @override
+  set testMode(String value) {
+    _$testModeAtom.reportWrite(value, super.testMode, () {
+      super.testMode = value;
+    });
+  }
+
+  late final _$testModelAtom =
+      Atom(name: '_DbQuestionsStoreBase.testModel', context: context);
+
+  @override
+  String get testModel {
+    _$testModelAtom.reportRead();
+    return super.testModel;
+  }
+
+  @override
+  set testModel(String value) {
+    _$testModelAtom.reportWrite(value, super.testModel, () {
+      super.testModel = value;
+    });
+  }
+
+  late final _$questionIDsAtom =
+      Atom(name: '_DbQuestionsStoreBase.questionIDs', context: context);
+
+  @override
+  String get questionIDs {
+    _$questionIDsAtom.reportRead();
+    return super.questionIDs;
+  }
+
+  @override
+  set questionIDs(String value) {
+    _$questionIDsAtom.reportWrite(value, super.questionIDs, () {
+      super.questionIDs = value;
+    });
+  }
+
+  late final _$questionsAtom =
+      Atom(name: '_DbQuestionsStoreBase.questions', context: context);
+
+  @override
+  List<dynamic> get questions {
+    _$questionsAtom.reportRead();
+    return super.questions;
+  }
+
+  @override
+  set questions(List<dynamic> value) {
+    _$questionsAtom.reportWrite(value, super.questions, () {
+      super.questions = value;
+    });
+  }
+
+  late final _$questionsStreamAtom =
+      Atom(name: '_DbQuestionsStoreBase.questionsStream', context: context);
+
+  @override
+  ObservableStream<List<Map<dynamic, dynamic>>>? get questionsStream {
+    _$questionsStreamAtom.reportRead();
+    return super.questionsStream;
+  }
+
+  @override
+  set questionsStream(ObservableStream<List<Map<dynamic, dynamic>>>? value) {
+    _$questionsStreamAtom.reportWrite(value, super.questionsStream, () {
+      super.questionsStream = value;
+    });
+  }
+
   late final _$answersAtom =
       Atom(name: '_DbQuestionsStoreBase.answers', context: context);
 
   @override
-  List<List<int>> get answers {
+  ObservableList<Map<dynamic, dynamic>> get answers {
     _$answersAtom.reportRead();
     return super.answers;
   }
 
   @override
-  set answers(List<List<int>> value) {
+  set answers(ObservableList<Map<dynamic, dynamic>> value) {
     _$answersAtom.reportWrite(value, super.answers, () {
       super.answers = value;
     });
   }
 
-  late final _$setQuestionAsyncAction =
-      AsyncAction('_DbQuestionsStoreBase.setQuestion', context: context);
+  late final _$finishTestAsyncAction =
+      AsyncAction('_DbQuestionsStoreBase.finishTest', context: context);
 
   @override
-  Future setQuestion(String questionId, String testId, int timeSpend) {
-    return _$setQuestionAsyncAction
-        .run(() => super.setQuestion(questionId, testId, timeSpend));
+  Future finishTest() {
+    return _$finishTestAsyncAction.run(() => super.finishTest());
   }
 
   late final _$_DbQuestionsStoreBaseActionController =
       ActionController(name: '_DbQuestionsStoreBase', context: context);
 
   @override
-  void setAnswer(dynamic index, dynamic value, dynamic indexAnswer) {
+  void setAnswer(int index, int value, int indexOption) {
     final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
         name: '_DbQuestionsStoreBase.setAnswer');
     try {
-      return super.setAnswer(index, value, indexAnswer);
+      return super.setAnswer(index, value, indexOption);
+    } finally {
+      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void fetchQuestionsByIdsAsStream(List<String> questionIds) {
+    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
+        name: '_DbQuestionsStoreBase.fetchQuestionsByIdsAsStream');
+    try {
+      return super.fetchQuestionsByIdsAsStream(questionIds);
+    } finally {
+      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void splitQuestions(String IDs) {
+    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
+        name: '_DbQuestionsStoreBase.splitQuestions');
+    try {
+      return super.splitQuestions(IDs);
+    } finally {
+      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void fillAnswers(List<Map<dynamic, dynamic>> questions) {
+    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
+        name: '_DbQuestionsStoreBase.fillAnswers');
+    try {
+      return super.fillAnswers(questions);
     } finally {
       _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -183,17 +279,6 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
   }
 
   @override
-  void increment() {
-    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
-        name: '_DbQuestionsStoreBase.increment');
-    try {
-      return super.increment();
-    } finally {
-      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void setSelect(int index) {
     final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
         name: '_DbQuestionsStoreBase.setSelect');
@@ -205,11 +290,33 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
   }
 
   @override
-  void toggleAnswered() {
+  void setTestMode(String mode) {
     final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
-        name: '_DbQuestionsStoreBase.toggleAnswered');
+        name: '_DbQuestionsStoreBase.setTestMode');
     try {
-      return super.toggleAnswered();
+      return super.setTestMode(mode);
+    } finally {
+      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setTestModel(String model) {
+    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
+        name: '_DbQuestionsStoreBase.setTestModel');
+    try {
+      return super.setTestModel(model);
+    } finally {
+      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setQuestionIDs(String IDs) {
+    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
+        name: '_DbQuestionsStoreBase.setQuestionIDs');
+    try {
+      return super.setQuestionIDs(IDs);
     } finally {
       _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -218,13 +325,17 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
   @override
   String toString() {
     return '''
-value: ${value},
 questionSelect: ${questionSelect},
-questionAnswered: ${questionAnswered},
 seconds: ${seconds},
 minutes: ${minutes},
 hours: ${hours},
 timeIsRunning: ${timeIsRunning},
+countAnswereds: ${countAnswereds},
+testMode: ${testMode},
+testModel: ${testModel},
+questionIDs: ${questionIDs},
+questions: ${questions},
+questionsStream: ${questionsStream},
 answers: ${answers}
     ''';
   }

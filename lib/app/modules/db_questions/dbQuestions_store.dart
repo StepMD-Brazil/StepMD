@@ -9,13 +9,7 @@ class DbQuestionsStore = _DbQuestionsStoreBase with _$DbQuestionsStore;
 
 abstract class _DbQuestionsStoreBase with Store {
   @observable
-  int value = 0;
-
-  @observable
   int questionSelect = 0;
-
-  @observable
-  bool questionAnswered = false;
 
   @observable
   int seconds = 0;
@@ -29,15 +23,90 @@ abstract class _DbQuestionsStoreBase with Store {
   @observable
   bool timeIsRunning = true;
 
+  @observable
+  int countAnswereds = 0;
+
+  // Modo de teste: Tutor/ cronometrado
+  @observable
+  String testMode = "";
+
+  // Modelo de teste: Step Simulado/ NBME/ Personalizado
+  @observable
+  String testModel = "";
+
+  // Apenas para modo personalizado
+  @observable
+  String questionIDs = "";
+
+  @observable
+  List<dynamic> questions = [];
+
+  @observable
+  ObservableStream<List<Map<dynamic, dynamic>>>? questionsStream;
+
   Timer? _timer;
 
   @observable
-  var answers = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]];
+  ObservableList<Map<dynamic, dynamic>> answers =
+      ObservableList<Map<dynamic, dynamic>>();
+
 
   @action
-  void setAnswer (index, value, indexAnswer) {
-    answers[index][0] = value;
-    answers[index][1] = indexAnswer;
+  void setAnswer(int index, int value, int indexOption) {
+    if (index >= 0 && index < answers.length) {
+      answers[index]['status'] = value;
+      answers[index]['indexOption'] = indexOption;
+
+      if (value != 0) {
+        countAnswereds += 1;
+      }
+    } else {
+      print("Índice inválido para a lista de respostas.");
+    }
+  }
+
+  @action
+  void fetchQuestionsByIdsAsStream(List<String> questionIds) {
+    try {
+      // Transformar a consulta Firestore em um Stream
+      final collection = FirebaseFirestore.instance.collection("questions");
+      final stream = collection
+          .where("questionId", whereIn: questionIds)
+          .snapshots()
+          .map((querySnapshot) =>
+              querySnapshot.docs.map((doc) => doc.data()).toList());
+
+      // Atualizar o ObservableStream
+      questionsStream = ObservableStream(stream);
+
+      // Vincular a atualização do `answers` ao stream de perguntas
+      questionsStream?.listen((questions) {
+        fillAnswers(questions);
+      });
+    } catch (e) {
+      print("Erro ao criar stream de questões: $e");
+      questionsStream = null;
+    }
+  }
+
+  @action
+  void splitQuestions(String IDs) {
+    final List<String> questionIds = IDs.split("/");
+    fetchQuestionsByIdsAsStream(questionIds);
+  }
+
+  @action
+  void fillAnswers(List<Map<dynamic, dynamic>> questions) {
+    answers.clear();
+    for (final question in questions) {
+      answers.add({
+        "questionId": question["questionId"] ?? "",
+        "indexOption": 0,
+        "discipline": question["categoryId"] ?? "",
+        "topics": question["topics"] ?? "",
+        "status": 0,
+      });
+    }
   }
 
   @action
@@ -67,32 +136,43 @@ abstract class _DbQuestionsStoreBase with Store {
   }
 
   @action
-  void increment() {
-    value++;
-  }
-
-  @action
   void setSelect(int index) {
     questionSelect = index;
   }
 
   @action
-  void toggleAnswered() {
-    questionAnswered = !questionAnswered;
+  void setTestMode(String mode) {
+    testMode = mode;
   }
 
   @action
-  setQuestion(String questionId, String testId, int timeSpend) async {
-    try {
-      var response =
-          await FirebaseFirestore.instance.collection("answers").add({
-        "questionId": questionId,
-        "testId": testId,
-        "status": true,
-        "timeSpend": timeSpend
-      });
-    } catch (e) {
-      print("Error adding document: $e");
+  void setTestModel(String model) {
+    testModel = model;
+  }
+
+  @action
+  setQuestionIDs(String IDs) {
+    questionIDs = IDs;
+  }
+
+  @action
+  finishTest() async {
+    print(answers);
+    // 
+    {
+
     }
+
+    //   try {
+    //     var response =
+    //         await FirebaseFirestore.instance.collection("answers").add({
+    //       "questionId": questionId,
+    //       "testId": testId,
+    //       "status": true,
+    //       "timeSpend": timeSpend
+    //     });
+    //   } catch (e) {
+    //     print("Error adding document: $e");
+    //   }
   }
 }

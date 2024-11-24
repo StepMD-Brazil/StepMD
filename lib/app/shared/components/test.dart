@@ -13,7 +13,7 @@ class Test extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('questions').snapshots(),
+        stream: dbStore.questionsStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -337,40 +337,34 @@ class Test extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Seu progresso',
-                                            style: TextStyle(
-                                              color: Color(0xFF51628A),
-                                              fontSize: 12,
-                                              fontFamily: 'Work Sans',
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Seu progresso',
+                                          style: TextStyle(
+                                            color: Color(0xFF51628A),
+                                            fontSize: 12,
+                                            fontFamily: 'Work Sans',
+                                            fontWeight: FontWeight.w500,
                                           ),
-                                          const SizedBox(width: 3),
-                                          Text(
-                                            '(${(dbStore.questionSelect + 1) / snapshot.data!.size * 100}%)',
-                                            style: TextStyle(
-                                              color: Color(0xFF51628A),
-                                              fontSize: 12,
-                                              fontFamily: appFont,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                        ),
+                                        Text(
+                                          '(${((dbStore.countAnswereds) / snapshot.data!.length * 100).truncate()}%)',
+                                          style: TextStyle(
+                                            color: Color(0xFF51628A),
+                                            fontSize: 12,
+                                            fontFamily: appFont,
+                                            fontWeight: FontWeight.w500,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                     const SizedBox(height: 3),
                                     LinearProgressIndicator(
-                                      value: (dbStore.questionSelect + 1) /
-                                          snapshot.data!
-                                              .size, // Valor entre 0.0 e 1.0
+                                      value: (dbStore.countAnswereds) /
+                                          snapshot.data!.length,
                                       backgroundColor: Colors.grey[300],
                                       color: Colors.blue,
                                       minHeight: 10,
@@ -380,137 +374,95 @@ class Test extends StatelessWidget {
                               ),
                               Container(
                                 decoration: BoxDecoration(color: Colors.white),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        height: 656,
-                                        padding: const EdgeInsets.only(
-                                            top: 8, left: 8, right: 8),
-                                        child: ListView.builder(
-                                          itemCount: snapshot.data!.docs.length,
-                                          itemBuilder: (context, index) {
-                                            return Container(
-                                                padding: const EdgeInsets.only(
-                                                  top: 8,
-                                                  left: 16,
-                                                  right: 8,
-                                                  bottom: 8,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white),
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    dbStore.setSelect(index);
-                                                  },
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Expanded(
-                                                        child: Container(
-                                                          height: 20,
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Expanded(
-                                                                child: SizedBox(
-                                                                  child: Text(
-                                                                    '${index + 1} - ${snapshot.data!.docs[index]['label']}',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: Color(
-                                                                          0xFF51628A),
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontFamily:
-                                                                          appFont,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: 24,
-                                                        height: 24,
-                                                        decoration:
-                                                            ShapeDecoration(
-                                                          color: dbStore.answers[
-                                                                          index]
-                                                                      [0] ==
-                                                                  1
-                                                              ? Color(
-                                                                  0xFFCFE6D8) // Fundo verde para correto
-                                                              : dbStore.answers[
-                                                                              index]
-                                                                          [0] ==
-                                                                      -1
-                                                                  ? Color(
-                                                                      0xFFF8D7DA) // Fundo vermelho para incorreto
-                                                                  : Color(
-                                                                      0xFFE0E0E0), // Fundo cinza claro para não respondida
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        9999),
-                                                          ),
-                                                        ),
-                                                        child: Icon(
-                                                          dbStore.answers[index]
-                                                                      [0] ==
-                                                                  1
-                                                              ? Icons
-                                                                  .check_circle_outlined // Ícone verde para correto
-                                                              : dbStore.answers[
-                                                                              index]
-                                                                          [0] ==
-                                                                      -1
-                                                                  ? Icons
-                                                                      .error_outline // Ícone vermelho para incorreto
-                                                                  : Icons
-                                                                      .info_outline, // Ícone cinza para não respondida
-                                                          color: dbStore.answers[
-                                                                          index]
-                                                                      [0] ==
-                                                                  1
-                                                              ? Colors
-                                                                  .green // Ícone verde
-                                                              : dbStore.answers[
-                                                                              index]
-                                                                          [0] ==
-                                                                      -1
-                                                                  ? Colors
-                                                                      .red // Ícone vermelho
-                                                                  : Colors
-                                                                      .grey, // Ícone cinza
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ));
-                                          },
-                                        ),
+                                child: DropdownButton<String>(
+                                  hint: Text("Selecione uma opção"),
+                                  value:
+                                      '${snapshot.data![dbStore.questionSelect]['label']}',
+                                  isExpanded: true,
+                                  items: snapshot.data!
+                                      .map<DropdownMenuItem<String>>((item) {
+                                    return DropdownMenuItem<String>(
+                                      value: item['label'],
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            '${snapshot.data!.indexOf(item) + 1} - ${item['label']}',
+                                            style: TextStyle(
+                                              color: snapshot.data![dbStore
+                                                              .questionSelect]
+                                                          ['label'] ==
+                                                      item['label']
+                                                  ? Color.fromRGBO(
+                                                      34, 109, 159, 1)
+                                                  : Color.fromRGBO(
+                                                      5, 19, 51, 1),
+                                              fontSize: 14,
+                                              fontFamily: appFont,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          Container(
+                                            width: 24,
+                                            height: 24,
+                                            decoration: ShapeDecoration(
+                                              color: dbStore.answers[snapshot
+                                                          .data!
+                                                          .indexOf(item)][0] ==
+                                                      1
+                                                  ? Color(0xFFCFE6D8)
+                                                  : dbStore.answers[snapshot
+                                                              .data!
+                                                              .indexOf(
+                                                                  item)][0] ==
+                                                          -1
+                                                      ? Color(0xFFF8D7DA)
+                                                      : Color(0xFFE0E0E0),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(9999),
+                                              ),
+                                            ),
+                                            child: Icon(
+                                              dbStore.answers[snapshot.data!
+                                                          .indexOf(item)][0] ==
+                                                      1
+                                                  ? Icons.check_circle_outlined
+                                                  : dbStore.answers[snapshot
+                                                              .data!
+                                                              .indexOf(
+                                                                  item)][0] ==
+                                                          -1
+                                                      ? Icons.close_rounded
+                                                      : Icons.info_outline,
+                                              color: dbStore.answers[snapshot
+                                                          .data!
+                                                          .indexOf(item)][0] ==
+                                                      1
+                                                  ? Colors.green
+                                                  : dbStore.answers[snapshot
+                                                              .data!
+                                                              .indexOf(
+                                                                  item)][0] ==
+                                                          -1
+                                                      ? Colors.red
+                                                      : null,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValue) {
+                                    final selectedIndex = snapshot.data!
+                                        .indexWhere((item) =>
+                                            item['label'] == newValue);
+
+                                    if (selectedIndex != -1) {
+                                      dbStore.setSelect(
+                                          selectedIndex); // Passa o índice para o dbStore
+                                    }
+                                  },
                                 ),
                               ),
                             ],
@@ -524,7 +476,7 @@ class Test extends StatelessWidget {
                           Container(
                             height: 822,
                             padding: const EdgeInsets.symmetric(
-                                vertical: 24, horizontal: 24),
+                                vertical: 0, horizontal: 24),
                             decoration: ShapeDecoration(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(32),
@@ -534,56 +486,69 @@ class Test extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '${snapshot.data!.docs[dbStore.questionSelect]['label']} ',
-                                      style: const TextStyle(
-                                        color: Color(0xFF2E3F69),
-                                        fontSize: 20,
-                                        fontFamily: appFont,
-                                        fontWeight: FontWeight.w500,
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.40,
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            '${snapshot.data![dbStore.questionSelect]['label']}',
+                                            style: const TextStyle(
+                                              color: Color(0xFF2E3F69),
+                                              fontSize: 20,
+                                              fontFamily: appFont,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            'ID: ${snapshot.data![dbStore.questionSelect]['questionId']} ',
+                                            style: const TextStyle(
+                                              color: Color(0xFF858585),
+                                              fontSize: 14,
+                                              fontStyle: FontStyle.italic,
+                                              fontFamily: appFont,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    const Text(
-                                      'ID: #00159 ',
-                                      style: TextStyle(
-                                        color: Color(0xFF858585),
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.italic,
-                                        fontFamily: appFont,
-                                        fontWeight: FontWeight.w400,
+                                      const SizedBox(height: 8),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: Text(
+                                          "${snapshot.data![dbStore.questionSelect]['description']}",
+                                          style: const TextStyle(
+                                            color: Color(0xFF2E2E2E),
+                                            fontSize: 16,
+                                            fontFamily: appFont,
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                SizedBox(
-                                  child: Text(
-                                    "${snapshot.data!.docs[dbStore.questionSelect]['description']}",
-                                    style: const TextStyle(
-                                      color: Color(0xFF2E2E2E),
-                                      fontSize: 16,
-                                      fontFamily: appFont,
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                      const SizedBox(height: 16),
+                                      snapshot.data![dbStore.questionSelect]
+                                                  ['imageUrl'] !=
+                                              ""
+                                          ? Image.network(
+                                              width: 468,
+                                              height: 258,
+                                              '${snapshot.data![dbStore.questionSelect]['imageUrl']}')
+                                          : Container(
+                                              width: 36,
+                                              height: 200,
+                                            ),
+                                      const SizedBox(height: 16),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(height: 16),
-                                snapshot.data!.docs[dbStore.questionSelect]
-                                            ['imageUrl'] != ""
-                                    ? Image.network(
-                                        width: 468,
-                                        height: 258,
-                                        '${snapshot.data!.docs[dbStore.questionSelect]['imageUrl']}')
-                                    : Container(
-                                        width: 36,
-                                        height: 200,
-                                      ),
-                                const SizedBox(height: 16),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -595,14 +560,13 @@ class Test extends StatelessWidget {
                                               true, // Ajusta para o conteúdo e evita erro de overflow
                                           physics:
                                               NeverScrollableScrollPhysics(), // Desabilita o scroll da lista embutida
-                                          itemCount: (snapshot.data!.docs[
-                                                          dbStore
-                                                              .questionSelect]
+                                          itemCount: (snapshot.data![dbStore
+                                                          .questionSelect]
                                                       ['options'] ??
                                                   [])
                                               .length,
                                           itemBuilder: (context, index) {
-                                            final option = snapshot.data!.docs[
+                                            final option = snapshot.data![
                                                         dbStore.questionSelect]
                                                     ['options'][index] ??
                                                 {};
@@ -612,8 +576,9 @@ class Test extends StatelessWidget {
                                             final letter = String.fromCharCode(65 +
                                                 index); // Converte índice para letra ('A', 'B', etc.)
 
-                                            if (dbStore.answers[dbStore
-                                                    .questionSelect][0] ==
+                                            if (dbStore.answers[
+                                                        dbStore.questionSelect]
+                                                    ['status'] ==
                                                 0) {
                                               return Container(
                                                   padding: const EdgeInsets
@@ -706,8 +671,9 @@ class Test extends StatelessWidget {
                                                       ],
                                                     ),
                                                   ));
-                                            } else if (dbStore.answers[dbStore
-                                                    .questionSelect][0] ==
+                                            } else if (dbStore.answers[
+                                                        dbStore.questionSelect]
+                                                    ['status'] ==
                                                 1) {
                                               return isCorrect
                                                   ? Container(
@@ -872,7 +838,8 @@ class Test extends StatelessWidget {
                                             } else {
                                               return index ==
                                                       dbStore.answers[dbStore
-                                                          .questionSelect][1]
+                                                              .questionSelect]
+                                                          ['indexOption']
                                                   ? Container(
                                                       padding: const EdgeInsets
                                                           .symmetric(
@@ -1073,11 +1040,10 @@ class Test extends StatelessWidget {
                 ),
               ),
               bottomNavigationBar: Container(
-                width: 1020,
-                height: 72,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 72, vertical: 16),
-                decoration: BoxDecoration(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.15,
+                    vertical: 16),
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   border: Border(
                     left: BorderSide(color: Color(0xFFDAE9EE)),
@@ -1103,11 +1069,11 @@ class Test extends StatelessWidget {
                           ),
                         ),
                         child: InkWell(
-                          onTap: () {
-                            if (dbStore.questionSelect > 0) {
-                              dbStore.setSelect(dbStore.questionSelect - 1);
-                            }
-                          },
+                          onTap: dbStore.questionSelect > 0
+                              ? () {
+                                  dbStore.setSelect(dbStore.questionSelect - 1);
+                                }
+                              : null,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1166,7 +1132,7 @@ class Test extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '/${snapshot.data!.size}',
+                          '/${snapshot.data!.length}',
                           style: const TextStyle(
                             color: Color(0xFF0F172A),
                             fontSize: 16,
@@ -1181,15 +1147,17 @@ class Test extends StatelessWidget {
                       child: InkWell(
                         onTap: () {
                           if (dbStore.questionSelect <
-                              snapshot.data!.size - 1) {
+                              snapshot.data!.length - 1) {
                             dbStore.setSelect(dbStore.questionSelect + 1);
+                          } else {
+                            dbStore.finishTest();
                           }
                         },
                         child: Container(
                           height: 40,
                           clipBehavior: Clip.antiAlias,
                           decoration: ShapeDecoration(
-                            color: Color(0xFF4091C6),
+                            color: Color(0xFF051333),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8)),
                           ),
@@ -1197,9 +1165,12 @@ class Test extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Text(
-                                'Próxima',
-                                style: TextStyle(
+                              Text(
+                                dbStore.questionSelect ==
+                                        snapshot.data!.length - 1
+                                    ? 'Finalizar'
+                                    : 'Próxima',
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
                                   fontFamily: appFont,
@@ -1210,10 +1181,13 @@ class Test extends StatelessWidget {
                               Container(
                                 width: 24,
                                 height: 24,
-                                child: const Icon(
-                                  Icons.arrow_forward_outlined,
-                                  color: Colors.white,
-                                ),
+                                child: dbStore.questionSelect !=
+                                        snapshot.data!.length - 1
+                                    ? const Icon(
+                                        Icons.arrow_forward_outlined,
+                                        color: Colors.white,
+                                      )
+                                    : null,
                               ),
                             ],
                           ),
