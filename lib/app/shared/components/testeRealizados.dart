@@ -19,7 +19,7 @@ class TestesRealizados extends StatelessWidget {
               Text(
                 'Acompanhe seus resultados',
                 style: TextStyle(
-                  color: Color(0xFF2E3F69),
+                  color: Color(0xFF957B0B),
                   fontSize: 20,
                   fontFamily: 'Work Sans',
                   fontWeight: FontWeight.w500,

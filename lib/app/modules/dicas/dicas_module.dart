@@ -1,4 +1,5 @@
 import 'package:stepmd/app/modules/dicas/dicas_page.dart';
+import 'package:stepmd/app/modules/dicas/dicas_page.dart';
 import 'package:stepmd/app/modules/dicas/dicas_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 

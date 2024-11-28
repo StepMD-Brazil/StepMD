@@ -1,16 +1,21 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:stepmd/app/modules/artigos/artigos_store.dart';
+import 'package:stepmd/app/modules/configuracao/configuracao_store.dart';
+import 'package:stepmd/app/modules/dicas/dicas_store.dart';
 import 'package:stepmd/app/modules/flashcards/flashcards_store.dart';
 import 'package:stepmd/app/modules/home/home_module.dart';
 import 'package:stepmd/app/modules/initialPage/initialPage_store.dart';
 import 'package:stepmd/app/modules/notebook/notebook_store.dart';
 import 'package:stepmd/app/modules/signin/signin_module.dart';
 import 'package:stepmd/app/modules/signin/signin_store.dart';
+import 'package:stepmd/app/modules/suporte/suporte_store.dart';
 import 'package:stepmd/app/root/root_module.dart';
 import 'package:stepmd/app/splash/splash_module.dart';
 import 'package:stepmd/app/splash/splash_store.dart';
 
 import 'modules/db_questions/dbQuestions_store.dart';
 import 'modules/home/home_store.dart';
+import 'modules/notes/notes_store.dart';
 
 class AppModule extends Module {
   @override
@@ -22,6 +27,11 @@ class AppModule extends Module {
     i.addSingleton(InitialPageStore.new);
     i.addSingleton(FlashcardsStore.new);
     i.addSingleton(NotebookStore.new);
+    i.addSingleton(NotesStore.new);
+    i.addSingleton(ArtigosStore.new);
+    i.addSingleton(DicasStore.new);
+    i.addSingleton(SuporteStore.new);
+    i.addSingleton(ConfiguracaoStore.new);
   }
 
   @override

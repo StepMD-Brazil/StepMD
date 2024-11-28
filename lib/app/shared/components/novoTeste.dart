@@ -26,7 +26,7 @@ class NovoTeste extends StatelessWidget {
                   title: const Text(
                     'Configure um teste',
                     style: TextStyle(
-                      color: Color(0xFF2E3F69),
+                      color: Color(0xFF957B0B),
                       fontSize: 20,
                       fontFamily: appFont,
                       fontWeight: FontWeight.w400,
@@ -42,7 +42,7 @@ class NovoTeste extends StatelessWidget {
                       const Text(
                         'Modo da prova',
                         style: TextStyle(
-                          color: Color(0xFF2E3F69),
+                          color: Color(0xFF957B0B),
                           fontSize: 20,
                           fontFamily: appFont,
                           fontWeight: FontWeight.w500,
@@ -112,7 +112,7 @@ class NovoTeste extends StatelessWidget {
                       const Text(
                         'Modelo da prova',
                         style: TextStyle(
-                          color: Color(0xFF2E3F69),
+                          color: Color(0xFF957B0B),
                           fontSize: 20,
                           fontFamily: appFont,
                           fontWeight: FontWeight.w500,
@@ -245,10 +245,10 @@ class NovoTeste extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         TextField(
-                                          onChanged: (value) {
-                                            dbStore.questionIDs = value;
-                                            print(value);
-                                          },
+                                            onChanged: (value) {
+                                              dbStore.questionIDs = value;
+                                              print(value);
+                                            },
                                             decoration: InputDecoration(
                                               contentPadding:
                                                   const EdgeInsets.symmetric(
@@ -320,7 +320,7 @@ class NovoTeste extends StatelessWidget {
                               'Cancelar',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color(0xFF2E3F69),
+                                color: Color(0xFF957B0B),
                                 fontSize: 14,
                                 fontFamily: appFont,
                                 fontWeight: FontWeight.w500,

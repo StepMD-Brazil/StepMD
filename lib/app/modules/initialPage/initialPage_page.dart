@@ -27,7 +27,7 @@ class InitialPagePageState extends State<InitialPagePage> {
             const Text(
               'Boas vindas',
               style: TextStyle(
-                color: Color(0xFF2E3F69),
+                color: Color(0xFF020F2B),
                 fontSize: 20,
                 fontFamily: 'Work Sans',
                 fontWeight: FontWeight.w400,
@@ -51,14 +51,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
+                        color: Color(0xFF957B0B),
                         'assets/svg/dashboard.svg',
-                        color: const Color(0xFF226D9F),
                       ),
                       const SizedBox(width: 4),
                       const Text(
                         'Dashboard',
                         style: TextStyle(
-                          color: Color(0xFF2E3F69),
+                          color: Color(0xFF957B0B),
                           fontSize: 14,
                           fontFamily: 'Work Sans',
                           fontWeight: FontWeight.w500,
@@ -82,14 +82,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
+                        color: Color(0xFF957B0B),
                         'assets/svg/autobook.svg',
-                        color: const Color(0xFF226D9F),
                       ),
                       const SizedBox(width: 4),
                       const Text(
                         'Disciplinas',
                         style: TextStyle(
-                          color: Color(0xFF2E3F69),
+                          color: Color(0xFF957B0B),
                           fontSize: 14,
                           fontFamily: 'Work Sans',
                           fontWeight: FontWeight.w500,
@@ -171,13 +171,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
+                                    color: Color(0xFF957B0B),
                                     'assets/svg/behavioralScience.svg',
                                   ),
                                   const SizedBox(width: 4),
                                   const Text(
                                     'Behavioral Science',
                                     style: TextStyle(
-                                      color: Color(0xFF2E3F69),
+                                      color: Color(0xFF020F2B),
                                       fontSize: 14,
                                       fontFamily: 'Work Sans',
                                       fontWeight: FontWeight.w500,
@@ -200,13 +201,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
+                                    color: Color(0xFF957B0B),
                                     'assets/svg/biochemistry.svg',
                                   ),
                                   const SizedBox(width: 4),
                                   const Text(
                                     'Biochemistry',
                                     style: TextStyle(
-                                      color: Color(0xFF2E3F69),
+                                      color: Color(0xFF020F2B),
                                       fontSize: 14,
                                       fontFamily: 'Work Sans',
                                       fontWeight: FontWeight.w500,
@@ -229,13 +231,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
+                                    color: Color(0xFF957B0B),
                                     'assets/svg/biochemistry.svg',
                                   ),
                                   const SizedBox(width: 4),
                                   const Text(
                                     'Biostatistics/Epidemiology',
                                     style: TextStyle(
-                                      color: Color(0xFF2E3F69),
+                                      color: Color(0xFF020F2B),
                                       fontSize: 14,
                                       fontFamily: 'Work Sans',
                                       fontWeight: FontWeight.w500,
@@ -258,13 +261,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
+                                    color: Color(0xFF957B0B),
                                     'assets/svg/cardiology.svg',
                                   ),
                                   const SizedBox(width: 4),
                                   const Text(
                                     'Cardiology',
                                     style: TextStyle(
-                                      color: Color(0xFF2E3F69),
+                                      color: Color(0xFF020F2B),
                                       fontSize: 14,
                                       fontFamily: 'Work Sans',
                                       fontWeight: FontWeight.w500,
@@ -287,13 +291,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
+                                    color: Color(0xFF957B0B),
                                     'assets/svg/dermatology.svg',
                                   ),
                                   const SizedBox(width: 4),
                                   const Text(
                                     'Dermatology',
                                     style: TextStyle(
-                                      color: Color(0xFF2E3F69),
+                                      color: Color(0xFF020F2B),
                                       fontSize: 14,
                                       fontFamily: 'Work Sans',
                                       fontWeight: FontWeight.w500,
@@ -316,13 +321,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
+                                    color: Color(0xFF957B0B),
                                     'assets/svg/endocrinology.svg',
                                   ),
                                   const SizedBox(width: 4),
                                   const Text(
                                     'Endocrinology',
                                     style: TextStyle(
-                                      color: Color(0xFF2E3F69),
+                                      color: Color(0xFF020F2B),
                                       fontSize: 14,
                                       fontFamily: 'Work Sans',
                                       fontWeight: FontWeight.w500,
@@ -345,13 +351,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
+                                    color: Color(0xFF957B0B),
                                     'assets/svg/gastroenterology.svg',
                                   ),
                                   const SizedBox(width: 4),
                                   const Text(
                                     'Gastroenterology',
                                     style: TextStyle(
-                                      color: Color(0xFF2E3F69),
+                                      color: Color(0xFF020F2B),
                                       fontSize: 14,
                                       fontFamily: 'Work Sans',
                                       fontWeight: FontWeight.w500,
@@ -374,13 +381,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
+                                    color: Color(0xFF957B0B),
                                     'assets/svg/genetics.svg',
                                   ),
                                   const SizedBox(width: 4),
                                   const Text(
                                     'Genetics',
                                     style: TextStyle(
-                                      color: Color(0xFF2E3F69),
+                                      color: Color(0xFF020F2B),
                                       fontSize: 14,
                                       fontFamily: 'Work Sans',
                                       fontWeight: FontWeight.w500,
@@ -403,13 +411,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
+                                    color: Color(0xFF957B0B),
                                     'assets/svg/hematology.svg',
                                   ),
                                   const SizedBox(width: 4),
                                   const Text(
                                     'Hematology',
                                     style: TextStyle(
-                                      color: Color(0xFF2E3F69),
+                                      color: Color(0xFF020F2B),
                                       fontSize: 14,
                                       fontFamily: 'Work Sans',
                                       fontWeight: FontWeight.w500,
@@ -432,13 +441,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
+                                    color: Color(0xFF957B0B),
                                     'assets/svg/immunology.svg',
                                   ),
                                   const SizedBox(width: 4),
                                   const Text(
                                     'Immunology',
                                     style: TextStyle(
-                                      color: Color(0xFF2E3F69),
+                                      color: Color(0xFF020F2B),
                                       fontSize: 14,
                                       fontFamily: 'Work Sans',
                                       fontWeight: FontWeight.w500,
@@ -468,13 +478,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
+                                  color: Color(0xFF957B0B),
                                   'assets/svg/immunology.svg',
                                 ),
                                 const SizedBox(width: 4),
                                 const Text(
                                   'Infectious Disease',
                                   style: TextStyle(
-                                    color: Color(0xFF2E3F69),
+                                    color: Color(0xFF020F2B),
                                     fontSize: 14,
                                     fontFamily: 'Work Sans',
                                     fontWeight: FontWeight.w500,
@@ -497,13 +508,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
+                                  color: Color(0xFF957B0B),
                                   'assets/svg/musculoskeletal.svg',
                                 ),
                                 const SizedBox(width: 4),
                                 const Text(
                                   'Musculoskeletal',
                                   style: TextStyle(
-                                    color: Color(0xFF2E3F69),
+                                    color: Color(0xFF020F2B),
                                     fontSize: 14,
                                     fontFamily: 'Work Sans',
                                     fontWeight: FontWeight.w500,
@@ -526,13 +538,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
+                                  color: Color(0xFF957B0B),
                                   'assets/svg/neurology.svg',
                                 ),
                                 const SizedBox(width: 4),
                                 const Text(
                                   'Neurology',
                                   style: TextStyle(
-                                    color: Color(0xFF2E3F69),
+                                    color: Color(0xFF020F2B),
                                     fontSize: 14,
                                     fontFamily: 'Work Sans',
                                     fontWeight: FontWeight.w500,
@@ -555,13 +568,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
+                                  color: Color(0xFF957B0B),
                                   'assets/svg/pathology.svg',
                                 ),
                                 const SizedBox(width: 4),
                                 const Text(
                                   'Pathology',
                                   style: TextStyle(
-                                    color: Color(0xFF2E3F69),
+                                    color: Color(0xFF020F2B),
                                     fontSize: 14,
                                     fontFamily: 'Work Sans',
                                     fontWeight: FontWeight.w500,
@@ -584,13 +598,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
+                                  color: Color(0xFF957B0B),
                                   'assets/svg/pharmacology.svg',
                                 ),
                                 const SizedBox(width: 4),
                                 const Text(
                                   'Pharmacology',
                                   style: TextStyle(
-                                    color: Color(0xFF2E3F69),
+                                    color: Color(0xFF020F2B),
                                     fontSize: 14,
                                     fontFamily: 'Work Sans',
                                     fontWeight: FontWeight.w500,
@@ -613,13 +628,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
+                                  color: Color(0xFF957B0B),
                                   'assets/svg/psychiatry.svg',
                                 ),
                                 const SizedBox(width: 4),
                                 const Text(
                                   'Psychiatry',
                                   style: TextStyle(
-                                    color: Color(0xFF2E3F69),
+                                    color: Color(0xFF020F2B),
                                     fontSize: 14,
                                     fontFamily: 'Work Sans',
                                     fontWeight: FontWeight.w500,
@@ -642,13 +658,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
+                                  color: Color(0xFF957B0B),
                                   'assets/svg/pulmonary.svg',
                                 ),
                                 const SizedBox(width: 4),
                                 const Text(
                                   'Pulmonary',
                                   style: TextStyle(
-                                    color: Color(0xFF2E3F69),
+                                    color: Color(0xFF020F2B),
                                     fontSize: 14,
                                     fontFamily: 'Work Sans',
                                     fontWeight: FontWeight.w500,
@@ -671,13 +688,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
+                                  color: Color(0xFF957B0B),
                                   'assets/svg/renal.svg',
                                 ),
                                 const SizedBox(width: 4),
                                 const Text(
                                   'Renal',
                                   style: TextStyle(
-                                    color: Color(0xFF2E3F69),
+                                    color: Color(0xFF020F2B),
                                     fontSize: 14,
                                     fontFamily: 'Work Sans',
                                     fontWeight: FontWeight.w500,
@@ -700,13 +718,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
+                                  color: Color(0xFF957B0B),
                                   'assets/svg/gynecology.svg',
                                 ),
                                 const SizedBox(width: 4),
                                 const Text(
                                   'Female Genital ,Reproductive & Breast',
                                   style: TextStyle(
-                                    color: Color(0xFF2E3F69),
+                                    color: Color(0xFF020F2B),
                                     fontSize: 14,
                                     fontFamily: 'Work Sans',
                                     fontWeight: FontWeight.w500,
@@ -729,13 +748,14 @@ class InitialPagePageState extends State<InitialPagePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
+                                  color: Color(0xFF957B0B),
                                   'assets/svg/male.svg',
                                 ),
                                 const SizedBox(width: 4),
                                 const Text(
                                   'Male Pathology',
                                   style: TextStyle(
-                                    color: Color(0xFF2E3F69),
+                                    color: Color(0xFF020F2B),
                                     fontSize: 14,
                                     fontFamily: 'Work Sans',
                                     fontWeight: FontWeight.w500,

@@ -23,7 +23,7 @@ class NotebookPageState extends State<NotebookPage> {
         title: const Text(
           'Caderno',
           style: TextStyle(
-            color: Color(0xFF2E3F69),
+            color: Color(0xFF957B0B),
             fontSize: 20,
             fontFamily: appFont,
             fontWeight: FontWeight.w400,

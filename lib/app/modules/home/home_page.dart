@@ -1,13 +1,19 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:stepmd/app/modules/configuracao/configuracao_page.dart';
 import 'package:stepmd/app/modules/db_questions/dbQuestions_page.dart';
+import 'package:stepmd/app/modules/dicas/dicas_page.dart';
 import 'package:stepmd/app/modules/flashcards/flashcards_page.dart';
 import 'package:stepmd/app/modules/home/home_store.dart';
 import 'package:flutter/material.dart';
 import 'package:stepmd/app/modules/initialPage/initialPage_page.dart';
 import 'package:stepmd/app/modules/notebook/notebook_page.dart';
+import 'package:stepmd/app/modules/notes/notes_page.dart';
+import 'package:stepmd/app/modules/suporte/suporte_page.dart';
 import 'package:stepmd/app/shared/constants.dart';
+
+import '../artigos/artigos_page.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -25,15 +31,11 @@ class HomePageState extends State<HomePage> {
     DbQuestionsPage(),
     FlashcardsPage(),
     NotebookPage(),
-    Text(
-      'Index 3: blabla',
-    ),
-    Text(
-      'Index 4: blabla',
-    ),
-    Text(
-      'Index 5: blabla',
-    ),
+    NotesPage(),
+    ArtigosPage(),
+    DicasPage(),
+    SuportePage(),
+    ConfiguracaoPage(),
   ];
 
   _onItemTapped(int index) {
@@ -71,7 +73,7 @@ class HomePageState extends State<HomePage> {
                           height: MediaQuery.of(context).size.height * 0.05,
                           child: SvgPicture.asset(
                             'assets/svg/logo.svg',
-                            color: const Color(0xFF226D9F),
+                            color: appColorDeafut,
                           ),
                         ),
                       ),
@@ -316,7 +318,6 @@ class HomePageState extends State<HomePage> {
                           // Update the state of the app
                           _onItemTapped(3);
                           // Then close the drawer
-                          Navigator.pop(context);
                         },
                       ),
                       ListTile(
@@ -344,7 +345,6 @@ class HomePageState extends State<HomePage> {
                           // Update the state of the app
                           _onItemTapped(4);
                           // Then close the drawer
-                          Navigator.pop(context);
                         },
                       ),
                       ListTile(
@@ -372,7 +372,6 @@ class HomePageState extends State<HomePage> {
                           // Update the state of the app
                           _onItemTapped(5);
                           // Then close the drawer
-                          Navigator.pop(context);
                         },
                       ),
                       ListTile(
@@ -395,12 +394,11 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 5,
+                        selected: _selectedIndex == 6,
                         onTap: () {
                           // Update the state of the app
-                          _onItemTapped(5);
+                          _onItemTapped(6);
                           // Then close the drawer
-                          Navigator.pop(context);
                         },
                       ),
                       const SizedBox(
@@ -426,12 +424,11 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 5,
+                        selected: _selectedIndex == 7,
                         onTap: () {
                           // Update the state of the app
-                          _onItemTapped(5);
+                          _onItemTapped(7);
                           // Then close the drawer
-                          Navigator.pop(context);
                         },
                       ),
                       ListTile(
@@ -454,12 +451,11 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 5,
+                        selected: _selectedIndex == 8,
                         onTap: () {
                           // Update the state of the app
-                          _onItemTapped(5);
+                          _onItemTapped(8);
                           // Then close the drawer
-                          Navigator.pop(context);
                         },
                       ),
                       ListTile(
@@ -487,7 +483,6 @@ class HomePageState extends State<HomePage> {
                           // Update the state of the app
                           _onItemTapped(5);
                           // Then close the drawer
-                          Navigator.pop(context);
                         },
                       ),
                     ],
