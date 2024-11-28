@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:stepmd/app/modules/flashcards/flashcards_store.dart';
 import 'package:stepmd/app/shared/constants.dart';
 import 'package:flash_card/flash_card.dart';
 
 class Flashcard extends StatelessWidget {
+  final FlashcardsStore flashStore = Modular.get();
+
   final List<FlashCard> flashCard = List.generate(
     5,
     (index) => FlashCard(
@@ -232,174 +237,139 @@ class Flashcard extends StatelessWidget {
       width: 912,
     ),
   );
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(
-          color: Color(0xFF4091C6), // Define a cor do botão de voltar
-        ),
-        title: Container(
-          width: MediaQuery.of(context).size.width,
-          height: 60,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            border: Border(
-              left: BorderSide(color: Color(0xFFDAE9EE)),
-              top: BorderSide(color: Color(0xFFDAE9EE)),
-              right: BorderSide(color: Color(0xFFDAE9EE)),
-              bottom: BorderSide(width: 1, color: Color(0xFFDAE9EE)),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 4),
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                              width: 1, color: Color(0xFFDAE9EE)),
-                          borderRadius: BorderRadius.circular(8),
+    flashStore.fetchcardsByIdsAsStream(flashStore.disciplineIds);
+    return StreamBuilder(
+        stream: flashStore.cardsStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          flashStore.startCounter();
+          return Observer(builder: (context) {
+            return Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                iconTheme: const IconThemeData(
+                  color: Color(0xFF4091C6), // Define a cor do botão de voltar
+                ),
+                title: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 60,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    border: Border(
+                      left: BorderSide(color: Color(0xFFDAE9EE)),
+                      top: BorderSide(color: Color(0xFFDAE9EE)),
+                      right: BorderSide(color: Color(0xFFDAE9EE)),
+                      bottom: BorderSide(width: 1, color: Color(0xFFDAE9EE)),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        // Barra de progresso e dropdown de questões
+                        width: MediaQuery.of(context).size.width * 0.20,
+                        height: MediaQuery.of(context).size.height,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            left: BorderSide(
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                              color: Color(0xFFDAE9EE),
+                            ),
+                            top: BorderSide(
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                              color: Color(0xFFDAE9EE),
+                            ),
+                            right: BorderSide(
+                              width: 1,
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                              color: Color(0xFFDAE9EE),
+                            ),
+                            bottom: BorderSide(
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                              color: Color(0xFFDAE9EE),
+                            ),
+                          ),
+                        ),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 56,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Seu progresso',
+                                          style: TextStyle(
+                                            color: Color(0xFF51628A),
+                                            fontSize: 12,
+                                            fontFamily: 'Work Sans',
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Text(
+                                          '(100%)',
+                                          // '(${((dbStore.countAnswereds) / snapshot.data!.length * 100).truncate()}%)',
+                                          style: TextStyle(
+                                            color: Color(0xFF51628A),
+                                            fontSize: 12,
+                                            fontFamily: appFont,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 3),
+                                    LinearProgressIndicator(
+                                      value: 10,
+                                      // value: (dbStore.countAnswereds) /
+                                      //     snapshot.data!.length,
+                                      backgroundColor: Colors.grey[300],
+                                      color: Colors.blue,
+                                      minHeight: 10,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 24,
-                            height: 24,
-                            child: SvgPicture.asset(
-                              'assets/svg/calculate.svg',
-                              color: Color(0xFF4091C6),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          const SizedBox(width: 8),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            child: SvgPicture.asset(
-                              'assets/svg/icon-science.svg',
-                              color: Color(0xFF4091C6),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          const SizedBox(width: 8),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            child: SvgPicture.asset(
-                              'assets/svg/menubook.svg',
-                              color: Color(0xFF4091C6),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          const SizedBox(width: 8),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            child: SvgPicture.asset(
-                              'assets/svg/icon-addnotes.svg',
-                              color: Color(0xFF4091C6),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          const SizedBox(width: 8),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            child: SvgPicture.asset(
-                              'assets/svg/icon-flashcard.svg',
-                              color: Color(0xFF4091C6),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          const SizedBox(width: 8),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            child: SvgPicture.asset(
-                              'assets/svg/icon-star.svg',
-                              color: Color(0xFF4091C6),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 24,
-                      height: 24,
-                      child: const Icon(Icons.alarm, color: Colors.black),
-                    ),
-                    const SizedBox(width: 4),
-                    const Text(
-                      '0:32',
-                      style: TextStyle(
-                        color: Color(0xFF51628A),
-                        fontSize: 14,
-                        fontFamily: appFont,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                children: [
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Color(0xFFDAE9EE)),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                                width: 34,
-                                height: 34,
-                                decoration: const ShapeDecoration(
-                                  shape: CircleBorder(
-                                    side: BorderSide(
-                                        width: 1, color: Colors.black),
-                                  ),
-                                ),
-                                child: const Center(
-                                  child: Icon(
-                                    size: 16,
-                                    Icons.pause,
-                                    color: Colors.black,
-                                  ),
-                                )),
-                            const SizedBox(width: 8),
-                            const Text(
-                              'Pausar teste',
-                              style: TextStyle(
+                              width: 24,
+                              height: 24,
+                              child:
+                                  const Icon(Icons.alarm, color: Colors.black),
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              '${flashStore.hours > 0 ? '${flashStore.hours}:' : ''}${flashStore.minutes}:${flashStore.seconds < 10 ? '0' : ''}${flashStore.seconds}',
+                              style: const TextStyle(
                                 color: Color(0xFF51628A),
                                 fontSize: 14,
                                 fontFamily: appFont,
@@ -408,505 +378,669 @@ class Flashcard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                                width: 34,
-                                height: 34,
-                                decoration: const ShapeDecoration(
-                                  shape: CircleBorder(
-                                    side: BorderSide(
-                                        width: 1, color: Color(0xFFA22727)),
-                                  ),
-                                ),
-                                child: const Center(
-                                  child: Icon(
-                                    size: 16,
-                                    Icons.stop,
-                                    color: Colors.black,
-                                  ),
-                                )),
-                            const SizedBox(width: 8),
-                            const Text(
-                              'Finalizar',
-                              style: TextStyle(
-                                color: Color(0xFFA22727),
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1, color: Color(0xFFDAE9EE)),
+                                borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                          ],
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () {},
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Finalizar',
+                                        style: TextStyle(
+                                          color: Color(0xFFA22727),
+                                          fontSize: 14,
+                                          fontFamily: appFont,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              body: Row(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.20,
+                    height: MediaQuery.of(context).size.height,
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        left: BorderSide(
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                          color: Color(0xFFDAE9EE),
+                        ),
+                        top: BorderSide(
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                          color: Color(0xFFDAE9EE),
+                        ),
+                        right: BorderSide(
+                          width: 1,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                          color: Color(0xFFDAE9EE),
+                        ),
+                        bottom: BorderSide(
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                          color: Color(0xFFDAE9EE),
+                        ),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 56,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                child: Text(
+                                  'Seu nível de confiança',
+                                  style: TextStyle(
+                                    color: Color(0xFF51628A),
+                                    fontSize: 12,
+                                    fontFamily: 'Work Sans',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 3),
+                              Container(
+                                width: 165,
+                                height: 4,
+                                child: FlutterLogo(),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          color: Colors.white,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 16),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        const Color.fromRGBO(34, 109, 159, 0.1),
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        color: Colors.grey[300]!,
+                                      ),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '${index + 1} - ${snapshot.data![index]['flashcardId']}',
+                                        style: const TextStyle(
+                                          color: Color.fromRGBO(5, 19, 51, 1),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Icon(Icons.check_circle_outlined),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(width: 16),
-                  Container(
-                    width: 24,
-                    height: 24,
-                    child: const Icon(
-                      Icons.settings,
-                      color: Colors.black,
-                    ),
-                  ),
+                  Column(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.85,
+                        width: MediaQuery.of(context).size.width * 0.80,
+                        child: PageView.builder(
+                          itemCount: flashCard.length,
+                          itemBuilder: (context, index) {
+                            return Center(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                flashCard[index],
+                                const SizedBox(height: 24),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.80,
+                                  height: 96,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Qual seu nível de dificuldade neste card?',
+                                        style: TextStyle(
+                                          color: Color(0xFF51628A),
+                                          fontSize: 16,
+                                          fontFamily: appFont,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 16),
+                                      Container(
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 32,
+                                                        vertical: 8),
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    decoration: ShapeDecoration(
+                                                      color: Color(0xFFC64040),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        side: BorderSide(
+                                                            width: 1,
+                                                            color: Color(
+                                                                0xFFC64040)),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                          '1',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'Work Sans',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  Text(
+                                                    'Muito difícil',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF51628A),
+                                                      fontSize: 14,
+                                                      fontFamily: appFont,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Container(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 32,
+                                                        vertical: 8),
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    decoration: ShapeDecoration(
+                                                      color: Color(0xFFFEA900),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8)),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                          '2',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'Work Sans',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  Text(
+                                                    'Difícil',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF51628A),
+                                                      fontSize: 14,
+                                                      fontFamily: appFont,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Container(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 32,
+                                                        vertical: 8),
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    decoration: ShapeDecoration(
+                                                      color: Color(0xFFFDD700),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8)),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                          '3',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'Work Sans',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  Text(
+                                                    'Normal',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF51628A),
+                                                      fontSize: 14,
+                                                      fontFamily: appFont,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Container(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 32,
+                                                        vertical: 8),
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    decoration: ShapeDecoration(
+                                                      color: Color(0xFF20A653),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8)),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                          '4',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'Work Sans',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  Text(
+                                                    'Fácil',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF51628A),
+                                                      fontSize: 14,
+                                                      fontFamily: appFont,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Container(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 32,
+                                                        vertical: 8),
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    decoration: ShapeDecoration(
+                                                      color: Color(0xFF0021C9),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8)),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                          '5',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'Work Sans',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  Text(
+                                                    'Muito fácil',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF51628A),
+                                                      fontSize: 14,
+                                                      fontFamily: appFont,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ));
+                          },
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
-            ],
-          ),
-        ),
-      ),
-      body: Row(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.20,
-            height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              border: Border(
-                left: BorderSide(
-                  strokeAlign: BorderSide.strokeAlignOutside,
-                  color: Color(0xFFDAE9EE),
-                ),
-                top: BorderSide(
-                  strokeAlign: BorderSide.strokeAlignOutside,
-                  color: Color(0xFFDAE9EE),
-                ),
-                right: BorderSide(
-                  width: 1,
-                  strokeAlign: BorderSide.strokeAlignOutside,
-                  color: Color(0xFFDAE9EE),
-                ),
-                bottom: BorderSide(
-                  strokeAlign: BorderSide.strokeAlignOutside,
-                  color: Color(0xFFDAE9EE),
-                ),
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 56,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: Text(
-                          'Seu nível de confiança',
-                          style: TextStyle(
-                            color: Color(0xFF51628A),
-                            fontSize: 12,
-                            fontFamily: 'Work Sans',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 3),
-                      Container(
-                        width: 165,
-                        height: 4,
-                        child: FlutterLogo(),
-                      ),
-                    ],
+              bottomNavigationBar: Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.15,
+                    vertical: 16),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                    left: BorderSide(color: Color(0xFFDAE9EE)),
+                    top: BorderSide(width: 1, color: Color(0xFFDAE9EE)),
+                    right: BorderSide(color: Color(0xFFDAE9EE)),
+                    bottom: BorderSide(color: Color(0xFFDAE9EE)),
                   ),
                 ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 656,
-                          padding:
-                              const EdgeInsets.only(top: 8, left: 8, right: 8),
-                          child: ListView.builder(
-                            itemCount: 3,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                  padding: const EdgeInsets.only(
-                                    top: 8,
-                                    left: 16,
-                                    right: 8,
-                                    bottom: 8,
-                                  ),
-                                  decoration:
-                                      BoxDecoration(color: Colors.white),
-                                  child: InkWell(
-                                    onTap: () {
-                                      // dbStore.setSelect(index);
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          height: 20,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                child: Text(
-                                                  '1',
-                                                  style: TextStyle(
-                                                    color: Color(0xFF51628A),
-                                                    fontSize: 14,
-                                                    fontFamily: appFont,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 24,
-                                          height: 24,
-                                          decoration: ShapeDecoration(
-                                            color: Color(0xFFCFE6D8),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(9999),
-                                            ),
-                                          ),
-                                          child:
-                                              Icon(Icons.check_circle_outlined),
-                                        ),
-                                      ],
-                                    ),
-                                  ));
-                            },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 40,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side:
+                                BorderSide(width: 1, color: Color(0xFFDAE9EE)),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Column(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.9,
-                width: MediaQuery.of(context).size.width * 0.80,
-                child: PageView.builder(
-                  itemCount: flashCard.length,
-                  itemBuilder: (context, index) {
-                    return Center(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        flashCard[index],
-                        const SizedBox(height: 24),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.80,
-                          height: 96,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
+                        child: InkWell(
+                          onTap: () {},
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
-                                'Qual seu nível de dificuldade neste card?',
-                                style: TextStyle(
-                                  color: Color(0xFF51628A),
-                                  fontSize: 16,
-                                  fontFamily: appFont,
-                                  fontWeight: FontWeight.w600,
+                              Container(
+                                width: 24,
+                                height: 24,
+                                child: const Icon(
+                                  Icons.arrow_back_outlined,
+                                  color: Colors.black,
                                 ),
                               ),
-                              const SizedBox(height: 16),
-                              Container(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 32, vertical: 8),
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFFC64040),
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    width: 1,
-                                                    color: Color(0xFFC64040)),
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '1',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontFamily: 'Work Sans',
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            'Muito difícil',
-                                            style: TextStyle(
-                                              color: Color(0xFF51628A),
-                                              fontSize: 14,
-                                              fontFamily: appFont,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Container(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 32, vertical: 8),
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFFFEA900),
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8)),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '2',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontFamily: 'Work Sans',
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            'Difícil',
-                                            style: TextStyle(
-                                              color: Color(0xFF51628A),
-                                              fontSize: 14,
-                                              fontFamily: appFont,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Container(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 32, vertical: 8),
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFFFDD700),
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8)),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '3',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontFamily: 'Work Sans',
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            'Normal',
-                                            style: TextStyle(
-                                              color: Color(0xFF51628A),
-                                              fontSize: 14,
-                                              fontFamily: appFont,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Container(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 32, vertical: 8),
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFF20A653),
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8)),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '4',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontFamily: 'Work Sans',
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            'Fácil',
-                                            style: TextStyle(
-                                              color: Color(0xFF51628A),
-                                              fontSize: 14,
-                                              fontFamily: appFont,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Container(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 32, vertical: 8),
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: ShapeDecoration(
-                                              color: Color(0xFF0021C9),
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8)),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '5',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontFamily: 'Work Sans',
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            'Muito fácil',
-                                            style: TextStyle(
-                                              color: Color(0xFF51628A),
-                                              fontSize: 14,
-                                              fontFamily: appFont,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                              const SizedBox(width: 10),
+                              const Text(
+                                'Anterior',
+                                style: TextStyle(
+                                  color: Color(0xFF957B0B),
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ],
                           ),
-                        )
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 8),
+                          decoration: ShapeDecoration(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                width: 1,
+                                strokeAlign: BorderSide.strokeAlignOutside,
+                                color: Color(0xFFCBD5E1),
+                              ),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          ),
+                          child: const Text(
+                            '1',
+                            style: const TextStyle(
+                              color: Color(0xFF0F172A),
+                              fontSize: 16,
+                              fontFamily: appFont,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          '/1',
+                          style: const TextStyle(
+                            color: Color(0xFF0F172A),
+                            fontSize: 16,
+                            fontFamily: appFont,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
                       ],
-                    ));
-                  },
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          height: 40,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: ShapeDecoration(
+                            color: Color(0xFF051333),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Próxima',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Container(
+                                width: 24,
+                                height: 24,
+                                child: const Icon(
+                                  Icons.arrow_forward_outlined,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          )
-        ],
-      ),
-    );
+            );
+          });
+        });
   }
 }

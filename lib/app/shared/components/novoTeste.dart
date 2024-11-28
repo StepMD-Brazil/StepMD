@@ -247,8 +247,8 @@ class NovoTeste extends StatelessWidget {
                                         TextField(
                                             onChanged: (value) {
                                               dbStore.questionIDs = value;
-                                              print(value);
                                             },
+                                            
                                             decoration: InputDecoration(
                                               contentPadding:
                                                   const EdgeInsets.symmetric(

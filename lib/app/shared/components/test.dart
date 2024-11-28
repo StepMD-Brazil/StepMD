@@ -130,6 +130,176 @@ class Test extends StatelessWidget {
                         ),
                       ),
                       Container(
+                        // Barra de progresso e dropdown de questões
+                        width: MediaQuery.of(context).size.width * 0.20,
+                        height: MediaQuery.of(context).size.height,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            left: BorderSide(
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                              color: Color(0xFFDAE9EE),
+                            ),
+                            top: BorderSide(
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                              color: Color(0xFFDAE9EE),
+                            ),
+                            right: BorderSide(
+                              width: 1,
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                              color: Color(0xFFDAE9EE),
+                            ),
+                            bottom: BorderSide(
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                              color: Color(0xFFDAE9EE),
+                            ),
+                          ),
+                        ),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 56,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Seu progresso',
+                                          style: TextStyle(
+                                            color: Color(0xFF51628A),
+                                            fontSize: 12,
+                                            fontFamily: 'Work Sans',
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Text(
+                                          '(${((dbStore.countAnswereds) / snapshot.data!.length * 100).truncate()}%)',
+                                          style: TextStyle(
+                                            color: Color(0xFF51628A),
+                                            fontSize: 12,
+                                            fontFamily: appFont,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 3),
+                                    LinearProgressIndicator(
+                                      value: (dbStore.countAnswereds) /
+                                          snapshot.data!.length,
+                                      backgroundColor: Colors.grey[300],
+                                      color: Colors.blue,
+                                      minHeight: 10,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(color: Colors.white),
+                                child: DropdownButton<String>(
+                                  hint: Text("Selecione uma opção"),
+                                  value:
+                                      '${snapshot.data![dbStore.questionSelect]['label']}',
+                                  isExpanded: true,
+                                  items: snapshot.data!
+                                      .map<DropdownMenuItem<String>>((item) {
+                                    return DropdownMenuItem<String>(
+                                      value: item['label'],
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            '${snapshot.data!.indexOf(item) + 1} - ${item['label']}',
+                                            style: TextStyle(
+                                              color: snapshot.data![dbStore
+                                                              .questionSelect]
+                                                          ['label'] ==
+                                                      item['label']
+                                                  ? Color.fromRGBO(
+                                                      34, 109, 159, 1)
+                                                  : Color.fromRGBO(
+                                                      5, 19, 51, 1),
+                                              fontSize: 14,
+                                              fontFamily: appFont,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          Container(
+                                            width: 24,
+                                            height: 24,
+                                            decoration: ShapeDecoration(
+                                              color: dbStore.answers[snapshot
+                                                          .data!
+                                                          .indexOf(item)]['status'] ==
+                                                      1
+                                                  ? Color(0xFFCFE6D8)
+                                                  : dbStore.answers[snapshot
+                                                              .data!
+                                                              .indexOf(
+                                                                  item)]['status'] ==
+                                                          -1
+                                                      ? Color(0xFFF8D7DA)
+                                                      : Color(0xFFE0E0E0),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(9999),
+                                              ),
+                                            ),
+                                            child: Icon(
+                                              dbStore.answers[snapshot.data!
+                                                          .indexOf(item)]['status'] ==
+                                                      1
+                                                  ? Icons.check_circle_outlined
+                                                  : dbStore.answers[snapshot
+                                                              .data!
+                                                              .indexOf(
+                                                                  item)]['status'] ==
+                                                          -1
+                                                      ? Icons.close_rounded
+                                                      : Icons.info_outline,
+                                              color: dbStore.answers[snapshot
+                                                          .data!
+                                                          .indexOf(item)]['status'] ==
+                                                      1
+                                                  ? Colors.green
+                                                  : dbStore.answers[snapshot
+                                                              .data!
+                                                              .indexOf(
+                                                                  item)]['status'] ==
+                                                          -1
+                                                      ? Colors.red
+                                                      : null,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValue) {
+                                    final selectedIndex = snapshot.data!
+                                        .indexWhere((item) =>
+                                            item['label'] == newValue);
+
+                                    if (selectedIndex != -1) {
+                                      dbStore.setSelect(selectedIndex);
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -298,185 +468,13 @@ class Test extends StatelessWidget {
               body: SingleChildScrollView(
                 child: Row(
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.20,
-                      height: MediaQuery.of(context).size.height,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          left: BorderSide(
-                            strokeAlign: BorderSide.strokeAlignOutside,
-                            color: Color(0xFFDAE9EE),
-                          ),
-                          top: BorderSide(
-                            strokeAlign: BorderSide.strokeAlignOutside,
-                            color: Color(0xFFDAE9EE),
-                          ),
-                          right: BorderSide(
-                            width: 1,
-                            strokeAlign: BorderSide.strokeAlignOutside,
-                            color: Color(0xFFDAE9EE),
-                          ),
-                          bottom: BorderSide(
-                            strokeAlign: BorderSide.strokeAlignOutside,
-                            color: Color(0xFFDAE9EE),
-                          ),
-                        ),
-                      ),
-                      child: Expanded(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 56,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Seu progresso',
-                                          style: TextStyle(
-                                            color: Color(0xFF51628A),
-                                            fontSize: 12,
-                                            fontFamily: 'Work Sans',
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        Text(
-                                          '(${((dbStore.countAnswereds) / snapshot.data!.length * 100).truncate()}%)',
-                                          style: TextStyle(
-                                            color: Color(0xFF51628A),
-                                            fontSize: 12,
-                                            fontFamily: appFont,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 3),
-                                    LinearProgressIndicator(
-                                      value: (dbStore.countAnswereds) /
-                                          snapshot.data!.length,
-                                      backgroundColor: Colors.grey[300],
-                                      color: Colors.blue,
-                                      minHeight: 10,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(color: Colors.white),
-                                child: DropdownButton<String>(
-                                  hint: Text("Selecione uma opção"),
-                                  value:
-                                      '${snapshot.data![dbStore.questionSelect]['label']}',
-                                  isExpanded: true,
-                                  items: snapshot.data!
-                                      .map<DropdownMenuItem<String>>((item) {
-                                    return DropdownMenuItem<String>(
-                                      value: item['label'],
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            '${snapshot.data!.indexOf(item) + 1} - ${item['label']}',
-                                            style: TextStyle(
-                                              color: snapshot.data![dbStore
-                                                              .questionSelect]
-                                                          ['label'] ==
-                                                      item['label']
-                                                  ? Color.fromRGBO(
-                                                      34, 109, 159, 1)
-                                                  : Color.fromRGBO(
-                                                      5, 19, 51, 1),
-                                              fontSize: 14,
-                                              fontFamily: appFont,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          Spacer(),
-                                          Container(
-                                            width: 24,
-                                            height: 24,
-                                            decoration: ShapeDecoration(
-                                              color: dbStore.answers[snapshot
-                                                          .data!
-                                                          .indexOf(item)][0] ==
-                                                      1
-                                                  ? Color(0xFFCFE6D8)
-                                                  : dbStore.answers[snapshot
-                                                              .data!
-                                                              .indexOf(
-                                                                  item)][0] ==
-                                                          -1
-                                                      ? Color(0xFFF8D7DA)
-                                                      : Color(0xFFE0E0E0),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(9999),
-                                              ),
-                                            ),
-                                            child: Icon(
-                                              dbStore.answers[snapshot.data!
-                                                          .indexOf(item)][0] ==
-                                                      1
-                                                  ? Icons.check_circle_outlined
-                                                  : dbStore.answers[snapshot
-                                                              .data!
-                                                              .indexOf(
-                                                                  item)][0] ==
-                                                          -1
-                                                      ? Icons.close_rounded
-                                                      : Icons.info_outline,
-                                              color: dbStore.answers[snapshot
-                                                          .data!
-                                                          .indexOf(item)][0] ==
-                                                      1
-                                                  ? Colors.green
-                                                  : dbStore.answers[snapshot
-                                                              .data!
-                                                              .indexOf(
-                                                                  item)][0] ==
-                                                          -1
-                                                      ? Colors.red
-                                                      : null,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (newValue) {
-                                    final selectedIndex = snapshot.data!
-                                        .indexWhere((item) =>
-                                            item['label'] == newValue);
-
-                                    if (selectedIndex != -1) {
-                                      dbStore.setSelect(
-                                          selectedIndex); // Passa o índice para o dbStore
-                                    }
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
                     Expanded(
                       child: Column(
                         children: <Widget>[
                           Container(
                             height: 822,
                             padding: const EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 24),
+                                vertical: 40, horizontal: 150),
                             decoration: ShapeDecoration(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(32),

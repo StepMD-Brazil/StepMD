@@ -25,6 +25,22 @@ mixin _$ConfiguracaoStore on _ConfiguracaoStoreBase, Store {
     });
   }
 
+  late final _$fontSizeAtom =
+      Atom(name: '_ConfiguracaoStoreBase.fontSize', context: context);
+
+  @override
+  int get fontSize {
+    _$fontSizeAtom.reportRead();
+    return super.fontSize;
+  }
+
+  @override
+  set fontSize(int value) {
+    _$fontSizeAtom.reportWrite(value, super.fontSize, () {
+      super.fontSize = value;
+    });
+  }
+
   late final _$_ConfiguracaoStoreBaseActionController =
       ActionController(name: '_ConfiguracaoStoreBase', context: context);
 
@@ -42,7 +58,8 @@ mixin _$ConfiguracaoStore on _ConfiguracaoStoreBase, Store {
   @override
   String toString() {
     return '''
-value: ${value}
+value: ${value},
+fontSize: ${fontSize}
     ''';
   }
 }
