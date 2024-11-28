@@ -113,6 +113,14 @@ flutter:
     - assets/svg/icon-rotation.svg
     - assets/svg/icon-edit_square.svg
     - assets/svg/icon-delete.svg
+    - assets/svg/desktop_windows.svg
+    - assets/svg/g_translate.svg
+    - assets/svg/custom_typography.svg
+    - assets/svg/brazil.svg
+    - assets/svg/eua.svg
+    - assets/svg/contrast.svg
+    - assets/img/eua.png
+    - assets/img/brazil.png
     - assets/img/banner.png
 
   #   - images/a_dot_burr.jpeg
