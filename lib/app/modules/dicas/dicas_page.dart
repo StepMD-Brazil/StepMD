@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:stepmd/app/modules/dicas/dicas_store.dart';
 import 'package:flutter/material.dart';
+import 'package:stepmd/app/shared/constants.dart';
 
 class DicasPage extends StatefulWidget {
   final String title;
@@ -8,6 +9,7 @@ class DicasPage extends StatefulWidget {
   @override
   DicasPageState createState() => DicasPageState();
 }
+
 class DicasPageState extends State<DicasPage> {
   final DicasStore store = Modular.get();
 
@@ -15,7 +17,16 @@ class DicasPageState extends State<DicasPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Dicas',
+          style: TextStyle(
+            color: Color(0xFF957B0B),
+            fontSize: 20,
+            fontFamily: appFont,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
       ),
       body: Column(
         children: <Widget>[],
