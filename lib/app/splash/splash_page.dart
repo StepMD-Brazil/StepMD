@@ -25,9 +25,9 @@ class SplashPageState extends State<SplashPage> {
 
     disposer = autorun(
       (_) async {
-        print(rootStore.status);
+        print('Status rooo ${rootStore.status}');
         if (rootStore.status == AuthStatus.signed_in) {
-          rootStore.setSelectedTrunk(2);
+          rootStore.setSelectedTrunk(1);
         } else if (rootStore.status == AuthStatus.signed_out) {
           rootStore.setSelectedTrunk(0);
         }
