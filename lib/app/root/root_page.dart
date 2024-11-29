@@ -27,7 +27,6 @@ class RootPageState extends State<RootPage> {
   }
 
   List<Widget> trunkModule = [
-    const SplashPage(),
     const SigninPage(),
     const HomePage(),
   ];

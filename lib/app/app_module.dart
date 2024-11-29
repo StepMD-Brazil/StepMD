@@ -10,6 +10,7 @@ import 'package:stepmd/app/modules/signin/signin_module.dart';
 import 'package:stepmd/app/modules/signin/signin_store.dart';
 import 'package:stepmd/app/modules/suporte/suporte_store.dart';
 import 'package:stepmd/app/root/root_module.dart';
+import 'package:stepmd/app/root/root_store.dart';
 import 'package:stepmd/app/splash/splash_module.dart';
 import 'package:stepmd/app/splash/splash_store.dart';
 
@@ -32,6 +33,7 @@ class AppModule extends Module {
     i.addSingleton(DicasStore.new);
     i.addSingleton(SuporteStore.new);
     i.addSingleton(ConfiguracaoStore.new);
+    i.addSingleton(RootStore.new);
   }
 
   @override
