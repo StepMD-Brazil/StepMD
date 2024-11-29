@@ -22,7 +22,7 @@ class ConfiguracaoPageState extends State<ConfiguracaoPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text(
-          'Configirações',
+          'Configurações',
           style: TextStyle(
             color: Color(0xFF957B0B),
             fontSize: 20,

@@ -23,6 +23,8 @@ abstract class _FlashcardsStoreBase with Store {
   @observable
   int cardSelect = 0;
 
+  
+
   @observable
   List<String> disciplineIds = ["iFhgQRItAJsZ5sjcgnE9"];
 

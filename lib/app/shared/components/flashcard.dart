@@ -46,17 +46,7 @@ class Flashcard extends StatelessWidget {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Blastomycosis',
-                        style: TextStyle(
-                          color: Color(0xFF51628A),
-                          fontSize: 16,
-                          fontFamily: 'Mulish',
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      TextSpan(
-                        text:
-                            ' is characterized by progressive pulmonary infection.  Skin involvement i " . s uncommon but can manifest as papular or pustular lesions in exposed areas.  Histoplasmosis also most commonly causes pulmonary disease, though it may become disseminated in immunodeficient patients.',
+                        text: "",
                         style: TextStyle(
                           color: Color(0xFF51628A),
                           fontSize: 16,
@@ -121,7 +111,7 @@ class Flashcard extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'Verso',
+                'Frente',
                 style: TextStyle(
                   color: Color(0xFF4091C6),
                   fontSize: 14,
@@ -488,7 +478,9 @@ class Flashcard extends StatelessWidget {
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
                               return GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  flashStore.setSelect(index);
+                                },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 8, horizontal: 16),
@@ -504,15 +496,90 @@ class Flashcard extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Text(
-                                        '${index + 1} - ${snapshot.data![index]['flashcardId']}',
+                                        '0${index + 1} ${snapshot.data![index]['text'].length > 30 ? snapshot.data![index]['text'].substring(0, 30) : snapshot.data![index]['text']}...',
                                         style: const TextStyle(
                                           color: Color.fromRGBO(5, 19, 51, 1),
                                           fontSize: 14,
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                       const Spacer(),
-                                      Icon(Icons.check_circle_outlined),
+                                      snapshot.data![index]['difficulty'] == 1
+                                          ? Container(
+                                              width: 25, // Largura do círculo
+                                              height: 25, // Altura do círculo
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Color(
+                                                    0xFFC64040), // Preenchimento do círculo
+                                              ),
+                                            )
+                                          : snapshot.data![index]
+                                                      ['difficulty'] ==
+                                                  2
+                                              ? Container(
+                                                  width:
+                                                      25, // Largura do círculo
+                                                  height:
+                                                      25, // Altura do círculo
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Color(
+                                                        0xFFFEA900), // Preenchimento do círculo
+                                                  ),
+                                                )
+                                              : snapshot.data![index]
+                                                          ['difficulty'] ==
+                                                      3
+                                                  ? Container(
+                                                      width:
+                                                          25, // Largura do círculo
+                                                      height:
+                                                          25, // Altura do círculo
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: Color(
+                                                            0xFFFDD700), // Preenchimento do círculo
+                                                      ),
+                                                    )
+                                                  : snapshot.data![index]
+                                                              ['difficulty'] ==
+                                                          4
+                                                      ? Container(
+                                                          width:
+                                                              25, // Largura do círculo
+                                                          height:
+                                                              25, // Altura do círculo
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            color: Color(
+                                                                0xFF20A653), // Preenchimento do círculo
+                                                          ),
+                                                        )
+                                                      : snapshot.data![index][
+                                                                  'difficulty'] ==
+                                                              5
+                                                          ? Container(
+                                                              width:
+                                                                  25, // Largura do círculo
+                                                              height:
+                                                                  25, // Altura do círculo
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: Color(
+                                                                    0xFF0022C9), // Preenchimento do círculo
+                                                              ),
+                                                            )
+                                                          : Container(
+                                                              width:
+                                                                  25, // Largura do círculo
+                                                              height:
+                                                                  25, // Altura do círculo
+                                                            ),
                                     ],
                                   ),
                                 ),
@@ -536,7 +603,7 @@ class Flashcard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                flashCard[index],
+                                flashCard[flashStore.cardSelect],
                                 const SizedBox(height: 24),
                                 Container(
                                   width:
@@ -928,7 +995,11 @@ class Flashcard extends StatelessWidget {
                           ),
                         ),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            if (flashStore.cardSelect > 0) {
+                              flashStore.setSelect(flashStore.cardSelect - 1);
+                            }
+                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -975,8 +1046,8 @@ class Flashcard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(6),
                             ),
                           ),
-                          child: const Text(
-                            '1',
+                          child: Text(
+                            '${flashStore.cardSelect + 1}',
                             style: const TextStyle(
                               color: Color(0xFF0F172A),
                               fontSize: 16,
@@ -986,8 +1057,8 @@ class Flashcard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        const Text(
-                          '/1',
+                        Text(
+                          '/${snapshot.data!.length}',
                           style: const TextStyle(
                             color: Color(0xFF0F172A),
                             fontSize: 16,
@@ -1000,7 +1071,11 @@ class Flashcard extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          if (flashStore.cardSelect < snapshot.data!.length - 1) {
+                            flashStore.setSelect(flashStore.cardSelect + 1);
+                          }
+                        },
                         child: Container(
                           height: 40,
                           clipBehavior: Clip.antiAlias,

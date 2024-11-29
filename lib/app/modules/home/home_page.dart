@@ -180,90 +180,93 @@ class HomePageState extends State<HomePage> {
                         ),
                         selected: _selectedIndex == 1,
                         onTap: () {
-                          // Update the state of the app
-                          _onItemTapped(1);
-                          // Then close the drawer
+                          _onItemTapped(1); // Ativa "Banco de questões"
+                          store.selectedIndexDB = 0;
                           Navigator.pop(context);
                         },
                       ),
                       Visibility(
-                        visible: _selectedIndex == 1,
-                        child: ListTile(
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 40,
-                                width: MediaQuery.of(context).size.width * 0.11,
-                                decoration: store.selectedIndexDB == 0
-                                    ? ShapeDecoration(
-                                        color: Color(0xFFE1F3FF),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(6)),
-                                      )
-                                    : const BoxDecoration(),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: const Text(
-                                    'Novo teste',
-                                    style: TextStyle(
-                                      color: appColorPrimary,
-                                      fontSize: 14,
-                                      fontFamily: appFont,
-                                      fontWeight: FontWeight.w500,
+                        visible: _selectedIndex ==
+                            1, // Ativa apenas quando "Banco de questões" está ativo
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 40,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.11,
+                                    decoration: store.selectedIndexDB == 0
+                                        ? ShapeDecoration(
+                                            color: Color(0xFFFFEFAD),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                            ),
+                                          )
+                                        : const BoxDecoration(),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: const Text(
+                                        'Novo teste',
+                                        style: TextStyle(
+                                          color: appColorPrimary,
+                                          fontSize: 14,
+                                          fontFamily: appFont,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
-                          ),
-                          selected: store.selectedIndexDB == 0,
-                          onTap: () async {
-                            // Update the state of the app
-                            store.selectedIndexDB = 0;
-                            // Then close the drawer
-                          },
-                        ),
-                      ),
-                      Visibility(
-                        visible: _selectedIndex == 1,
-                        child: ListTile(
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 40,
-                                width: MediaQuery.of(context).size.width * 0.11,
-                                decoration: store.selectedIndexDB == 1
-                                    ? ShapeDecoration(
-                                        color: Color(0xFFE1F3FF),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(6)),
-                                      )
-                                    : const BoxDecoration(),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: const Text(
-                                    'Testes realizados',
-                                    style: TextStyle(
-                                      color: appColorPrimary,
-                                      fontSize: 14,
-                                      fontFamily: appFont,
-                                      fontWeight: FontWeight.w500,
+                              selected: store.selectedIndexDB == 0,
+                              onTap: () async {
+                                store.selectedIndexDB =
+                                    0; // Atualiza o índice do Banco de questões
+                              },
+                            ),
+                            ListTile(
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 40,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.11,
+                                    decoration: store.selectedIndexDB == 1
+                                        ? ShapeDecoration(
+                                            color: Color(0xFFFFEFAD),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                            ),
+                                          )
+                                        : const BoxDecoration(),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: const Text(
+                                        'Testes realizados',
+                                        style: TextStyle(
+                                          color: appColorPrimary,
+                                          fontSize: 14,
+                                          fontFamily: appFont,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
-                          ),
-                          selected: store.selectedIndexDB == 1,
-                          onTap: () {
-                            // Update the state of the app
-                            store.selectedIndexDB = 1;
-                            // Then close the drawer
-                          },
+                              selected: store.selectedIndexDB == 1,
+                              onTap: () {
+                                store.selectedIndexDB =
+                                    1; // Atualiza o índice do Banco de questões
+                              },
+                            ),
+                          ],
                         ),
                       ),
                       ListTile(
@@ -286,12 +289,99 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 2,
+                        selected: _selectedIndex == 2, // Define o estado selecionado de Flashcards
                         onTap: () async {
-                          // Update the state of the app
-                          _onItemTapped(2);
-                          // Then close the drawer
+                          _onItemTapped(2); // Atualiza o índice principal para Flashcards
+                          store.selectedIndexDB =
+                              -1; // Reseta o estado de subitens
+                          Navigator.pop(context);
                         },
+                      ),
+                      Visibility(
+                        visible: _selectedIndex ==
+                            2, // Ativa os subitens apenas quando Flashcards está selecionado
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 40,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.11,
+                                    decoration: store.selectedIndexDB == 0
+                                        ? ShapeDecoration(
+                                            color: Color(0xFFFFEFAD),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                            ),
+                                          )
+                                        : const BoxDecoration(),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: const Text(
+                                        'Meus decks',
+                                        style: TextStyle(
+                                          color: appColorPrimary,
+                                          fontSize: 14,
+                                          fontFamily: appFont,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              selected: store.selectedIndexDB ==
+                                  0, // Verifica o estado do subitem
+                              onTap: () async {
+                                store.selectedIndexDB =
+                                    0; // Atualiza o índice de subitens
+                              },
+                            ),
+                            ListTile(
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 40,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.11,
+                                    decoration: store.selectedIndexDB == 1
+                                        ? ShapeDecoration(
+                                            color: Color(0xFFFFEFAD),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                            ),
+                                          )
+                                        : const BoxDecoration(),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: const Text(
+                                        'Decks prontos',
+                                        style: TextStyle(
+                                          color: appColorPrimary,
+                                          fontSize: 14,
+                                          fontFamily: appFont,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              selected: store.selectedIndexDB ==
+                                  1, // Verifica o estado do subitem
+                              onTap: () {
+                                store.selectedIndexDB =
+                                    1; // Atualiza o índice de subitens
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                       ListTile(
                         title: Row(
