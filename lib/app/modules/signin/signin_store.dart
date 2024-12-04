@@ -44,6 +44,8 @@ abstract class _SigninStoreBase with Store {
 
   @action
   Future<void> createUserWithPhone(String phoneNumber, String smsCode) async {
+    print('Phone number: $phoneNumber');
+    print('SMS code: $smsCode');
     try {
       // Verify the phone number with the provided SMS code
       final AuthCredential credential = PhoneAuthProvider.credential(
@@ -63,6 +65,7 @@ abstract class _SigninStoreBase with Store {
           .get();
 
       if (!userDoc.exists) {
+        print('User does not exist');
         // Create a new document for the user in Firestore
         await FirebaseFirestore.instance
             .collection('users')
@@ -74,11 +77,18 @@ abstract class _SigninStoreBase with Store {
           'dataBirth': '',
           'imageUrl': '',
           'name': '',
-          'surname': ''
+          'gender': '',
+          'surname': '',
+          'nickname': '',
+          'language': '',
+          'tema': '',
+          'email': ''
         });
-        rootStore.setSelectedTrunk(1);
+        Modular.to.pushReplacementNamed('/home');
       } else {
-        rootStore.setSelectedTrunk(1);
+        print('User  exist');
+
+        Modular.to.pushReplacementNamed('/home');
       }
     } catch (e) {
       print('Failed to create user: $e');

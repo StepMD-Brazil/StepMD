@@ -9,7 +9,16 @@ abstract class _ConfiguracaoStoreBase with Store {
   int value = 0;
   @observable
   int fontSize = 0;
-  @action
+  @observable
+  String name = '';
+  @observable
+  String birthDate = '';
+  @observable
+  String email = '';
+  @observable
+  String nickname = '';
+  @observable
+  String tema = '';
   void increment() {
     value++;
   }

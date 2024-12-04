@@ -41,25 +41,96 @@ mixin _$ConfiguracaoStore on _ConfiguracaoStoreBase, Store {
     });
   }
 
-  late final _$_ConfiguracaoStoreBaseActionController =
-      ActionController(name: '_ConfiguracaoStoreBase', context: context);
+  late final _$nameAtom =
+      Atom(name: '_ConfiguracaoStoreBase.name', context: context);
 
   @override
-  void increment() {
-    final _$actionInfo = _$_ConfiguracaoStoreBaseActionController.startAction(
-        name: '_ConfiguracaoStoreBase.increment');
-    try {
-      return super.increment();
-    } finally {
-      _$_ConfiguracaoStoreBaseActionController.endAction(_$actionInfo);
-    }
+  String get name {
+    _$nameAtom.reportRead();
+    return super.name;
+  }
+
+  @override
+  set name(String value) {
+    _$nameAtom.reportWrite(value, super.name, () {
+      super.name = value;
+    });
+  }
+
+  late final _$birthDateAtom =
+      Atom(name: '_ConfiguracaoStoreBase.birthDate', context: context);
+
+  @override
+  String get birthDate {
+    _$birthDateAtom.reportRead();
+    return super.birthDate;
+  }
+
+  @override
+  set birthDate(String value) {
+    _$birthDateAtom.reportWrite(value, super.birthDate, () {
+      super.birthDate = value;
+    });
+  }
+
+  late final _$emailAtom =
+      Atom(name: '_ConfiguracaoStoreBase.email', context: context);
+
+  @override
+  String get email {
+    _$emailAtom.reportRead();
+    return super.email;
+  }
+
+  @override
+  set email(String value) {
+    _$emailAtom.reportWrite(value, super.email, () {
+      super.email = value;
+    });
+  }
+
+  late final _$nicknameAtom =
+      Atom(name: '_ConfiguracaoStoreBase.nickname', context: context);
+
+  @override
+  String get nickname {
+    _$nicknameAtom.reportRead();
+    return super.nickname;
+  }
+
+  @override
+  set nickname(String value) {
+    _$nicknameAtom.reportWrite(value, super.nickname, () {
+      super.nickname = value;
+    });
+  }
+
+  late final _$temaAtom =
+      Atom(name: '_ConfiguracaoStoreBase.tema', context: context);
+
+  @override
+  String get tema {
+    _$temaAtom.reportRead();
+    return super.tema;
+  }
+
+  @override
+  set tema(String value) {
+    _$temaAtom.reportWrite(value, super.tema, () {
+      super.tema = value;
+    });
   }
 
   @override
   String toString() {
     return '''
 value: ${value},
-fontSize: ${fontSize}
+fontSize: ${fontSize},
+name: ${name},
+birthDate: ${birthDate},
+email: ${email},
+nickname: ${nickname},
+tema: ${tema}
     ''';
   }
 }

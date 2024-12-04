@@ -38,25 +38,25 @@ abstract class _RootStoreBase with Store {
 
   @action
   setUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
-      if (!userDoc.exists) {
-        status = AuthStatus.signed_in;
-        selectedTrunk = 1;
-      } else {
-        status = AuthStatus.signed_in;
+    // User? user = FirebaseAuth.instance.currentUser;
+    // if (user != null) {
+    //   final userDoc = await FirebaseFirestore.instance
+    //       .collection('users')
+    //       .doc(user.uid)
+    //       .get();
+    //   if (!userDoc.exists) {
+    //     status = AuthStatus.signed_in;
+    //     selectedTrunk = 1;
+    //   } else {
+    //     status = AuthStatus.signed_in;
 
-        selectedTrunk = 0;
-      }
-    } else {
-      status = AuthStatus.signed_in;
+    //     selectedTrunk = 0;
+    //   }
+    // } else {
+    //   status = AuthStatus.signed_in;
 
-      selectedTrunk = 0;
-    }
+    //   selectedTrunk = 0;
+    // }
   }
 
   signIn(newToken, user, type) async {
@@ -65,10 +65,12 @@ abstract class _RootStoreBase with Store {
   }
 
   signout() async {
-    status = AuthStatus.signed_out;
+    print('signout');
+    status = await AuthStatus.signed_out;
+    await FirebaseAuth.instance.signOut();
     selectedTrunk = 0;
 
-    await Modular.to.pushReplacementNamed('/');
+    await Modular.to.pushReplacementNamed('/signin');
   }
 
   @action

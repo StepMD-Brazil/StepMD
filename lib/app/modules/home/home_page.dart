@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,6 +12,7 @@ import 'package:stepmd/app/modules/initialPage/initialPage_page.dart';
 import 'package:stepmd/app/modules/notebook/notebook_page.dart';
 import 'package:stepmd/app/modules/notes/notes_page.dart';
 import 'package:stepmd/app/modules/suporte/suporte_page.dart';
+import 'package:stepmd/app/root/root_store.dart';
 import 'package:stepmd/app/shared/constants.dart';
 
 import '../artigos/artigos_page.dart';
@@ -24,6 +26,8 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   final HomeStore store = Modular.get();
+  final RootStore rootStore = Modular.get();
+
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
@@ -42,6 +46,13 @@ class HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('Home Page ${FirebaseAuth.instance.currentUser!.uid}');
   }
 
   @override
@@ -289,9 +300,11 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 2, // Define o estado selecionado de Flashcards
+                        selected: _selectedIndex ==
+                            2, // Define o estado selecionado de Flashcards
                         onTap: () async {
-                          _onItemTapped(2); // Atualiza o índice principal para Flashcards
+                          _onItemTapped(
+                              2); // Atualiza o índice principal para Flashcards
                           store.selectedIndexDB =
                               -1; // Reseta o estado de subitens
                           Navigator.pop(context);
@@ -545,6 +558,7 @@ class HomePageState extends State<HomePage> {
                         onTap: () {
                           // Update the state of the app
                           _onItemTapped(8);
+
                           // Then close the drawer
                         },
                       ),
@@ -568,10 +582,12 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 5,
-                        onTap: () {
+                        selected: _selectedIndex == 9,
+                        onTap: () async {
                           // Update the state of the app
-                          _onItemTapped(5);
+                          _onItemTapped(9);
+                          await rootStore.signout();
+
                           // Then close the drawer
                         },
                       ),

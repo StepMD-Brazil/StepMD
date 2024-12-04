@@ -85,11 +85,7 @@ class VerifyPage extends StatelessWidget {
                       store.createUserWithPhone(store.phone, code);
                     },
                     onCodeChanged: (code) {
-                      if (code!.length == 6) {
-                        code = store.code;
-
-                        FocusScope.of(context).requestFocus(FocusNode());
-                      }
+                      store.code = code ?? '';
                     },
                   ),
                   const SizedBox(height: 8),
@@ -104,7 +100,8 @@ class VerifyPage extends StatelessWidget {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text('Código inválido'),
-                              content: Text('Por favor, insira um código válido.'),
+                              content:
+                                  Text('Por favor, insira um código válido.'),
                               actions: <Widget>[
                                 TextButton(
                                   child: Text('OK'),
