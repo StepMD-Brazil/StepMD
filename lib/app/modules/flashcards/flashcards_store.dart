@@ -23,8 +23,6 @@ abstract class _FlashcardsStoreBase with Store {
   @observable
   int cardSelect = 0;
 
-  
-
   @observable
   List<String> disciplineIds = ["iFhgQRItAJsZ5sjcgnE9"];
 
@@ -36,6 +34,8 @@ abstract class _FlashcardsStoreBase with Store {
 
   Timer? _timer;
 
+  @observable
+  ObservableList<String> checkedCategories = ObservableList<String>();
 
   @action
   void fetchcardsByIdsAsStream(List<String> disciplineIds) {
@@ -43,7 +43,7 @@ abstract class _FlashcardsStoreBase with Store {
       // Transformar a consulta Firestore em um Stream
       final collection = FirebaseFirestore.instance.collection("flashcards");
       final stream = collection
-          .where("disciplineId", whereIn: disciplineIds)
+          .where("categoryId", whereIn: disciplineIds)
           .snapshots()
           .map((querySnapshot) =>
               querySnapshot.docs.map((doc) => doc.data()).toList());
@@ -51,7 +51,6 @@ abstract class _FlashcardsStoreBase with Store {
       // Atualizar o ObservableStream
       cardsStream = ObservableStream(stream);
       print(cardsStream);
-
     } catch (e) {
       print("Erro ao criar stream de questões: $e");
       cardsStream = null;
@@ -87,6 +86,19 @@ abstract class _FlashcardsStoreBase with Store {
   @action
   void setSelect(int index) {
     cardSelect = index;
+  }
+
+  @action
+  void toggleCategory(String categoryId) {
+    if (checkedCategories.contains(categoryId)) {
+      checkedCategories.remove(categoryId);
+    } else {
+      checkedCategories.add(categoryId);
+    }
+  }
+
+  bool isChecked(String categoryId) {
+    return checkedCategories.contains(categoryId);
   }
 
   @action

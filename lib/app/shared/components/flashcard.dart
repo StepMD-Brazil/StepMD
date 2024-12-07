@@ -230,7 +230,7 @@ class Flashcard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    flashStore.fetchcardsByIdsAsStream(flashStore.disciplineIds);
+    // flashStore.fetchcardsByIdsAsStream(flashStore.disciplineIds);
     return StreamBuilder(
         stream: flashStore.cardsStream,
         builder: (context, snapshot) {
@@ -1072,7 +1072,8 @@ class Flashcard extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          if (flashStore.cardSelect < snapshot.data!.length - 1) {
+                          if (flashStore.cardSelect <
+                              snapshot.data!.length - 1) {
                             flashStore.setSelect(flashStore.cardSelect + 1);
                           }
                         },

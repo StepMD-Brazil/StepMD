@@ -201,6 +201,22 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
     });
   }
 
+  late final _$checkedCategoriesAtom =
+      Atom(name: '_DbQuestionsStoreBase.checkedCategories', context: context);
+
+  @override
+  ObservableList<String> get checkedCategories {
+    _$checkedCategoriesAtom.reportRead();
+    return super.checkedCategories;
+  }
+
+  @override
+  set checkedCategories(ObservableList<String> value) {
+    _$checkedCategoriesAtom.reportWrite(value, super.checkedCategories, () {
+      super.checkedCategories = value;
+    });
+  }
+
   late final _$finishTestAsyncAction =
       AsyncAction('_DbQuestionsStoreBase.finishTest', context: context);
 
@@ -224,11 +240,22 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
   }
 
   @override
-  void fetchQuestionsByIdsAsStream(List<String> questionIds) {
+  void fetchQuestionsByIds(List<String> questionIds) {
     final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
-        name: '_DbQuestionsStoreBase.fetchQuestionsByIdsAsStream');
+        name: '_DbQuestionsStoreBase.fetchQuestionsByIds');
     try {
-      return super.fetchQuestionsByIdsAsStream(questionIds);
+      return super.fetchQuestionsByIds(questionIds);
+    } finally {
+      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void fetchQuestionsByCategories(List<String> categories) {
+    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
+        name: '_DbQuestionsStoreBase.fetchQuestionsByCategories');
+    try {
+      return super.fetchQuestionsByCategories(categories);
     } finally {
       _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -323,6 +350,17 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
   }
 
   @override
+  void toggleCategory(String categoryId) {
+    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
+        name: '_DbQuestionsStoreBase.toggleCategory');
+    try {
+      return super.toggleCategory(categoryId);
+    } finally {
+      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 questionSelect: ${questionSelect},
@@ -336,7 +374,8 @@ testModel: ${testModel},
 questionIDs: ${questionIDs},
 questions: ${questions},
 questionsStream: ${questionsStream},
-answers: ${answers}
+answers: ${answers},
+checkedCategories: ${checkedCategories}
     ''';
   }
 }

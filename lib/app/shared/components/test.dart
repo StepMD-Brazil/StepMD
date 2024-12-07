@@ -20,7 +20,9 @@ class Test extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          dbStore.startCounter();
+          if (dbStore.testMode == 'cronometrado') {
+            dbStore.startCounter();
+          }
           return Observer(builder: (context) {
             return Scaffold(
               appBar: AppBar(
@@ -294,7 +296,7 @@ class Test extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        child: Row(
+                        child: dbStore.testMode == 'cronometrado' ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -315,7 +317,7 @@ class Test extends StatelessWidget {
                               ),
                             ),
                           ],
-                        ),
+                        ) : null,
                       ),
                       Row(
                         children: [
@@ -333,7 +335,8 @@ class Test extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                dbStore.timeIsRunning
+                                dbStore.testMode != 'cronometrado' ? 
+                                  Container() : dbStore.timeIsRunning
                                     ? InkWell(
                                         onTap: () {
                                           dbStore.stopCounter();
@@ -577,7 +580,7 @@ class Test extends StatelessWidget {
                                                       .symmetric(
                                                       horizontal: 16,
                                                       vertical: 12),
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
                                                         color:

@@ -9,6 +9,8 @@ import 'package:stepmd/app/shared/constants.dart';
 class NovoTeste extends StatelessWidget {
   final DbQuestionsStore dbStore = Modular.get();
 
+  Map<String, bool> _checkedCategories = {};
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -65,18 +67,26 @@ class NovoTeste extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                dbStore.setTestMode("tutor");
+                              },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 6),
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(3)),
-                                ),
-                                child: const Text(
+                                decoration: dbStore.testMode == "tutor"
+                                    ? ShapeDecoration(
+                                        color: Color(0xFF051333),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                      )
+                                    : null,
+                                child: Text(
                                   'Tutor',
                                   style: TextStyle(
-                                    color: Color(0xFF334155),
+                                    color: dbStore.testMode == "tutor"
+                                        ? Colors.white
+                                        : Color(0xFF051333),
                                     fontSize: 14,
                                     fontFamily: appFont,
                                     fontWeight: FontWeight.w500,
@@ -85,19 +95,26 @@ class NovoTeste extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                dbStore.setTestMode("cronometrado");
+                              },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 6),
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFF051333),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)),
-                                ),
-                                child: const Text(
+                                decoration: dbStore.testMode == "cronometrado"
+                                    ? ShapeDecoration(
+                                        color: Color(0xFF051333),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                      )
+                                    : null,
+                                child: Text(
                                   'Cronometrado',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: dbStore.testMode == "cronometrado"
+                                        ? Colors.white
+                                        : Color(0xFF051333),
                                     fontSize: 14,
                                     fontFamily: appFont,
                                     fontWeight: FontWeight.w500,
@@ -135,18 +152,26 @@ class NovoTeste extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                dbStore.setTestModel("stepmd");
+                              },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 6),
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(3)),
-                                ),
-                                child: const Text(
+                                decoration: dbStore.testModel == "stepmd"
+                                    ? ShapeDecoration(
+                                        color: Color(0xFF051333),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                      )
+                                    : null,
+                                child: Text(
                                   'StepMD Simulado',
                                   style: TextStyle(
-                                    color: Color(0xFF334155),
+                                    color: dbStore.testModel == "stepmd"
+                                        ? Colors.white
+                                        : Color(0xFF051333),
                                     fontSize: 14,
                                     fontFamily: appFont,
                                     fontWeight: FontWeight.w500,
@@ -155,18 +180,26 @@ class NovoTeste extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                dbStore.setTestModel("nbme");
+                              },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 6),
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(3)),
-                                ),
-                                child: const Text(
+                                decoration: dbStore.testModel == "nbme"
+                                    ? ShapeDecoration(
+                                        color: Color(0xFF051333),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                      )
+                                    : null,
+                                child: Text(
                                   'Estilo NBME',
                                   style: TextStyle(
-                                    color: Color(0xFF334155),
+                                    color: dbStore.testModel == "nbme"
+                                        ? Colors.white
+                                        : Color(0xFF051333),
                                     fontSize: 14,
                                     fontFamily: appFont,
                                     fontWeight: FontWeight.w500,
@@ -175,19 +208,26 @@ class NovoTeste extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                dbStore.setTestModel("personalizado");
+                              },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 6),
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFF051333),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)),
-                                ),
-                                child: const Text(
+                                decoration: dbStore.testModel == "personalizado"
+                                    ? ShapeDecoration(
+                                        color: Color(0xFF051333),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                      )
+                                    : null,
+                                child: Text(
                                   'Personalizado',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: dbStore.testModel == "personalizado"
+                                        ? Colors.white
+                                        : Color(0xFF051333),
                                     fontSize: 14,
                                     fontFamily: appFont,
                                     fontWeight: FontWeight.w500,
@@ -199,105 +239,215 @@ class NovoTeste extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 32),
-                      Container(
-                        width: double.infinity,
-                        height: 184,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                              child: Text(
-                                'Crie seu próprio teste personalizado utilizando os IDs das questões desejadas',
-                                style: TextStyle(
-                                  color: Color(0xFF51628A),
-                                  fontSize: 16,
-                                  fontFamily: 'Mulish',
-                                  fontWeight: FontWeight.w300,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 24),
-                            Container(
-                              height: 140,
+                      dbStore.testModel == "personalizado"
+                          ? Container(
+                              width: double.infinity,
+                              height: 184,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    'Digite os IDs das questões desejadas',
-                                    style: TextStyle(
-                                      color: Color(0xFF51628A),
-                                      fontSize: 14,
-                                      fontFamily: appFont,
-                                      fontWeight: FontWeight.w500,
+                                  const SizedBox(
+                                    height: 20,
+                                    child: Text(
+                                      'Crie seu próprio teste personalizado utilizando os IDs das questões desejadas',
+                                      style: TextStyle(
+                                        color: Color(0xFF51628A),
+                                        fontSize: 16,
+                                        fontFamily: 'Mulish',
+                                        fontWeight: FontWeight.w300,
+                                      ),
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 24),
                                   Container(
-                                    width: 550,
-                                    height: 80,
+                                    height: 140,
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        TextField(
-                                            onChanged: (value) {
-                                              dbStore.questionIDs = value;
-                                            },
-                                            
-                                            decoration: InputDecoration(
-                                              contentPadding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 12,
-                                                      vertical: 8),
-                                              hintText:
-                                                  'Ex.: #00155/#00157/#00158/...',
-                                              hintStyle: const TextStyle(
-                                                color: Color(0xFF858585),
-                                                fontSize: 14,
-                                                fontFamily: appFont,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(6),
-                                                borderSide: const BorderSide(
-                                                  color: Color(0xFFCBD5E1),
-                                                  width: 1,
-                                                ),
-                                              ),
-                                              filled: true,
-                                              fillColor: Colors.white,
-                                            ),
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontFamily: appFont,
-                                            )),
+                                        const Text(
+                                          'Digite os IDs das questões desejadas',
+                                          style: TextStyle(
+                                            color: Color(0xFF51628A),
+                                            fontSize: 14,
+                                            fontFamily: appFont,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Container(
+                                          width: 550,
+                                          height: 80,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              TextField(
+                                                  onChanged: (value) {
+                                                    dbStore.questionIDs = value;
+                                                  },
+                                                  decoration: InputDecoration(
+                                                    contentPadding:
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 12,
+                                                            vertical: 8),
+                                                    hintText:
+                                                        'Ex.: #00155/#00157/#00158/...',
+                                                    hintStyle: const TextStyle(
+                                                      color: Color(0xFF858585),
+                                                      fontSize: 14,
+                                                      fontFamily: appFont,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                    ),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                        color:
+                                                            Color(0xFFCBD5E1),
+                                                        width: 1,
+                                                      ),
+                                                    ),
+                                                    filled: true,
+                                                    fillColor: Colors.white,
+                                                  ),
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontFamily: appFont,
+                                                  )),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        const Text(
+                                          'Você pode adicionar até 40 IDs separados por barra',
+                                          style: TextStyle(
+                                            color: Color(0xFF858585),
+                                            fontSize: 14,
+                                            fontStyle: FontStyle.italic,
+                                            fontFamily: appFont,
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                        ),
                                       ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  const Text(
-                                    'Você pode adicionar até 40 IDs separados por barra',
-                                    style: TextStyle(
-                                      color: Color(0xFF858585),
-                                      fontSize: 14,
-                                      fontStyle: FontStyle.italic,
-                                      fontFamily: appFont,
-                                      fontWeight: FontWeight.w300,
                                     ),
                                   ),
                                 ],
                               ),
+                            )
+                          : Container(
+                              width: 600,
+                              height: 440,
+                              child: StreamBuilder<QuerySnapshot>(
+                                stream: FirebaseFirestore.instance
+                                    .collection('categories')
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+
+                                  if (snapshot.hasError) {
+                                    return Center(
+                                        child: Text(
+                                            'Erro ao carregar categorias'));
+                                  }
+
+                                  if (!snapshot.hasData ||
+                                      snapshot.data!.docs.isEmpty) {
+                                    return Center(
+                                        child: Text(
+                                            'Nenhuma categoria encontrada'));
+                                  }
+
+                                  final categories = snapshot.data!.docs;
+
+                                  return ListView.builder(
+                                    padding: const EdgeInsets.all(16.0),
+                                    itemCount: categories.length,
+                                    itemBuilder: (context, index) {
+                                      final category = categories[index];
+                                      final categoryId = category.id;
+                                      final categoryName = category['name'];
+                                      // final categoryIcon =
+                                      //     category['icon'] ?? Icons.category;
+
+                                      return Observer(
+                                        builder: (_) => Container(
+                                          margin: const EdgeInsets.only(
+                                              bottom: 12.0),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10.0, horizontal: 16.0),
+                                          decoration: BoxDecoration(
+                                            color: dbStore.isChecked(categoryId)
+                                                ? Colors.blue.shade50
+                                                : Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(0.1),
+                                                blurRadius: 6.0,
+                                                offset: Offset(0, 3),
+                                              ),
+                                            ],
+                                          ),
+                                          child: ListTile(
+                                            contentPadding: EdgeInsets.zero,
+                                            leading: Container(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              decoration: BoxDecoration(
+                                                color: Colors.blue.shade100,
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: Icon(
+                                                Icons.category,
+                                                color: Colors.blue.shade700,
+                                              ),
+                                            ),
+                                            title: Text(
+                                              categoryName,
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.grey.shade800,
+                                              ),
+                                            ),
+                                            trailing: Checkbox(
+                                              value:
+                                                  dbStore.isChecked(categoryId),
+                                              onChanged: (_) {
+                                                dbStore
+                                                    .toggleCategory(categoryId);
+                                              },
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(4.0),
+                                              ),
+                                              activeColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: MediaQuery.sizeOf(context).height * 0.3),
+                      SizedBox(height: 85),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -330,11 +480,23 @@ class NovoTeste extends StatelessWidget {
                           const SizedBox(width: 8),
                           InkWell(
                             onTap: () {
-                              dbStore.splitQuestions(dbStore.questionIDs);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => Test()),
-                              );
+                              if (dbStore.checkedCategories.length != 0 || dbStore.questionIDs.length != 0) {
+                                if (dbStore.testModel == 'personalizado') {
+                                  dbStore.splitQuestions(dbStore.questionIDs);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Test()),
+                                  );
+                                } else {
+                                  dbStore.fetchQuestionsByCategories(dbStore.checkedCategories);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Test()),
+                                  );
+                                }
+                              }
                             },
                             child: Container(
                               width: 114,

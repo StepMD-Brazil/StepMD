@@ -82,7 +82,8 @@ abstract class _SigninStoreBase with Store {
           'nickname': '',
           'language': '',
           'tema': '',
-          'email': ''
+          'email': '',
+          'fontSize': 0
         });
         Modular.to.pushReplacementNamed('/home');
       } else {
