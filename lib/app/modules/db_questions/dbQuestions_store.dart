@@ -28,11 +28,11 @@ abstract class _DbQuestionsStoreBase with Store {
 
   // Modo de teste: Tutor/ cronometrado
   @observable
-  String testMode = "";
+  String testMode = "tutor";
 
   // Modelo de teste: Step Simulado/ NBME/ Personalizado
   @observable
-  String testModel = "";
+  String testModel = "stepmd";
 
   // Apenas para modo personalizado
   @observable
@@ -50,6 +50,8 @@ abstract class _DbQuestionsStoreBase with Store {
   ObservableList<Map<dynamic, dynamic>> answers =
       ObservableList<Map<dynamic, dynamic>>();
 
+  @observable
+  ObservableList<String> checkedCategories = ObservableList<String>();
 
   @action
   void setAnswer(int index, int value, int indexOption) {
@@ -66,7 +68,7 @@ abstract class _DbQuestionsStoreBase with Store {
   }
 
   @action
-  void fetchQuestionsByIdsAsStream(List<String> questionIds) {
+  void fetchQuestionsByIds(List<String> questionIds) {
     try {
       // Transformar a consulta Firestore em um Stream
       final collection = FirebaseFirestore.instance.collection("questions");
@@ -90,9 +92,33 @@ abstract class _DbQuestionsStoreBase with Store {
   }
 
   @action
+  void fetchQuestionsByCategories(List<String> categories) {
+    try {
+      // Transformar a consulta Firestore em um Stream
+      final collection = FirebaseFirestore.instance.collection("questions");
+      final stream = collection
+          .where("categoryId", whereIn: categories)
+          .snapshots()
+          .map((querySnapshot) =>
+              querySnapshot.docs.map((doc) => doc.data()).toList());
+
+      // Atualizar o ObservableStream
+      questionsStream = ObservableStream(stream);
+
+      // Vincular a atualização do `answers` ao stream de perguntas
+      questionsStream?.listen((questions) {
+        fillAnswers(questions);
+      });
+    } catch (e) {
+      print("Erro ao criar stream de questões: $e");
+      questionsStream = null;
+    }
+  }
+
+  @action
   void splitQuestions(String IDs) {
     final List<String> questionIds = IDs.split("/");
-    fetchQuestionsByIdsAsStream(questionIds);
+    fetchQuestionsByIds(questionIds);
   }
 
   @action
@@ -156,12 +182,23 @@ abstract class _DbQuestionsStoreBase with Store {
   }
 
   @action
+  void toggleCategory(String categoryId) {
+    if (checkedCategories.contains(categoryId)) {
+      checkedCategories.remove(categoryId);
+    } else {
+      checkedCategories.add(categoryId);
+    }
+  }
+
+  bool isChecked(String categoryId) {
+    return checkedCategories.contains(categoryId);
+  }
+
+  @action
   finishTest() async {
     print(answers);
-    // 
-    {
-
-    }
+    //
+    {}
 
     //   try {
     //     var response =

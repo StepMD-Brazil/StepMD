@@ -2,6 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stepmd/app/modules/flashcards/flashcards_store.dart';
 import 'package:flutter/material.dart';
+import 'package:stepmd/app/shared/components/novoEstudoFlash.dart';
 import 'package:stepmd/app/shared/constants.dart';
 
 import '../../shared/components/flashcard.dart';
@@ -458,7 +459,7 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Flashcard()),
+                                                  NovoEstudoFlash()),
                                         );
                                       },
                                       child: Container(
