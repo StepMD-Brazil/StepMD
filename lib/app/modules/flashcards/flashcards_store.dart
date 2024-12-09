@@ -24,7 +24,7 @@ abstract class _FlashcardsStoreBase with Store {
   int cardSelect = 0;
 
   @observable
-  List<String> disciplineIds = ["iFhgQRItAJsZ5sjcgnE9"];
+  List<String> disciplineIds = [];
 
   @observable
   List<dynamic> cards = [];
