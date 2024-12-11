@@ -9,225 +9,6 @@ import 'package:flash_card/flash_card.dart';
 class Flashcard extends StatelessWidget {
   final FlashcardsStore flashStore = Modular.get();
 
-  final List<FlashCard> flashCard = List.generate(
-    5,
-    (index) => FlashCard(
-      key: Key(index.toString()),
-      frontWidget: Container(
-          height: 428,
-          width: 912,
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                decoration: ShapeDecoration(
-                  color: Color(0xFFE1F3FF),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(9999),
-                  ),
-                ),
-                child: Text(
-                  'Verso',
-                  style: TextStyle(
-                    color: Color(0xFF4091C6),
-                    fontSize: 14,
-                    fontFamily: 'Mulish',
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              const SizedBox(
-                width: double.infinity,
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "",
-                        style: TextStyle(
-                          color: Color(0xFF51628A),
-                          fontSize: 16,
-                          fontFamily: 'Mulish',
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                height: 40,
-                width: 40,
-                margin: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    border: Border.all(color: Colors.blue, width: 2),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(2, 2),
-                          spreadRadius: 1,
-                          blurRadius: 15)
-                    ]),
-                child: Center(
-                    child: Icon(Icons.volume_down_sharp, color: Colors.blue)),
-              ),
-            ],
-          )),
-      backWidget: Container(
-        width: 912,
-        height: 450,
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-        decoration: ShapeDecoration(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            side: BorderSide(width: 1, color: Color(0xFFDAE9EE)),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          shadows: [
-            BoxShadow(
-              color: Color(0x3FAEAEAE),
-              blurRadius: 4,
-              offset: Offset(0, 4),
-              spreadRadius: 0,
-            )
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              decoration: ShapeDecoration(
-                color: Color(0xFFE1F3FF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9999),
-                ),
-              ),
-              child: Text(
-                'Frente',
-                style: TextStyle(
-                  color: Color(0xFF4091C6),
-                  fontSize: 14,
-                  fontFamily: 'Mulish',
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            const SizedBox(
-              width: double.infinity,
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Blastomycosis',
-                      style: TextStyle(
-                        color: Color(0xFF51628A),
-                        fontSize: 16,
-                        fontFamily: 'Mulish',
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          ' is characterized by progressive pulmonary infection.  Skin involvement i " . s uncommon but can manifest as papular or pustular lesions in exposed areas.  Histoplasmosis also most commonly causes pulmonary disease, though it may become disseminated in immunodeficient patients.',
-                      style: TextStyle(
-                        color: Color(0xFF51628A),
-                        fontSize: 16,
-                        fontFamily: 'Mulish',
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Container(
-              width: double.infinity,
-              height: 200,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 360,
-                    height: 200,
-                    decoration: ShapeDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            "https://firebasestorage.googleapis.com/v0/b/stepmd-ebcd9.appspot.com/o/questions%2FGkIVuh85OLC4tbtApnHR%2Fimages.jpeg?alt=media&token=909f90af-4c8e-4c46-abd6-abc0ebf9eb9f"),
-                        fit: BoxFit.fill,
-                      ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4)),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            Container(
-              width: double.infinity,
-              height: 40,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    clipBehavior: Clip.antiAlias,
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 24,
-                          height: 24,
-                          child: SvgPicture.asset(
-                            'assets/svg/icon-rotation.svg',
-                            color: Color(0xFF4091C6),
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        const Text(
-                          'Virar carta',
-                          style: TextStyle(
-                            color: Color(0xFF4091C6),
-                            fontSize: 14,
-                            fontFamily: 'Work Sans',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-      height: 428,
-      width: 912,
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
     // flashStore.fetchcardsByIdsAsStream(flashStore.disciplineIds);
@@ -596,14 +377,270 @@ class Flashcard extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * 0.85,
                         width: MediaQuery.of(context).size.width * 0.80,
                         child: PageView.builder(
-                          itemCount: flashCard.length,
+                          itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             return Center(
                                 child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                flashCard[flashStore.cardSelect],
+                                FlashCard(
+                                  frontWidget: Container(
+                                      height: 428,
+                                      width: 912,
+                                      padding: const EdgeInsets.all(24),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8),
+                                            decoration: ShapeDecoration(
+                                              color: Color(0xFFE1F3FF),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(9999),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              'Verso',
+                                              style: TextStyle(
+                                                color: Color(0xFF4091C6),
+                                                fontSize: 14,
+                                                fontFamily: 'Mulish',
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 16),
+                                          SizedBox(
+                                            width: double.infinity,
+                                            child: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text:
+                                                        '${snapshot.data![flashStore.cardSelect]['labelVerse']}',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF51628A),
+                                                      fontSize: 16,
+                                                      fontFamily: 'Mulish',
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                    text:
+                                                        ' - ${snapshot.data![flashStore.cardSelect]['textVerse']}',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF51628A),
+                                                      fontSize: 16,
+                                                      fontFamily: 'Mulish',
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 40,
+                                            width: 40,
+                                            margin: const EdgeInsets.all(20),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                    color: Colors.blue,
+                                                    width: 2),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: Colors.grey,
+                                                      offset: Offset(2, 2),
+                                                      spreadRadius: 1,
+                                                      blurRadius: 15)
+                                                ]),
+                                            child: Center(
+                                                child: Icon(
+                                                    Icons.volume_down_sharp,
+                                                    color: Colors.blue)),
+                                          ),
+                                        ],
+                                      )),
+                                  backWidget: Container(
+                                    width: 912,
+                                    height: 450,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 32, vertical: 12),
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            width: 1, color: Color(0xFFDAE9EE)),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      shadows: [
+                                        BoxShadow(
+                                          color: Color(0x3FAEAEAE),
+                                          blurRadius: 4,
+                                          offset: Offset(0, 4),
+                                          spreadRadius: 0,
+                                        )
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          decoration: ShapeDecoration(
+                                            color: Color(0xFFE1F3FF),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(9999),
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'Frente',
+                                            style: TextStyle(
+                                              color: Color(0xFF4091C6),
+                                              fontSize: 14,
+                                              fontFamily: 'Mulish',
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 16),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: Text.rich(
+                                            TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text:
+                                                      '${snapshot.data![flashStore.cardSelect]['label']}',
+                                                  style: TextStyle(
+                                                    color: Color(0xFF51628A),
+                                                    fontSize: 16,
+                                                    fontFamily: 'Mulish',
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text:
+                                                      ' - ${snapshot.data![flashStore.cardSelect]['text']}',
+                                                  style: TextStyle(
+                                                    color: Color(0xFF51628A),
+                                                    fontSize: 16,
+                                                    fontFamily: 'Mulish',
+                                                    fontWeight: FontWeight.w300,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 16),
+                                        Container(
+                                          width: double.infinity,
+                                          height: 200,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                width: 360,
+                                                height: 200,
+                                                decoration: ShapeDecoration(
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        "${snapshot.data![flashStore.cardSelect]['imageUrl']}"),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4)),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(height: 16),
+                                        Container(
+                                          width: double.infinity,
+                                          height: 40,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 8),
+                                                clipBehavior: Clip.antiAlias,
+                                                decoration: ShapeDecoration(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8)),
+                                                ),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      width: 24,
+                                                      height: 24,
+                                                      child: SvgPicture.asset(
+                                                        'assets/svg/icon-rotation.svg',
+                                                        color:
+                                                            Color(0xFF4091C6),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 4),
+                                                    const Text(
+                                                      'Virar carta',
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xFF4091C6),
+                                                        fontSize: 14,
+                                                        fontFamily: 'Work Sans',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  height: 428,
+                                  width: 912,
+                                ),
                                 const SizedBox(height: 24),
                                 Container(
                                   width:

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:stepmd/app/modules/suporte/suporte_store.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,45 @@ class SuportePage extends StatefulWidget {
 
 class SuportePageState extends State<SuportePage> {
   final SuporteStore store = Modular.get();
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController topicController = TextEditingController();
+  final TextEditingController messageController = TextEditingController();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    topicController.dispose();
+    messageController.dispose();
+    super.dispose();
+  }
+
+  void sendFeedback() {
+    final String name = nameController.text;
+    final String topic = topicController.text;
+    final String message = messageController.text;
+
+    if (name.isNotEmpty && topic.isNotEmpty && message.isNotEmpty) {
+      FirebaseFirestore.instance.collection('feedback').add({
+        'name': name,
+        'topic': topic,
+        'message': message,
+        'timestamp': FieldValue.serverTimestamp(),
+      }).then((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Feedback enviado com sucesso!')),
+        );
+      }).catchError((error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao enviar feedback: $error')),
+        );
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Por favor, preencha todos os campos.')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,23 +158,23 @@ class SuportePageState extends State<SuportePage> {
                                               BorderRadius.circular(6),
                                         ),
                                       ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Digite aqui',
-                                            style: TextStyle(
-                                              color: Color(0xFF041233),
-                                              fontSize: 14,
-                                              fontFamily: 'Mulish',
-                                              fontWeight: FontWeight.w300,
-                                            ),
+                                      child: TextField(
+                                        controller: nameController,
+                                        decoration: InputDecoration(
+                                          hintText: 'Digite aqui',
+                                          hintStyle: TextStyle(
+                                            color: Color(0xFF041233),
+                                            fontSize: 14,
+                                            fontFamily: 'Mulish',
+                                            fontWeight: FontWeight.w300,
                                           ),
-                                        ],
+                                          border: InputBorder
+                                              .none, // Remove the hint line
+
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 12, vertical: 16),
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -162,52 +202,38 @@ class SuportePageState extends State<SuportePage> {
                               ),
                               const SizedBox(height: 4),
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.3,
                                 height: 38,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.3,
-                                      height: 38,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 8),
-                                      decoration: ShapeDecoration(
-                                        color: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                            width: 1,
-                                            strokeAlign:
-                                                BorderSide.strokeAlignOutside,
-                                            color: Color(0xFFCBD5E1),
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(6),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Digite aqui',
-                                            style: TextStyle(
-                                              color: Color(0xFF041233),
-                                              fontSize: 14,
-                                              fontFamily: 'Mulish',
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
+                                decoration: ShapeDecoration(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      width: 1,
+                                      strokeAlign:
+                                          BorderSide.strokeAlignOutside,
+                                      color: Color(0xFFCBD5E1),
                                     ),
-                                  ],
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                ),
+                                child: TextField(
+                                  controller: topicController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Digite aqui',
+                                    hintStyle: TextStyle(
+                                      color: Color(0xFF041233),
+                                      fontSize: 14,
+                                      fontFamily: 'Mulish',
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                    border: InputBorder
+                                        .none, // Remove the hint line
+
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 16),
+                                  ),
                                 ),
                               ),
                             ],
@@ -238,43 +264,41 @@ class SuportePageState extends State<SuportePage> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.3,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12, vertical: 8),
-                                        decoration: ShapeDecoration(
-                                          color: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                            side: BorderSide(
-                                              width: 1,
-                                              strokeAlign:
-                                                  BorderSide.strokeAlignOutside,
-                                              color: Color(0xFFCBD5E1),
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(6),
+                                    Container(
+                                      height: 100,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.3,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 8),
+                                      decoration: ShapeDecoration(
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                            width: 1,
+                                            strokeAlign:
+                                                BorderSide.strokeAlignOutside,
+                                            color: Color(0xFFCBD5E1),
                                           ),
+                                          borderRadius:
+                                              BorderRadius.circular(6),
                                         ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Digite aqui',
-                                              style: TextStyle(
-                                                color: Color(0xFF041233),
-                                                fontSize: 14,
-                                                fontFamily: 'Mulish',
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            ),
-                                          ],
+                                      ),
+                                      child: TextField(
+                                        controller: messageController,
+                                        decoration: InputDecoration(
+                                          hintText: 'Digite aqui',
+                                          hintStyle: TextStyle(
+                                            color: Color(0xFF041233),
+                                            fontSize: 14,
+                                            fontFamily: 'Mulish',
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                          border: InputBorder
+                                              .none, // Remove the hint line
+
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 12, vertical: 16),
                                         ),
                                       ),
                                     ),
@@ -285,41 +309,33 @@ class SuportePageState extends State<SuportePage> {
                           ),
                         ),
                         const SizedBox(height: 12),
-                        Container(
-                          width: double.infinity,
-                          height: 36,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                clipBehavior: Clip.antiAlias,
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFF051333),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)),
+                        InkWell(
+                          onTap: sendFeedback,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            clipBehavior: Clip.antiAlias,
+                            decoration: ShapeDecoration(
+                              color: Color(0xFF051333),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Enviar',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontFamily: 'Work Sans',
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Enviar',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontFamily: 'Work Sans',
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],
