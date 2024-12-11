@@ -137,6 +137,22 @@ mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
     });
   }
 
+  late final _$checkedCategoriesAtom =
+      Atom(name: '_FlashcardsStoreBase.checkedCategories', context: context);
+
+  @override
+  ObservableList<String> get checkedCategories {
+    _$checkedCategoriesAtom.reportRead();
+    return super.checkedCategories;
+  }
+
+  @override
+  set checkedCategories(ObservableList<String> value) {
+    _$checkedCategoriesAtom.reportWrite(value, super.checkedCategories, () {
+      super.checkedCategories = value;
+    });
+  }
+
   late final _$finishFlahsCardsAsyncAction =
       AsyncAction('_FlashcardsStoreBase.finishFlahsCards', context: context);
 
@@ -193,6 +209,17 @@ mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
   }
 
   @override
+  void toggleCategory(String categoryId) {
+    final _$actionInfo = _$_FlashcardsStoreBaseActionController.startAction(
+        name: '_FlashcardsStoreBase.toggleCategory');
+    try {
+      return super.toggleCategory(categoryId);
+    } finally {
+      _$_FlashcardsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 seconds: ${seconds},
@@ -202,7 +229,8 @@ timeIsRunning: ${timeIsRunning},
 cardSelect: ${cardSelect},
 disciplineIds: ${disciplineIds},
 cards: ${cards},
-cardsStream: ${cardsStream}
+cardsStream: ${cardsStream},
+checkedCategories: ${checkedCategories}
     ''';
   }
 }

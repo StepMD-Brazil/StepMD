@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
 
 part 'dbQuestions_store.g.dart';
@@ -8,8 +9,13 @@ part 'dbQuestions_store.g.dart';
 class DbQuestionsStore = _DbQuestionsStoreBase with _$DbQuestionsStore;
 
 abstract class _DbQuestionsStoreBase with Store {
+  User? user;
+
   @observable
   int questionSelect = 0;
+
+  @observable
+  int timeSpend = 0;
 
   @observable
   int seconds = 0;
@@ -27,6 +33,9 @@ abstract class _DbQuestionsStoreBase with Store {
   int countAnswereds = 0;
 
   // Modo de teste: Tutor/ cronometrado
+  @observable
+  String testName = "";
+
   @observable
   String testMode = "tutor";
 
@@ -128,7 +137,7 @@ abstract class _DbQuestionsStoreBase with Store {
       answers.add({
         "questionId": question["questionId"] ?? "",
         "indexOption": 0,
-        "discipline": question["categoryId"] ?? "",
+        "categoryId": question["categoryId"] ?? "",
         "topics": question["topics"] ?? "",
         "status": 0,
       });
@@ -139,6 +148,7 @@ abstract class _DbQuestionsStoreBase with Store {
   void startCounter() {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      timeSpend++;
       seconds++;
       if (seconds >= 60) {
         seconds = 0;
@@ -149,6 +159,11 @@ abstract class _DbQuestionsStoreBase with Store {
       }
     });
     timeIsRunning = true;
+  }
+
+  @action
+  void setTestName(String testName) {
+    this.testName = testName;
   }
 
   @action
@@ -196,20 +211,37 @@ abstract class _DbQuestionsStoreBase with Store {
 
   @action
   finishTest() async {
-    print(answers);
-    //
-    {}
+    // print(answers);
+    var newTest;
+    if(testMode == "cronometrado") {
+      newTest = {
+        "name": testName,
+        "mode": testMode,
+        "timeSpend": timeSpend,
+        "userId": FirebaseAuth.instance.currentUser!.uid,
+        "dateCreated": DateTime.now(),
+        "type": testModel,
+        "questions": answers
+      };
+    } else {
+      newTest = {
+        "name": testName,
+        "mode": testMode,
+        "userId": FirebaseAuth.instance.currentUser!.uid,
+        "dateCreated": DateTime.now(),
+        "type": testModel,
+        "questions": answers
+      };
+    }
 
-    //   try {
-    //     var response =
-    //         await FirebaseFirestore.instance.collection("answers").add({
-    //       "questionId": questionId,
-    //       "testId": testId,
-    //       "status": true,
-    //       "timeSpend": timeSpend
-    //     });
-    //   } catch (e) {
-    //     print("Error adding document: $e");
-    //   }
+    try {
+      var response =
+          await FirebaseFirestore.instance.collection("tests").add(newTest);
+      var documentId = response.id;
+      await response.update({"testId": documentId});
+
+    } catch (e) {
+      print("Error adding document: $e");
+    }
   }
 }

@@ -36,16 +36,58 @@ class NovoTeste extends StatelessWidget {
                   ),
                 ),
                 body: Padding(
-                  padding: const EdgeInsets.all(80.0),
+                  padding: const EdgeInsets.all(40.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
+                        'Dê um nome ao seu teste:',
+                        style: TextStyle(
+                          color: Color(0xFF957B0B),
+                          fontSize: 18,
+                          fontFamily: appFont,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        width: 300,
+                        child: TextField(
+                            onChanged: (value) {
+                              dbStore.setTestName(value);
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 8),
+                              hintText: 'Ex.: Meu teste 1',
+                              hintStyle: const TextStyle(
+                                color: Color(0xFF858585),
+                                fontSize: 14,
+                                fontFamily: appFont,
+                                fontWeight: FontWeight.w300,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: const BorderSide(
+                                  color: Color(0xFFCBD5E1),
+                                  width: 1,
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Colors.white,
+                            ),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontFamily: appFont,
+                            )),
+                      ),
+                      const SizedBox(height: 32),
+                      const Text(
                         'Modo da prova',
                         style: TextStyle(
                           color: Color(0xFF957B0B),
-                          fontSize: 20,
+                          fontSize: 18,
                           fontFamily: appFont,
                           fontWeight: FontWeight.w500,
                         ),
@@ -130,7 +172,7 @@ class NovoTeste extends StatelessWidget {
                         'Modelo da prova',
                         style: TextStyle(
                           color: Color(0xFF957B0B),
-                          fontSize: 20,
+                          fontSize: 18,
                           fontFamily: appFont,
                           fontWeight: FontWeight.w500,
                         ),
@@ -346,7 +388,7 @@ class NovoTeste extends StatelessWidget {
                             )
                           : Container(
                               width: 600,
-                              height: 440,
+                              height: 419,
                               child: StreamBuilder<QuerySnapshot>(
                                 stream: FirebaseFirestore.instance
                                     .collection('categories')
@@ -374,7 +416,6 @@ class NovoTeste extends StatelessWidget {
                                   final categories = snapshot.data!.docs;
 
                                   return ListView.builder(
-                                    padding: const EdgeInsets.all(16.0),
                                     itemCount: categories.length,
                                     itemBuilder: (context, index) {
                                       final category = categories[index];
@@ -480,7 +521,8 @@ class NovoTeste extends StatelessWidget {
                           const SizedBox(width: 8),
                           InkWell(
                             onTap: () {
-                              if (dbStore.checkedCategories.length != 0 || dbStore.questionIDs.length != 0) {
+                              if (dbStore.checkedCategories.length != 0 ||
+                                  dbStore.questionIDs.length != 0) {
                                 if (dbStore.testModel == 'personalizado') {
                                   dbStore.splitQuestions(dbStore.questionIDs);
                                   Navigator.push(
@@ -489,7 +531,8 @@ class NovoTeste extends StatelessWidget {
                                         builder: (context) => Test()),
                                   );
                                 } else {
-                                  dbStore.fetchQuestionsByCategories(dbStore.checkedCategories);
+                                  dbStore.fetchQuestionsByCategories(
+                                      dbStore.checkedCategories);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -520,6 +563,7 @@ class NovoTeste extends StatelessWidget {
                               ),
                             ),
                           ),
+                          Container(width: 150,)
                         ],
                       ),
                     ],

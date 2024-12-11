@@ -25,6 +25,22 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
     });
   }
 
+  late final _$timeSpendAtom =
+      Atom(name: '_DbQuestionsStoreBase.timeSpend', context: context);
+
+  @override
+  int get timeSpend {
+    _$timeSpendAtom.reportRead();
+    return super.timeSpend;
+  }
+
+  @override
+  set timeSpend(int value) {
+    _$timeSpendAtom.reportWrite(value, super.timeSpend, () {
+      super.timeSpend = value;
+    });
+  }
+
   late final _$secondsAtom =
       Atom(name: '_DbQuestionsStoreBase.seconds', context: context);
 
@@ -102,6 +118,22 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
   set countAnswereds(int value) {
     _$countAnsweredsAtom.reportWrite(value, super.countAnswereds, () {
       super.countAnswereds = value;
+    });
+  }
+
+  late final _$testNameAtom =
+      Atom(name: '_DbQuestionsStoreBase.testName', context: context);
+
+  @override
+  String get testName {
+    _$testNameAtom.reportRead();
+    return super.testName;
+  }
+
+  @override
+  set testName(String value) {
+    _$testNameAtom.reportWrite(value, super.testName, () {
+      super.testName = value;
     });
   }
 
@@ -295,6 +327,17 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
   }
 
   @override
+  void setTestName(String testName) {
+    final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
+        name: '_DbQuestionsStoreBase.setTestName');
+    try {
+      return super.setTestName(testName);
+    } finally {
+      _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void stopCounter() {
     final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
         name: '_DbQuestionsStoreBase.stopCounter');
@@ -364,11 +407,13 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
   String toString() {
     return '''
 questionSelect: ${questionSelect},
+timeSpend: ${timeSpend},
 seconds: ${seconds},
 minutes: ${minutes},
 hours: ${hours},
 timeIsRunning: ${timeIsRunning},
 countAnswereds: ${countAnswereds},
+testName: ${testName},
 testMode: ${testMode},
 testModel: ${testModel},
 questionIDs: ${questionIDs},

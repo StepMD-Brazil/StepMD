@@ -50,7 +50,6 @@ abstract class _FlashcardsStoreBase with Store {
 
       // Atualizar o ObservableStream
       cardsStream = ObservableStream(stream);
-      print(cardsStream);
     } catch (e) {
       print("Erro ao criar stream de questões: $e");
       cardsStream = null;
