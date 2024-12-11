@@ -153,12 +153,12 @@ mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
     });
   }
 
-  late final _$finishFlahsCardsAsyncAction =
-      AsyncAction('_FlashcardsStoreBase.finishFlahsCards', context: context);
+  late final _$finishFlashcardsAsyncAction =
+      AsyncAction('_FlashcardsStoreBase.finishFlashcards', context: context);
 
   @override
-  Future finishFlahsCards() {
-    return _$finishFlahsCardsAsyncAction.run(() => super.finishFlahsCards());
+  Future finishFlashcards() {
+    return _$finishFlashcardsAsyncAction.run(() => super.finishFlashcards());
   }
 
   late final _$_FlashcardsStoreBaseActionController =

@@ -68,9 +68,6 @@ abstract class _DbQuestionsStoreBase with Store {
       answers[index]['status'] = value;
       answers[index]['indexOption'] = indexOption;
 
-      if (value != 0) {
-        countAnswereds += 1;
-      }
     } else {
       print("Índice inválido para a lista de respostas.");
     }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
 
 part 'flashcards_store.g.dart';
@@ -8,6 +9,9 @@ part 'flashcards_store.g.dart';
 class FlashcardsStore = _FlashcardsStoreBase with _$FlashcardsStore;
 
 abstract class _FlashcardsStoreBase with Store {
+  @observable
+  int time = 0;
+
   @observable
   int seconds = 0;
 
@@ -18,7 +22,13 @@ abstract class _FlashcardsStoreBase with Store {
   int hours = 0;
 
   @observable
+  int countAnswereds = 0;
+
+  @observable
   bool timeIsRunning = true;
+
+  @observable
+  String categoryId = "";
 
   @observable
   int cardSelect = 0;
@@ -35,10 +45,17 @@ abstract class _FlashcardsStoreBase with Store {
   Timer? _timer;
 
   @observable
+  ObservableList<Map<dynamic, dynamic>> answers =
+      ObservableList<Map<dynamic, dynamic>>();
+
+  @observable
   ObservableList<String> checkedCategories = ObservableList<String>();
 
   @action
   void fetchcardsByIdsAsStream(List<String> disciplineIds) {
+    // Dizendo qual a disciplina estudada
+    categoryId = disciplineIds[0];
+
     try {
       // Transformar a consulta Firestore em um Stream
       final collection = FirebaseFirestore.instance.collection("flashcards");
@@ -50,9 +67,35 @@ abstract class _FlashcardsStoreBase with Store {
 
       // Atualizar o ObservableStream
       cardsStream = ObservableStream(stream);
+
+      cardsStream?.listen((questions) {
+        fillAnswers(questions);
+      });
     } catch (e) {
       print("Erro ao criar stream de questões: $e");
       cardsStream = null;
+    }
+  }
+
+  @action
+  void fillAnswers(List<Map<dynamic, dynamic>> flashcards) {
+    answers.clear();
+    for (final flashcard in flashcards) {
+      answers.add({
+        "id": flashcard["flashcardId"] ?? "",
+        "difficulty": 0,
+      });
+    }
+  }
+
+  @action
+  void setAnswer(int index, int difficulty) {
+      print(answers.length);
+    if (index >= 0 && index < answers.length) {
+      answers[index]['difficulty'] = difficulty;
+      countAnswereds += 1;
+    } else {
+      print("Índice inválido para a lista de respostas.");
     }
   }
 
@@ -61,6 +104,7 @@ abstract class _FlashcardsStoreBase with Store {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       seconds++;
+      time++;
       if (seconds >= 60) {
         seconds = 0;
         minutes++;
@@ -101,20 +145,22 @@ abstract class _FlashcardsStoreBase with Store {
   }
 
   @action
-  finishFlahsCards() async {
-    //
-    {}
+  finishFlashcards() async {
+    var newStudy = {
+      "categoryId": categoryId,
+      "userId": FirebaseAuth.instance.currentUser!.uid,
+      "dateCreated": DateTime.now(),
+      "flashcards": answers,
+      "timeSpend": time
+    };
 
-    //   try {
-    //     var response =
-    //         await FirebaseFirestore.instance.collection("answers").add({
-    //       "cardId": cardId,
-    //       "testId": testId,
-    //       "status": true,
-    //       "timeSpend": timeSpend
-    //     });
-    //   } catch (e) {
-    //     print("Error adding document: $e");
-    //   }
+    try {
+      var response =
+          await FirebaseFirestore.instance.collection("studyFlashcards").add(newStudy);
+      var documentId = response.id;
+      await response.update({"studyId": documentId});
+    } catch (e) {
+      print("Error adding document: $e");
+    }
   }
 }

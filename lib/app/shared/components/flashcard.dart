@@ -285,7 +285,7 @@ class Flashcard extends StatelessWidget {
                                         ),
                                       ),
                                       const Spacer(),
-                                      snapshot.data![index]['difficulty'] == 1
+                                      flashStore.answers[index]['difficulty'] == 1
                                           ? Container(
                                               width: 25, // Largura do círculo
                                               height: 25, // Altura do círculo
@@ -295,7 +295,7 @@ class Flashcard extends StatelessWidget {
                                                     0xFFC64040), // Preenchimento do círculo
                                               ),
                                             )
-                                          : snapshot.data![index]
+                                          : flashStore.answers[index]
                                                       ['difficulty'] ==
                                                   2
                                               ? Container(
@@ -309,7 +309,7 @@ class Flashcard extends StatelessWidget {
                                                         0xFFFEA900), // Preenchimento do círculo
                                                   ),
                                                 )
-                                              : snapshot.data![index]
+                                              : flashStore.answers[index]
                                                           ['difficulty'] ==
                                                       3
                                                   ? Container(
@@ -323,7 +323,7 @@ class Flashcard extends StatelessWidget {
                                                             0xFFFDD700), // Preenchimento do círculo
                                                       ),
                                                     )
-                                                  : snapshot.data![index]
+                                                  : flashStore.answers[index]
                                                               ['difficulty'] ==
                                                           4
                                                       ? Container(
@@ -339,7 +339,7 @@ class Flashcard extends StatelessWidget {
                                                                 0xFF20A653), // Preenchimento do círculo
                                                           ),
                                                         )
-                                                      : snapshot.data![index][
+                                                      : flashStore.answers[index][
                                                                   'difficulty'] ==
                                                               5
                                                           ? Container(
@@ -678,52 +678,61 @@ class Flashcard extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
-                                                  Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 32,
-                                                        vertical: 8),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    decoration: ShapeDecoration(
-                                                      color: Color(0xFFC64040),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        side: BorderSide(
-                                                            width: 1,
-                                                            color: Color(
-                                                                0xFFC64040)),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                      ),
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          '1',
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'Work Sans',
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      flashStore.setAnswer(flashStore.cardSelect, 1);
+                                                    },
+                                                    child: Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 32,
+                                                          vertical: 8),
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color:
+                                                            Color(0xFFC64040),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          side: BorderSide(
+                                                              width: 1,
+                                                              color: Color(
+                                                                  0xFFC64040)),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
                                                         ),
-                                                      ],
+                                                      ),
+                                                      child: const Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                            '1',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'Work Sans',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 8),
-                                                  Text(
+                                                  const Text(
                                                     'Muito difícil',
                                                     style: TextStyle(
                                                       color: Color(0xFF51628A),
@@ -745,48 +754,57 @@ class Flashcard extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
-                                                  Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 32,
-                                                        vertical: 8),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    decoration: ShapeDecoration(
-                                                      color: Color(0xFFFEA900),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8)),
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          '2',
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'Work Sans',
-                                                            fontWeight:
-                                                                FontWeight.w500,
+                                                  InkWell(
+                                                    onTap: () {
+                                                      flashStore.setAnswer(flashStore.cardSelect, 2);
+                                                    },
+                                                    child: Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 32,
+                                                          vertical: 8),
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color:
+                                                            Color(0xFFFEA900),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8)),
+                                                      ),
+                                                      child: const Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                            '2',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'Work Sans',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 8),
-                                                  Text(
+                                                  const Text(
                                                     'Difícil',
                                                     style: TextStyle(
                                                       color: Color(0xFF51628A),
@@ -808,48 +826,57 @@ class Flashcard extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
-                                                  Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 32,
-                                                        vertical: 8),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    decoration: ShapeDecoration(
-                                                      color: Color(0xFFFDD700),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8)),
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          '3',
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'Work Sans',
-                                                            fontWeight:
-                                                                FontWeight.w500,
+                                                  InkWell(
+                                                    onTap: () {
+                                                      flashStore.setAnswer(flashStore.cardSelect, 3);
+                                                    },
+                                                    child: Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 32,
+                                                          vertical: 8),
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color:
+                                                            Color(0xFFFDD700),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8)),
+                                                      ),
+                                                      child: const Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                            '3',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'Work Sans',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 8),
-                                                  Text(
+                                                  const Text(
                                                     'Normal',
                                                     style: TextStyle(
                                                       color: Color(0xFF51628A),
@@ -871,48 +898,57 @@ class Flashcard extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
-                                                  Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 32,
-                                                        vertical: 8),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    decoration: ShapeDecoration(
-                                                      color: Color(0xFF20A653),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8)),
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          '4',
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'Work Sans',
-                                                            fontWeight:
-                                                                FontWeight.w500,
+                                                  InkWell(
+                                                    onTap: () {
+                                                      flashStore.setAnswer(flashStore.cardSelect, 4);
+                                                    },
+                                                    child: Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 32,
+                                                          vertical: 8),
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color:
+                                                            Color(0xFF20A653),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8)),
+                                                      ),
+                                                      child: const Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                            '4',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'Work Sans',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 8),
-                                                  Text(
+                                                  const Text(
                                                     'Fácil',
                                                     style: TextStyle(
                                                       color: Color(0xFF51628A),
@@ -933,48 +969,57 @@ class Flashcard extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 32,
-                                                        vertical: 8),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    decoration: ShapeDecoration(
-                                                      color: Color(0xFF0021C9),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8)),
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          '5',
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'Work Sans',
-                                                            fontWeight:
-                                                                FontWeight.w500,
+                                                  InkWell(
+                                                    onTap: () {
+                                                      flashStore.setAnswer(flashStore.cardSelect, 5);
+                                                    },
+                                                    child: Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 32,
+                                                          vertical: 8),
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color:
+                                                            Color(0xFF0021C9),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8)),
+                                                      ),
+                                                      child: const Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                            '5',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'Work Sans',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 8),
-                                                  Text(
+                                                  const Text(
                                                     'Muito fácil',
                                                     style: TextStyle(
                                                       color: Color(0xFF51628A),
@@ -1112,6 +1157,8 @@ class Flashcard extends StatelessWidget {
                           if (flashStore.cardSelect <
                               snapshot.data!.length - 1) {
                             flashStore.setSelect(flashStore.cardSelect + 1);
+                          } else {
+                            flashStore.finishFlashcards();
                           }
                         },
                         child: Container(
@@ -1126,8 +1173,8 @@ class Flashcard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Text(
-                                'Próxima',
+                              Text( flashStore.cardSelect < flashStore.answers.length - 1 ?
+                                'Próxima' : 'Finalizar',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
