@@ -102,7 +102,7 @@ flutter:
     - assets/svg/pulmonary.svg
     - assets/svg/renal.svg
     - assets/svg/gynecology.svg
-    - assets/svg/male.svg
+    - assets/svg/malePathology.svg
     - assets/svg/rectangle.svg
     - assets/svg/calculate.svg
     - assets/svg/icon-science.svg
