@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:stepmd/app/modules/flashcards/flashcards_store.dart';
 import 'package:stepmd/app/shared/components/flashcard.dart';
 import 'package:stepmd/app/shared/components/test.dart';
@@ -131,13 +132,11 @@ class NovoEstudoFlash extends StatelessWidget {
                                         contentPadding: EdgeInsets.zero,
                                         leading: Container(
                                           padding: const EdgeInsets.all(8.0),
-                                          decoration: BoxDecoration(
-                                            color: Colors.blue.shade100,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Icon(
-                                            Icons.category,
-                                            color: Colors.blue.shade700,
+                                          child: SvgPicture.asset(
+                                            'assets/svg/${categoryName}.svg',
+                                            color: Colors.blue.shade800,
+                                            width: 20,
+                                            height: 20,
                                           ),
                                         ),
                                         title: Text(
