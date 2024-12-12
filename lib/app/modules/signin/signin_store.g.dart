@@ -25,6 +25,55 @@ mixin _$SigninStore on _SigninStoreBase, Store {
     });
   }
 
+  late final _$phoneAtom =
+      Atom(name: '_SigninStoreBase.phone', context: context);
+
+  @override
+  String get phone {
+    _$phoneAtom.reportRead();
+    return super.phone;
+  }
+
+  @override
+  set phone(String value) {
+    _$phoneAtom.reportWrite(value, super.phone, () {
+      super.phone = value;
+    });
+  }
+
+  late final _$codeAtom = Atom(name: '_SigninStoreBase.code', context: context);
+
+  @override
+  String get code {
+    _$codeAtom.reportRead();
+    return super.code;
+  }
+
+  @override
+  set code(String value) {
+    _$codeAtom.reportWrite(value, super.code, () {
+      super.code = value;
+    });
+  }
+
+  late final _$verifyPhoneNumberAsyncAction =
+      AsyncAction('_SigninStoreBase.verifyPhoneNumber', context: context);
+
+  @override
+  Future<void> verifyPhoneNumber(String phoneNumber) {
+    return _$verifyPhoneNumberAsyncAction
+        .run(() => super.verifyPhoneNumber(phoneNumber));
+  }
+
+  late final _$createUserWithPhoneAsyncAction =
+      AsyncAction('_SigninStoreBase.createUserWithPhone', context: context);
+
+  @override
+  Future<void> createUserWithPhone(String phoneNumber, String smsCode) {
+    return _$createUserWithPhoneAsyncAction
+        .run(() => super.createUserWithPhone(phoneNumber, smsCode));
+  }
+
   late final _$_SigninStoreBaseActionController =
       ActionController(name: '_SigninStoreBase', context: context);
 
@@ -42,7 +91,9 @@ mixin _$SigninStore on _SigninStoreBase, Store {
   @override
   String toString() {
     return '''
-value: ${value}
+value: ${value},
+phone: ${phone},
+code: ${code}
     ''';
   }
 }

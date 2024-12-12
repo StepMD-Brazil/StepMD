@@ -13,7 +13,7 @@ class RootModule extends Module {
   @override
   void routes(r) {
     r.child('/', child: (context) => const RootPage(), children: [
-      ChildRoute('/splash', child: (context) => const SplashPage()),
+      ChildRoute('/splash', child: (context) => const RootPage()),
     ]);
   }
 }

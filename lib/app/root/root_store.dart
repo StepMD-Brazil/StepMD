@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
@@ -13,7 +15,6 @@ abstract class _RootStoreBase with Store {
   // final HomeStore verifyStore = Modular.get();
   _RootStoreBase() {
     setUser();
-    status = AuthStatus.signed_in;
   }
 
   @observable
@@ -36,12 +37,25 @@ abstract class _RootStoreBase with Store {
   setSelectedTrunk(int value) => selectedTrunk = value;
 
   @action
-  @action
   setUser() async {
-    // if (token != null) {
-    //   status = AuthStatus.signed_in;
+    // User? user = FirebaseAuth.instance.currentUser;
+    // if (user != null) {
+    //   final userDoc = await FirebaseFirestore.instance
+    //       .collection('users')
+    //       .doc(user.uid)
+    //       .get();
+    //   if (!userDoc.exists) {
+    //     status = AuthStatus.signed_in;
+    //     selectedTrunk = 1;
+    //   } else {
+    //     status = AuthStatus.signed_in;
+
+    //     selectedTrunk = 0;
+    //   }
     // } else {
-    //   status = AuthStatus.signed_out;
+    //   status = AuthStatus.signed_in;
+
+    //   selectedTrunk = 0;
     // }
   }
 
@@ -51,10 +65,12 @@ abstract class _RootStoreBase with Store {
   }
 
   signout() async {
-    status = AuthStatus.signed_out;
+    print('signout');
+    status = await AuthStatus.signed_out;
+    await FirebaseAuth.instance.signOut();
     selectedTrunk = 0;
 
-    await Modular.to.pushReplacementNamed('/');
+    await Modular.to.pushReplacementNamed('/signin');
   }
 
   @action

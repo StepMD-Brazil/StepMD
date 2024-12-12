@@ -24,6 +24,22 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
+  late final _$selectedIndexDBAtom =
+      Atom(name: '_HomeStoreBase.selectedIndexDB', context: context);
+
+  @override
+  int get selectedIndexDB {
+    _$selectedIndexDBAtom.reportRead();
+    return super.selectedIndexDB;
+  }
+
+  @override
+  set selectedIndexDB(int value) {
+    _$selectedIndexDBAtom.reportWrite(value, super.selectedIndexDB, () {
+      super.selectedIndexDB = value;
+    });
+  }
+
   late final _$_HomeStoreBaseActionController =
       ActionController(name: '_HomeStoreBase', context: context);
 
@@ -41,7 +57,8 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   @override
   String toString() {
     return '''
-value: ${value}
+value: ${value},
+selectedIndexDB: ${selectedIndexDB}
     ''';
   }
 }
