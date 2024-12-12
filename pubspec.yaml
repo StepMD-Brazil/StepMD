@@ -121,6 +121,7 @@ flutter:
     - assets/svg/brazil.svg
     - assets/svg/eua.svg
     - assets/svg/contrast.svg
+    - assets/svg/infectiousDisease.svg
     - assets/img/eua.png
     - assets/img/brazil.png
     - assets/img/banner.png
