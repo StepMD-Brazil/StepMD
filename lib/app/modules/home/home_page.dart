@@ -179,7 +179,7 @@ class HomePageState extends State<HomePage> {
                             ),
                             SizedBox(width: 10),
                             Text(
-                              'Banco de questões',
+                              'StepMD Qbank',
                               style: TextStyle(
                                 color: appColorPrimary,
                                 fontSize: 14,

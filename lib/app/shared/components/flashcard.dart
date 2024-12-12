@@ -97,7 +97,11 @@ class Flashcard extends StatelessWidget {
                                   const SizedBox(width: 8),
                                   InkWell(
                                     onTap: () {
-                                      flashStore.addNote("flashcard", snapshot.data![flashStore.cardSelect]['flashcardId'], "Texto estático passado direto no botão");
+                                      flashStore.addNote(
+                                          "flashcard",
+                                          snapshot.data![flashStore.cardSelect]
+                                              ['flashcardId'],
+                                          "Texto estático passado direto no botão");
                                     },
                                     child: Container(
                                       width: 24,
@@ -373,7 +377,8 @@ class Flashcard extends StatelessWidget {
                                         ),
                                       ),
                                       const Spacer(),
-                                      flashStore.answers[index]['difficulty'] == 1
+                                      flashStore.answers[index]['difficulty'] ==
+                                              1
                                           ? Container(
                                               width: 25, // Largura do círculo
                                               height: 25, // Altura do círculo
@@ -427,7 +432,8 @@ class Flashcard extends StatelessWidget {
                                                                 0xFF20A653), // Preenchimento do círculo
                                                           ),
                                                         )
-                                                      : flashStore.answers[index][
+                                                      : flashStore.answers[
+                                                                      index][
                                                                   'difficulty'] ==
                                                               5
                                                           ? Container(
@@ -768,7 +774,9 @@ class Flashcard extends StatelessWidget {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      flashStore.setAnswer(flashStore.cardSelect, 1);
+                                                      flashStore.setAnswer(
+                                                          flashStore.cardSelect,
+                                                          1);
                                                     },
                                                     child: Container(
                                                       padding: const EdgeInsets
@@ -844,7 +852,9 @@ class Flashcard extends StatelessWidget {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      flashStore.setAnswer(flashStore.cardSelect, 2);
+                                                      flashStore.setAnswer(
+                                                          flashStore.cardSelect,
+                                                          2);
                                                     },
                                                     child: Container(
                                                       padding: const EdgeInsets
@@ -916,7 +926,9 @@ class Flashcard extends StatelessWidget {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      flashStore.setAnswer(flashStore.cardSelect, 3);
+                                                      flashStore.setAnswer(
+                                                          flashStore.cardSelect,
+                                                          3);
                                                     },
                                                     child: Container(
                                                       padding: const EdgeInsets
@@ -988,7 +1000,9 @@ class Flashcard extends StatelessWidget {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      flashStore.setAnswer(flashStore.cardSelect, 4);
+                                                      flashStore.setAnswer(
+                                                          flashStore.cardSelect,
+                                                          4);
                                                     },
                                                     child: Container(
                                                       padding: const EdgeInsets
@@ -1059,7 +1073,9 @@ class Flashcard extends StatelessWidget {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      flashStore.setAnswer(flashStore.cardSelect, 5);
+                                                      flashStore.setAnswer(
+                                                          flashStore.cardSelect,
+                                                          5);
                                                     },
                                                     child: Container(
                                                       padding: const EdgeInsets
@@ -1261,8 +1277,11 @@ class Flashcard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text( flashStore.cardSelect < flashStore.answers.length - 1 ?
-                                'Próxima' : 'Finalizar',
+                              Text(
+                                flashStore.cardSelect <
+                                        flashStore.answers.length - 1
+                                    ? 'Próxima'
+                                    : 'Finalizar',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
