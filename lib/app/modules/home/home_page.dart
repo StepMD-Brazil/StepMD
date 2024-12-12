@@ -460,7 +460,7 @@ class HomePageState extends State<HomePage> {
                             ),
                             const SizedBox(width: 10),
                             const Text(
-                              'Artigos e resumos',
+                              'Reviews',
                               style: TextStyle(
                                 color: appColorPrimary,
                                 fontSize: 14,
@@ -487,7 +487,7 @@ class HomePageState extends State<HomePage> {
                             ),
                             SizedBox(width: 10),
                             Text(
-                              'Dicas importantes',
+                              'High Yield Tips',
                               style: TextStyle(
                                 color: appColorPrimary,
                                 fontSize: 14,
