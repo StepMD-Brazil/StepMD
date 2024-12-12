@@ -67,7 +67,6 @@ abstract class _DbQuestionsStoreBase with Store {
     if (index >= 0 && index < answers.length) {
       answers[index]['status'] = value;
       answers[index]['indexOption'] = indexOption;
-
     } else {
       print("Índice inválido para a lista de respostas.");
     }
@@ -206,11 +205,29 @@ abstract class _DbQuestionsStoreBase with Store {
     return checkedCategories.contains(categoryId);
   }
 
-  @action
+  addNote(String type, String typeId, String note) async {
+    var newNote = {
+      "userId": FirebaseAuth.instance.currentUser!.uid,
+      "dateCreated": DateTime.now(),
+      "type": type, // question ou flashcard
+      "typeId": typeId,
+      "note": note
+    };
+
+    try {
+      var response =
+          await FirebaseFirestore.instance.collection("notes").add(newNote);
+      var documentId = response.id;
+      await response.update({"noteId": documentId});
+    } catch (e) {
+      print("Error adding document: $e");
+    }
+  }
+
   finishTest() async {
     // print(answers);
     var newTest;
-    if(testMode == "cronometrado") {
+    if (testMode == "cronometrado") {
       newTest = {
         "name": testName,
         "mode": testMode,
@@ -236,7 +253,6 @@ abstract class _DbQuestionsStoreBase with Store {
           await FirebaseFirestore.instance.collection("tests").add(newTest);
       var documentId = response.id;
       await response.update({"testId": documentId});
-
     } catch (e) {
       print("Error adding document: $e");
     }

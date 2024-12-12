@@ -47,6 +47,94 @@ class Flashcard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 4),
+                              decoration: ShapeDecoration(
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                      width: 1, color: Color(0xFFDAE9EE)),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 24,
+                                    height: 24,
+                                    child: SvgPicture.asset(
+                                      'assets/svg/calculate.svg',
+                                      color: Color(0xFF4091C6),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const SizedBox(width: 8),
+                                  Container(
+                                    width: 24,
+                                    height: 24,
+                                    child: SvgPicture.asset(
+                                      'assets/svg/icon-science.svg',
+                                      color: Color(0xFF4091C6),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const SizedBox(width: 8),
+                                  Container(
+                                    width: 24,
+                                    height: 24,
+                                    child: SvgPicture.asset(
+                                      'assets/svg/menubook.svg',
+                                      color: Color(0xFF4091C6),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const SizedBox(width: 8),
+                                  InkWell(
+                                    onTap: () {
+                                      flashStore.addNote("flashcard", snapshot.data![flashStore.cardSelect]['flashcardId'], "Texto estático passado direto no botão");
+                                    },
+                                    child: Container(
+                                      width: 24,
+                                      height: 24,
+                                      child: SvgPicture.asset(
+                                        'assets/svg/icon-addnotes.svg',
+                                        color: Color(0xFF4091C6),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const SizedBox(width: 8),
+                                  Container(
+                                    width: 24,
+                                    height: 24,
+                                    child: SvgPicture.asset(
+                                      'assets/svg/icon-flashcard.svg',
+                                      color: Color(0xFF4091C6),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const SizedBox(width: 8),
+                                  Container(
+                                    width: 24,
+                                    height: 24,
+                                    child: SvgPicture.asset(
+                                      'assets/svg/icon-star.svg',
+                                      color: Color(0xFF4091C6),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
                         // Barra de progresso e dropdown de questões
                         width: MediaQuery.of(context).size.width * 0.20,
                         height: MediaQuery.of(context).size.height,

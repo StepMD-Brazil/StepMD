@@ -97,12 +97,17 @@ class Test extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 8),
                                   const SizedBox(width: 8),
-                                  Container(
-                                    width: 24,
-                                    height: 24,
-                                    child: SvgPicture.asset(
-                                      'assets/svg/icon-addnotes.svg',
-                                      color: Color(0xFF4091C6),
+                                  InkWell(
+                                    onTap: () {
+                                      dbStore.addNote("question", snapshot.data![dbStore.questionSelect]['questionId'], "Texto estático passado direto no botão");
+                                    },
+                                    child: Container(
+                                      width: 24,
+                                      height: 24,
+                                      child: SvgPicture.asset(
+                                        'assets/svg/icon-addnotes.svg',
+                                        color: Color(0xFF4091C6),
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(width: 8),
@@ -296,28 +301,30 @@ class Test extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        child: dbStore.testMode == 'cronometrado' ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 24,
-                              height: 24,
-                              child:
-                                  const Icon(Icons.alarm, color: Colors.black),
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              '${dbStore.hours > 0 ? '${dbStore.hours}:' : ''}${dbStore.minutes}:${dbStore.seconds < 10 ? '0' : ''}${dbStore.seconds}',
-                              style: const TextStyle(
-                                color: Color(0xFF51628A),
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ) : null,
+                        child: dbStore.testMode == 'cronometrado'
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 24,
+                                    height: 24,
+                                    child: const Icon(Icons.alarm,
+                                        color: Colors.black),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '${dbStore.hours > 0 ? '${dbStore.hours}:' : ''}${dbStore.minutes}:${dbStore.seconds < 10 ? '0' : ''}${dbStore.seconds}',
+                                    style: const TextStyle(
+                                      color: Color(0xFF51628A),
+                                      fontSize: 14,
+                                      fontFamily: appFont,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : null,
                       ),
                       Row(
                         children: [
@@ -335,82 +342,85 @@ class Test extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                dbStore.testMode != 'cronometrado' ? 
-                                  Container() : dbStore.timeIsRunning
-                                    ? InkWell(
-                                        onTap: () {
-                                          dbStore.stopCounter();
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                                width: 34,
-                                                height: 34,
-                                                decoration:
-                                                    const ShapeDecoration(
-                                                  shape: CircleBorder(
-                                                    side: BorderSide(
-                                                        width: 1,
-                                                        color: Colors.black),
+                                dbStore.testMode != 'cronometrado'
+                                    ? Container()
+                                    : dbStore.timeIsRunning
+                                        ? InkWell(
+                                            onTap: () {
+                                              dbStore.stopCounter();
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                    width: 34,
+                                                    height: 34,
+                                                    decoration:
+                                                        const ShapeDecoration(
+                                                      shape: CircleBorder(
+                                                        side: BorderSide(
+                                                            width: 1,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ),
+                                                    child: const Center(
+                                                      child: Icon(
+                                                        size: 16,
+                                                        Icons.pause,
+                                                        color: Colors.black,
+                                                      ),
+                                                    )),
+                                                const SizedBox(width: 8),
+                                                const Text(
+                                                  'Pausar teste',
+                                                  style: TextStyle(
+                                                    color: Color(0xFF51628A),
+                                                    fontSize: 14,
+                                                    fontFamily: appFont,
+                                                    fontWeight: FontWeight.w500,
                                                   ),
                                                 ),
-                                                child: const Center(
-                                                  child: Icon(
-                                                    size: 16,
-                                                    Icons.pause,
-                                                    color: Colors.black,
-                                                  ),
-                                                )),
-                                            const SizedBox(width: 8),
-                                            const Text(
-                                              'Pausar teste',
-                                              style: TextStyle(
-                                                color: Color(0xFF51628A),
-                                                fontSize: 14,
-                                                fontFamily: appFont,
-                                                fontWeight: FontWeight.w500,
-                                              ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                      )
-                                    : InkWell(
-                                        onTap: () {
-                                          dbStore.startCounter();
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                                width: 34,
-                                                height: 34,
-                                                decoration:
-                                                    const ShapeDecoration(
-                                                  shape: CircleBorder(
-                                                    side: BorderSide(
-                                                        width: 1,
-                                                        color: Colors.black),
+                                          )
+                                        : InkWell(
+                                            onTap: () {
+                                              dbStore.startCounter();
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                    width: 34,
+                                                    height: 34,
+                                                    decoration:
+                                                        const ShapeDecoration(
+                                                      shape: CircleBorder(
+                                                        side: BorderSide(
+                                                            width: 1,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ),
+                                                    child: const Center(
+                                                      child: Icon(
+                                                        size: 16,
+                                                        Icons.play_arrow,
+                                                        color: Colors.black,
+                                                      ),
+                                                    )),
+                                                const SizedBox(width: 8),
+                                                const Text(
+                                                  'Retomar teste',
+                                                  style: TextStyle(
+                                                    color: Color(0xFF51628A),
+                                                    fontSize: 14,
+                                                    fontFamily: appFont,
+                                                    fontWeight: FontWeight.w500,
                                                   ),
                                                 ),
-                                                child: const Center(
-                                                  child: Icon(
-                                                    size: 16,
-                                                    Icons.play_arrow,
-                                                    color: Colors.black,
-                                                  ),
-                                                )),
-                                            const SizedBox(width: 8),
-                                            const Text(
-                                              'Retomar teste',
-                                              style: TextStyle(
-                                                color: Color(0xFF51628A),
-                                                fontSize: 14,
-                                                fontFamily: appFont,
-                                                fontWeight: FontWeight.w500,
-                                              ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                      ),
+                                          ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -580,7 +590,8 @@ class Test extends StatelessWidget {
                                                       .symmetric(
                                                       horizontal: 16,
                                                       vertical: 12),
-                                                  decoration: const BoxDecoration(
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
                                                         color:

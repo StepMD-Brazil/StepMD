@@ -90,7 +90,7 @@ abstract class _FlashcardsStoreBase with Store {
 
   @action
   void setAnswer(int index, int difficulty) {
-      print(answers.length);
+    print(answers.length);
     if (index >= 0 && index < answers.length) {
       answers[index]['difficulty'] = difficulty;
       countAnswereds += 1;
@@ -144,6 +144,25 @@ abstract class _FlashcardsStoreBase with Store {
     return checkedCategories.contains(categoryId);
   }
 
+  addNote(String type, String typeId, String note) async {
+    var newNote = {
+      "userId": FirebaseAuth.instance.currentUser!.uid,
+      "dateCreated": DateTime.now(),
+      "type": type, // question ou flashcard
+      "typeId": typeId,
+      "note": note
+    };
+
+    try {
+      var response =
+          await FirebaseFirestore.instance.collection("notes").add(newNote);
+      var documentId = response.id;
+      await response.update({"noteId": documentId});
+    } catch (e) {
+      print("Error adding document: $e");
+    }
+  }
+
   @action
   finishFlashcards() async {
     var newStudy = {
@@ -155,8 +174,9 @@ abstract class _FlashcardsStoreBase with Store {
     };
 
     try {
-      var response =
-          await FirebaseFirestore.instance.collection("studyFlashcards").add(newStudy);
+      var response = await FirebaseFirestore.instance
+          .collection("studyFlashcards")
+          .add(newStudy);
       var documentId = response.id;
       await response.update({"studyId": documentId});
     } catch (e) {
