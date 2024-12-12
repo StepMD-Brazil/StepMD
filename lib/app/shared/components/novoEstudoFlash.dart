@@ -29,7 +29,7 @@ class NovoEstudoFlash extends StatelessWidget {
                   title: const Text(
                     'Flashcards',
                     style: TextStyle(
-                      color: Color(0xFF957B0B),
+                      color: appColorPrimary,
                       fontSize: 20,
                       fontFamily: appFont,
                       fontWeight: FontWeight.w400,
@@ -48,7 +48,7 @@ class NovoEstudoFlash extends StatelessWidget {
                         const Text(
                           'Quais disciplinas você deseja revisar?',
                           style: TextStyle(
-                            color: Color(0xFF957B0B),
+                            color: appColorPrimary,
                             fontSize: 20,
                             fontFamily: appFont,
                             fontWeight: FontWeight.w500,

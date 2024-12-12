@@ -28,7 +28,7 @@ class NovoTeste extends StatelessWidget {
                   title: const Text(
                     'Configure um teste',
                     style: TextStyle(
-                      color: Color(0xFF957B0B),
+                      color: appColorPrimary,
                       fontSize: 20,
                       fontFamily: appFont,
                       fontWeight: FontWeight.w400,
@@ -44,7 +44,7 @@ class NovoTeste extends StatelessWidget {
                       const Text(
                         'Dê um nome ao seu teste:',
                         style: TextStyle(
-                          color: Color(0xFF957B0B),
+                          color: appColorPrimary,
                           fontSize: 18,
                           fontFamily: appFont,
                           fontWeight: FontWeight.w500,
@@ -86,7 +86,7 @@ class NovoTeste extends StatelessWidget {
                       const Text(
                         'Modo da prova',
                         style: TextStyle(
-                          color: Color(0xFF957B0B),
+                          color: appColorPrimary,
                           fontSize: 18,
                           fontFamily: appFont,
                           fontWeight: FontWeight.w500,
@@ -171,7 +171,7 @@ class NovoTeste extends StatelessWidget {
                       const Text(
                         'Modelo da prova',
                         style: TextStyle(
-                          color: Color(0xFF957B0B),
+                          color: appColorPrimary,
                           fontSize: 18,
                           fontFamily: appFont,
                           fontWeight: FontWeight.w500,
@@ -563,7 +563,9 @@ class NovoTeste extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(width: 150,)
+                          Container(
+                            width: 150,
+                          )
                         ],
                       ),
                     ],
