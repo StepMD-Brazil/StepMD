@@ -211,7 +211,7 @@ class HomePageState extends State<HomePage> {
                                         0.11,
                                     decoration: store.selectedIndexDB == 0
                                         ? ShapeDecoration(
-                                            color: Color(0xFFFFEFAD),
+                                            color: const Color(0xFFE2F1FF),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(6),
@@ -249,7 +249,7 @@ class HomePageState extends State<HomePage> {
                                         0.11,
                                     decoration: store.selectedIndexDB == 1
                                         ? ShapeDecoration(
-                                            color: Color(0xFFFFEFAD),
+                                            color: const Color(0xFFE2F1FF),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(6),
@@ -325,7 +325,7 @@ class HomePageState extends State<HomePage> {
                                         0.11,
                                     decoration: store.selectedIndexDB == 0
                                         ? ShapeDecoration(
-                                            color: Color(0xFFFFEFAD),
+                                            color: Color(0xFFE2F1FF),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(6),
@@ -364,7 +364,7 @@ class HomePageState extends State<HomePage> {
                                         0.11,
                                     decoration: store.selectedIndexDB == 1
                                         ? ShapeDecoration(
-                                            color: Color(0xFFFFEFAD),
+                                            color: Color(0xFFE2F1FF),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(6),

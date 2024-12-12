@@ -26,7 +26,7 @@ class FlashcardsPageState extends State<FlashcardsPage> {
         title: const Text(
           'Flashcards',
           style: TextStyle(
-            color: Color(0xFF957B0B),
+            color: appColorPrimary,
             fontSize: 20,
             fontFamily: appFont,
             fontWeight: FontWeight.w400,
@@ -258,7 +258,7 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                                 child: Text(
                                   'Use flashcards para memorizar o conteúdo',
                                   style: TextStyle(
-                                    color: Color(0xFF957B0B),
+                                    color: appColorPrimary,
                                     fontSize: 28,
                                     fontFamily: appFont,
                                     fontWeight: FontWeight.w400,
@@ -325,7 +325,7 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                                             child: Text(
                                               'Meus decks',
                                               style: TextStyle(
-                                                color: Color(0xFF957B0B),
+                                                color: appColorPrimary,
                                                 fontSize: 28,
                                                 fontFamily: appFont,
                                                 fontWeight: FontWeight.w400,
@@ -429,7 +429,7 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                                             child: Text(
                                               'Decks prontos',
                                               style: TextStyle(
-                                                color: Color(0xFF957B0B),
+                                                color: appColorPrimary,
                                                 fontSize: 28,
                                                 fontFamily: appFont,
                                                 fontWeight: FontWeight.w400,
