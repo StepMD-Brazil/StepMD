@@ -1,3 +1,4 @@
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stepmd/app/modules/flashcards/flashcards_store.dart';
@@ -17,6 +18,14 @@ class FlashcardsPage extends StatefulWidget {
 
 class FlashcardsPageState extends State<FlashcardsPage> {
   final FlashcardsStore store = Modular.get();
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +44,8 @@ class FlashcardsPageState extends State<FlashcardsPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(36.0),
-        child: StreamBuilder(
-            stream: null,
-            builder: (context, snapshot) {
+        child: Observer(
+            builder: (context) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -66,7 +74,7 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                             children: [
                               Expanded(
                                 child: Container(
-                                  child: const Column(
+                                  child:  Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -74,8 +82,8 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                                       SizedBox(
                                         width: double.infinity,
                                         child: Text(
-                                          '05 min e 6s',
-                                          style: TextStyle(
+                                          '${store.timeFormat}',
+                                          style: const TextStyle(
                                             color: Color(0xFF51628A),
                                             fontSize: 24,
                                             fontFamily: appFont,
@@ -84,7 +92,7 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                                         ),
                                       ),
                                       const SizedBox(height: 4),
-                                      Text(
+                                      const Text(
                                         'Tempo de estudo hoje',
                                         style: TextStyle(
                                           color: Color(0xFF51628A),
@@ -123,7 +131,7 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Expanded(
+                              Expanded(
                                 child: SizedBox(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -133,8 +141,8 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                                       SizedBox(
                                         width: double.infinity,
                                         child: Text(
-                                          '02',
-                                          style: TextStyle(
+                                          '${store.countStudies}',
+                                          style: const TextStyle(
                                             color: Color(0xFF51628A),
                                             fontSize: 24,
                                             fontFamily: appFont,
@@ -142,8 +150,8 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(height: 4),
-                                      Text(
+                                      const SizedBox(height: 4),
+                                      const Text(
                                         'Sequencias finalizadas',
                                         style: TextStyle(
                                           color: Color(0xFF51628A),
@@ -188,7 +196,7 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Expanded(
+                              Expanded(
                                 child: SizedBox(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -198,8 +206,8 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                                       SizedBox(
                                         width: double.infinity,
                                         child: Text(
-                                          '20/300',
-                                          style: TextStyle(
+                                          '${store.uniqueFlashcardsCount}/300',
+                                          style: const TextStyle(
                                             color: Color(0xFF51628A),
                                             fontSize: 24,
                                             fontFamily: appFont,
@@ -207,8 +215,8 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(height: 4),
-                                      Text(
+                                      const SizedBox(height: 4),
+                                      const Text(
                                         'Cards únicos',
                                         style: TextStyle(
                                           color: Color(0xFF51628A),

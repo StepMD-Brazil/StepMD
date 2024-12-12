@@ -34,10 +34,19 @@ abstract class _FlashcardsStoreBase with Store {
   int cardSelect = 0;
 
   @observable
+  int countStudies = 0;
+
+  @observable
+  int uniqueFlashcardsCount = 0;
+
+  @observable
   List<String> disciplineIds = [];
 
   @observable
   List<dynamic> cards = [];
+
+  @observable
+  String timeFormat = "";
 
   @observable
   ObservableStream<List<Map<dynamic, dynamic>>>? cardsStream;
@@ -137,6 +146,56 @@ abstract class _FlashcardsStoreBase with Store {
       checkedCategories.remove(categoryId);
     } else {
       checkedCategories.add(categoryId);
+    }
+  }
+
+  String formatTime(num seconds) {
+    final num hours = seconds ~/ 3600;
+    final num minutes = (seconds % 3600) ~/ 60;
+    final num secs = seconds % 60;
+
+    return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
+  }
+
+  @action
+  void getCountStudies() async {
+    try {
+      var userId = FirebaseAuth.instance.currentUser!.uid;
+      print(userId);
+
+      // Obter todos os documentos de "studyFlashcards" do usuário
+      var response = await FirebaseFirestore.instance
+          .collection("studyFlashcards")
+          .where("userId", isEqualTo: userId)
+          .get();
+      countStudies = response.docs.length;
+
+      // Calcular o tempo de estudo de hoje
+      var now = DateTime.now();
+      var startOfDay = DateTime(now.year, now.month, now.day);
+      var endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
+
+      var time = await FirebaseFirestore.instance
+          .collection("studyFlashcards")
+          .where("userId", isEqualTo: userId)
+          .where("dateCreated", isGreaterThanOrEqualTo: startOfDay)
+          .where("dateCreated", isLessThanOrEqualTo: endOfDay)
+          .get();
+
+      timeFormat = formatTime(
+          time.docs.fold(0, (sum, doc) => sum + doc['timeSpend']));
+
+      // Contar flashcards únicos
+      Set<String> uniqueFlashcardIds = {};
+      for (var doc in response.docs) {
+        var flashcards = doc['flashcards'] as List<dynamic>;
+        for (var flashcard in flashcards) {
+          uniqueFlashcardIds.add(flashcard['id']);
+        }
+      }
+      uniqueFlashcardsCount = uniqueFlashcardIds.length;
+    } catch (e) {
+      print("Error adding document: $e");
     }
   }
 

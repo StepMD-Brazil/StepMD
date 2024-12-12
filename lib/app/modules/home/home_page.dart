@@ -6,6 +6,7 @@ import 'package:stepmd/app/modules/configuracao/configuracao_page.dart';
 import 'package:stepmd/app/modules/db_questions/dbQuestions_page.dart';
 import 'package:stepmd/app/modules/dicas/dicas_page.dart';
 import 'package:stepmd/app/modules/flashcards/flashcards_page.dart';
+import 'package:stepmd/app/modules/flashcards/flashcards_store.dart';
 import 'package:stepmd/app/modules/home/home_store.dart';
 import 'package:flutter/material.dart';
 import 'package:stepmd/app/modules/initialPage/initialPage_page.dart';
@@ -27,6 +28,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   final HomeStore store = Modular.get();
   final RootStore rootStore = Modular.get();
+  final FlashcardsStore flashStore = Modular.get();
 
   int _selectedIndex = 0;
 
@@ -53,6 +55,7 @@ class HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     print('Home Page ${FirebaseAuth.instance.currentUser!.uid}');
+    flashStore.getCountStudies();
   }
 
   @override
