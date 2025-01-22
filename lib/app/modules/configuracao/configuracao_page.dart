@@ -44,7 +44,7 @@ class ConfiguracaoPageState extends State<ConfiguracaoPage> {
         title: const Text(
           'Configurações',
           style: TextStyle(
-            color: Color(0xFF957B0B),
+            color: appColorPrimary,
             fontSize: 20,
             fontFamily: appFont,
             fontWeight: FontWeight.w400,

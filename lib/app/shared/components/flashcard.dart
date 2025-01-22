@@ -20,6 +20,18 @@ class Flashcard extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(
+              child: Text('No data available'),
+            );
+          }
+
+          print("snapshot.data!.length: ${snapshot.data!}");
           flashStore.startCounter();
           return Observer(builder: (context) {
             return Scaffold(
@@ -97,7 +109,11 @@ class Flashcard extends StatelessWidget {
                                   const SizedBox(width: 8),
                                   InkWell(
                                     onTap: () {
-                                      flashStore.addNote("flashcard", snapshot.data![flashStore.cardSelect]['flashcardId'], "Texto estático passado direto no botão");
+                                      flashStore.addNote(
+                                          "flashcard",
+                                          snapshot.data![flashStore.cardSelect]
+                                              ['flashcardId'],
+                                          "Texto estático passado direto no botão");
                                     },
                                     child: Container(
                                       width: 24,
@@ -308,155 +324,163 @@ class Flashcard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 56,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                child: Text(
-                                  'Seu nível de confiança',
-                                  style: TextStyle(
-                                    color: Color(0xFF51628A),
-                                    fontSize: 12,
-                                    fontFamily: 'Work Sans',
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 3),
-                              Container(
-                                width: 165,
-                                height: 4,
-                                child: FlutterLogo(),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          color: Colors.white,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  flashStore.setSelect(index);
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 16),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        const Color.fromRGBO(34, 109, 159, 0.1),
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        color: Colors.grey[300]!,
-                                      ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 56,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  child: Text(
+                                    'Seu nível de confiança',
+                                    style: TextStyle(
+                                      color: Color(0xFF51628A),
+                                      fontSize: 12,
+                                      fontFamily: 'Work Sans',
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '0${index + 1} ${snapshot.data![index]['text'].length > 30 ? snapshot.data![index]['text'].substring(0, 30) : snapshot.data![index]['text']}...',
-                                        style: const TextStyle(
-                                          color: Color.fromRGBO(5, 19, 51, 1),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
+                                ),
+                                const SizedBox(height: 3),
+                                Container(
+                                  width: 165,
+                                  height: 4,
+                                  child: FlutterLogo(),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            color: Colors.white,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    flashStore.setSelect(index);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 16),
+                                    decoration: BoxDecoration(
+                                      color: flashStore.cardSelect == index
+                                          ? Color.fromRGBO(34, 109, 159, 0.1)
+                                          : Colors.white,
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Colors.grey[300]!,
                                         ),
                                       ),
-                                      const Spacer(),
-                                      flashStore.answers[index]['difficulty'] == 1
-                                          ? Container(
-                                              width: 25, // Largura do círculo
-                                              height: 25, // Altura do círculo
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Color(
-                                                    0xFFC64040), // Preenchimento do círculo
-                                              ),
-                                            )
-                                          : flashStore.answers[index]
-                                                      ['difficulty'] ==
-                                                  2
-                                              ? Container(
-                                                  width:
-                                                      25, // Largura do círculo
-                                                  height:
-                                                      25, // Altura do círculo
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Color(
-                                                        0xFFFEA900), // Preenchimento do círculo
-                                                  ),
-                                                )
-                                              : flashStore.answers[index]
-                                                          ['difficulty'] ==
-                                                      3
-                                                  ? Container(
-                                                      width:
-                                                          25, // Largura do círculo
-                                                      height:
-                                                          25, // Altura do círculo
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: Color(
-                                                            0xFFFDD700), // Preenchimento do círculo
-                                                      ),
-                                                    )
-                                                  : flashStore.answers[index]
-                                                              ['difficulty'] ==
-                                                          4
-                                                      ? Container(
-                                                          width:
-                                                              25, // Largura do círculo
-                                                          height:
-                                                              25, // Altura do círculo
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            color: Color(
-                                                                0xFF20A653), // Preenchimento do círculo
-                                                          ),
-                                                        )
-                                                      : flashStore.answers[index][
-                                                                  'difficulty'] ==
-                                                              5
-                                                          ? Container(
-                                                              width:
-                                                                  25, // Largura do círculo
-                                                              height:
-                                                                  25, // Altura do círculo
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color: Color(
-                                                                    0xFF0022C9), // Preenchimento do círculo
-                                                              ),
-                                                            )
-                                                          : Container(
-                                                              width:
-                                                                  25, // Largura do círculo
-                                                              height:
-                                                                  25, // Altura do círculo
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          '${snapshot.data![index]['label']} - ${snapshot.data![index]['text'].length > 30 ? snapshot.data![index]['text'].substring(0, 30) : snapshot.data![index]['text']}...',
+                                          style: const TextStyle(
+                                            color: Color.fromRGBO(5, 19, 51, 1),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        flashStore.answers[index]
+                                                    ['difficulty'] ==
+                                                1
+                                            ? Container(
+                                                width: 25, // Largura do círculo
+                                                height: 25, // Altura do círculo
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Color(
+                                                      0xFFC64040), // Preenchimento do círculo
+                                                ),
+                                              )
+                                            : flashStore.answers[index]
+                                                        ['difficulty'] ==
+                                                    2
+                                                ? Container(
+                                                    width:
+                                                        25, // Largura do círculo
+                                                    height:
+                                                        25, // Altura do círculo
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Color(
+                                                          0xFFFEA900), // Preenchimento do círculo
+                                                    ),
+                                                  )
+                                                : flashStore.answers[index]
+                                                            ['difficulty'] ==
+                                                        3
+                                                    ? Container(
+                                                        width:
+                                                            25, // Largura do círculo
+                                                        height:
+                                                            25, // Altura do círculo
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: Color(
+                                                              0xFFFDD700), // Preenchimento do círculo
+                                                        ),
+                                                      )
+                                                    : flashStore.answers[index][
+                                                                'difficulty'] ==
+                                                            4
+                                                        ? Container(
+                                                            width:
+                                                                25, // Largura do círculo
+                                                            height:
+                                                                25, // Altura do círculo
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              color: Color(
+                                                                  0xFF20A653), // Preenchimento do círculo
                                                             ),
-                                    ],
+                                                          )
+                                                        : flashStore.answers[
+                                                                        index][
+                                                                    'difficulty'] ==
+                                                                5
+                                                            ? Container(
+                                                                width:
+                                                                    25, // Largura do círculo
+                                                                height:
+                                                                    25, // Altura do círculo
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                  color: Color(
+                                                                      0xFF0022C9), // Preenchimento do círculo
+                                                                ),
+                                                              )
+                                                            : Container(
+                                                                width:
+                                                                    25, // Largura do círculo
+                                                                height:
+                                                                    25, // Altura do círculo
+                                                              ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Column(
@@ -768,7 +792,9 @@ class Flashcard extends StatelessWidget {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      flashStore.setAnswer(flashStore.cardSelect, 1);
+                                                      flashStore.setAnswer(
+                                                          flashStore.cardSelect,
+                                                          1);
                                                     },
                                                     child: Container(
                                                       padding: const EdgeInsets
@@ -844,7 +870,9 @@ class Flashcard extends StatelessWidget {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      flashStore.setAnswer(flashStore.cardSelect, 2);
+                                                      flashStore.setAnswer(
+                                                          flashStore.cardSelect,
+                                                          2);
                                                     },
                                                     child: Container(
                                                       padding: const EdgeInsets
@@ -916,7 +944,9 @@ class Flashcard extends StatelessWidget {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      flashStore.setAnswer(flashStore.cardSelect, 3);
+                                                      flashStore.setAnswer(
+                                                          flashStore.cardSelect,
+                                                          3);
                                                     },
                                                     child: Container(
                                                       padding: const EdgeInsets
@@ -988,7 +1018,9 @@ class Flashcard extends StatelessWidget {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      flashStore.setAnswer(flashStore.cardSelect, 4);
+                                                      flashStore.setAnswer(
+                                                          flashStore.cardSelect,
+                                                          4);
                                                     },
                                                     child: Container(
                                                       padding: const EdgeInsets
@@ -1059,7 +1091,9 @@ class Flashcard extends StatelessWidget {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      flashStore.setAnswer(flashStore.cardSelect, 5);
+                                                      flashStore.setAnswer(
+                                                          flashStore.cardSelect,
+                                                          5);
                                                     },
                                                     child: Container(
                                                       padding: const EdgeInsets
@@ -1261,8 +1295,11 @@ class Flashcard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text( flashStore.cardSelect < flashStore.answers.length - 1 ?
-                                'Próxima' : 'Finalizar',
+                              Text(
+                                flashStore.cardSelect <
+                                        flashStore.answers.length - 1
+                                    ? 'Próxima'
+                                    : 'Finalizar',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,

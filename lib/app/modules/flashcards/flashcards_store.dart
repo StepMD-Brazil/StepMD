@@ -64,7 +64,7 @@ abstract class _FlashcardsStoreBase with Store {
   void fetchcardsByIdsAsStream(List<String> disciplineIds) {
     // Dizendo qual a disciplina estudada
     categoryId = disciplineIds[0];
-
+    print("categoryId estudada: $categoryId");
     try {
       // Transformar a consulta Firestore em um Stream
       final collection = FirebaseFirestore.instance.collection("flashcards");
@@ -141,11 +141,11 @@ abstract class _FlashcardsStoreBase with Store {
   }
 
   @action
-  void toggleCategory(String categoryId) {
-    if (checkedCategories.contains(categoryId)) {
-      checkedCategories.remove(categoryId);
+  void toggleCategory(String categoryName) {
+    if (checkedCategories.contains(categoryName)) {
+      checkedCategories.remove(categoryName);
     } else {
-      checkedCategories.add(categoryId);
+      checkedCategories.add(categoryName);
     }
   }
 

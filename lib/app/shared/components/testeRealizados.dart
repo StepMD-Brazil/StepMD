@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_table_view/material_table_view.dart';
+import 'package:stepmd/app/shared/constants.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class TestesRealizados extends StatelessWidget {
@@ -19,7 +20,7 @@ class TestesRealizados extends StatelessWidget {
               Text(
                 'Acompanhe seus resultados',
                 style: TextStyle(
-                  color: Color(0xFF957B0B),
+                  color: appColorPrimary,
                   fontSize: 20,
                   fontFamily: 'Work Sans',
                   fontWeight: FontWeight.w500,
@@ -508,19 +509,29 @@ class TestesRealizados extends StatelessWidget {
             rowCount: 5,
             rowHeight: 56.0,
             rowBuilder: (context, row, contentBuilder) {
-              // if (noDataYetFor(row)) {
-              //   return null; // to use a placeholder
-              // }
-
               return InkWell(
                 onTap: () => print('Row $row clicked'),
-                child: contentBuilder(
-                  context,
-                  (context, column) => Text('$column'), // build a cell widget
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Color(0xFFDAE9EE), width: 1),
+                    ),
+                  ),
+                  child: contentBuilder(
+                    context,
+                    (context, column) => Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          right: BorderSide(color: Color(0xFFDAE9EE), width: 1),
+                        ),
+                      ),
+                      child: Text('$column'),
+                    ),
+                  ),
                 ),
               );
             },
-            // specify other parameters for other features
           ),
         ),
       ]),

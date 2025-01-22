@@ -193,11 +193,11 @@ abstract class _DbQuestionsStoreBase with Store {
   }
 
   @action
-  void toggleCategory(String categoryId) {
-    if (checkedCategories.contains(categoryId)) {
-      checkedCategories.remove(categoryId);
+  void toggleCategory(String categoryName) {
+    if (checkedCategories.contains(categoryName)) {
+      checkedCategories.remove(categoryName);
     } else {
-      checkedCategories.add(categoryId);
+      checkedCategories.add(categoryName);
     }
   }
 
