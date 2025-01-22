@@ -25,53 +25,87 @@ mixin _$SigninStore on _SigninStoreBase, Store {
     });
   }
 
-  late final _$phoneAtom =
-      Atom(name: '_SigninStoreBase.phone', context: context);
+  late final _$emailAtom =
+      Atom(name: '_SigninStoreBase.email', context: context);
 
   @override
-  String get phone {
-    _$phoneAtom.reportRead();
-    return super.phone;
+  String get email {
+    _$emailAtom.reportRead();
+    return super.email;
   }
 
   @override
-  set phone(String value) {
-    _$phoneAtom.reportWrite(value, super.phone, () {
-      super.phone = value;
+  set email(String value) {
+    _$emailAtom.reportWrite(value, super.email, () {
+      super.email = value;
     });
   }
 
-  late final _$codeAtom = Atom(name: '_SigninStoreBase.code', context: context);
+  late final _$passwordAtom =
+      Atom(name: '_SigninStoreBase.password', context: context);
 
   @override
-  String get code {
-    _$codeAtom.reportRead();
-    return super.code;
+  String get password {
+    _$passwordAtom.reportRead();
+    return super.password;
   }
 
   @override
-  set code(String value) {
-    _$codeAtom.reportWrite(value, super.code, () {
-      super.code = value;
+  set password(String value) {
+    _$passwordAtom.reportWrite(value, super.password, () {
+      super.password = value;
     });
   }
 
-  late final _$verifyPhoneNumberAsyncAction =
-      AsyncAction('_SigninStoreBase.verifyPhoneNumber', context: context);
+  late final _$passwordErrorAtom =
+      Atom(name: '_SigninStoreBase.passwordError', context: context);
 
   @override
-  Future<void> verifyPhoneNumber(String phoneNumber) {
-    return _$verifyPhoneNumberAsyncAction
-        .run(() => super.verifyPhoneNumber(phoneNumber));
+  String get passwordError {
+    _$passwordErrorAtom.reportRead();
+    return super.passwordError;
   }
 
-  late final _$createUserWithPhoneAsyncAction =
-      AsyncAction('_SigninStoreBase.createUserWithPhone', context: context);
+  @override
+  set passwordError(String value) {
+    _$passwordErrorAtom.reportWrite(value, super.passwordError, () {
+      super.passwordError = value;
+    });
+  }
+
+  late final _$emailErrorAtom =
+      Atom(name: '_SigninStoreBase.emailError', context: context);
 
   @override
-  Future<void> createUserWithPhone(String phoneNumber, String smsCode) {
-    return _$createUserWithPhoneAsyncAction
-        .run(() => super.createUserWithPhone(phoneNumber, smsCode));
+  String get emailError {
+    _$emailErrorAtom.reportRead();
+    return super.emailError;
+  }
+
+  @override
+  set emailError(String value) {
+    _$emailErrorAtom.reportWrite(value, super.emailError, () {
+      super.emailError = value;
+    });
+  }
+
+  late final _$signInWithEmailAsyncAction =
+      AsyncAction('_SigninStoreBase.signInWithEmail', context: context);
+
+  @override
+  Future<void> signInWithEmail(
+      String email, String password, BuildContext context) {
+    return _$signInWithEmailAsyncAction
+        .run(() => super.signInWithEmail(email, password, context));
+  }
+
+  late final _$createUserWithEmailAsyncAction =
+      AsyncAction('_SigninStoreBase.createUserWithEmail', context: context);
+
+  @override
+  Future<void> createUserWithEmail(String email, String password) {
+    return _$createUserWithEmailAsyncAction
+        .run(() => super.createUserWithEmail(email, password));
   }
 
   late final _$_SigninStoreBaseActionController =
@@ -92,8 +126,10 @@ mixin _$SigninStore on _SigninStoreBase, Store {
   String toString() {
     return '''
 value: ${value},
-phone: ${phone},
-code: ${code}
+email: ${email},
+password: ${password},
+passwordError: ${passwordError},
+emailError: ${emailError}
     ''';
   }
 }

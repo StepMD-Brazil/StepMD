@@ -249,14 +249,6 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
     });
   }
 
-  late final _$finishTestAsyncAction =
-      AsyncAction('_DbQuestionsStoreBase.finishTest', context: context);
-
-  @override
-  Future finishTest() {
-    return _$finishTestAsyncAction.run(() => super.finishTest());
-  }
-
   late final _$_DbQuestionsStoreBaseActionController =
       ActionController(name: '_DbQuestionsStoreBase', context: context);
 

@@ -478,10 +478,10 @@ class NovoTeste extends StatelessWidget {
                                               ),
                                               trailing: Checkbox(
                                                 value: dbStore
-                                                    .isChecked(categoryId),
+                                                    .isChecked(categoryName),
                                                 onChanged: (_) {
                                                   dbStore.toggleCategory(
-                                                      categoryId);
+                                                      categoryName);
                                                 },
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:

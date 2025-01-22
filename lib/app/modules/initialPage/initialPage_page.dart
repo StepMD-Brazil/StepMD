@@ -211,10 +211,13 @@ class InitialPagePageState extends State<InitialPagePage> {
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.6,
+              height: MediaQuery.of(context).size.height * 0.7,
               decoration: BoxDecoration(color: Color(0xFFEEF6FF)),
               child: Column(
                 children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                  ),
                   Container(
                     width: 706,
                     height: 168,
@@ -396,7 +399,6 @@ class InitialPagePageState extends State<InitialPagePage> {
                         const SizedBox(width: 16),
                         Expanded(
                           child: Container(
-                            height: double.infinity,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 24, vertical: 32),
                             decoration: ShapeDecoration(
@@ -422,7 +424,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                               children: [
                                 Container(
                                   width: double.infinity,
-                                  height: 156,
+                                  height: 204,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -446,75 +448,6 @@ class InitialPagePageState extends State<InitialPagePage> {
                                         width: double.infinity,
                                         child: Text(
                                           'CK (Clinical Knowledge): Foca no conhecimento clínico e na aplicação prática, avaliando a capacidade de diagnosticar e tratar pacientes.',
-                                          style: TextStyle(
-                                            color: Color(0xFF041233),
-                                            fontSize: 16,
-                                            fontFamily: 'Mulish',
-                                            fontWeight: FontWeight.w300,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Container(
-                            height: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 32),
-                            decoration: ShapeDecoration(
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    width: 1, color: Color(0xFFDAE9EE)),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              shadows: [
-                                BoxShadow(
-                                  color: Color(0x3FAEAEAE),
-                                  blurRadius: 4,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: 0,
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: double.infinity,
-                                  height: 156,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: Text(
-                                          'Step 3:',
-                                          style: TextStyle(
-                                            color: Color(0xFF020E2B),
-                                            fontSize: 28,
-                                            fontFamily: 'Work Sans',
-                                            fontWeight: FontWeight.w400,
-                                            height: 0.04,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: Text(
-                                          'Testa a habilidade de aplicar conhecimentos de forma independente no contexto clínico, sendo a última etapa antes de se qualificar para a licença médica.',
                                           style: TextStyle(
                                             color: Color(0xFF041233),
                                             fontSize: 16,
@@ -598,7 +531,10 @@ class InitialPagePageState extends State<InitialPagePage> {
                                             Container(
                                               width: 32,
                                               height: 32,
-                                              child: FlutterLogo(),
+                                              child: Icon(
+                                                Icons.quiz_outlined,
+                                                color: appColorDeafut,
+                                              ),
                                             ),
                                             const SizedBox(width: 8),
                                             Text(
@@ -847,7 +783,10 @@ class InitialPagePageState extends State<InitialPagePage> {
                                             Container(
                                               width: 32,
                                               height: 32,
-                                              child: FlutterLogo(),
+                                              child: SvgPicture.asset(
+                                                'assets/svg/book.svg',
+                                                color: appColorDeafut,
+                                              ),
                                             ),
                                             const SizedBox(width: 8),
                                             Expanded(

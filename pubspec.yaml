@@ -54,6 +54,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_modular: ^6.3.4
   sms_autofill: ^2.4.1
+  csv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -127,6 +128,8 @@ flutter:
     - assets/img/brazil.png
     - assets/img/banner.png
     - assets/img/home.png
+    - assets/img/login.JPG
+    - assets/Modelo StepMD - Flashcards.csv
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

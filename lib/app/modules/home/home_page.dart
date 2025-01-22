@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -14,6 +15,8 @@ import 'package:stepmd/app/modules/notes/notes_page.dart';
 import 'package:stepmd/app/modules/suporte/suporte_page.dart';
 import 'package:stepmd/app/root/root_store.dart';
 import 'package:stepmd/app/shared/constants.dart';
+import 'package:csv/csv.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 import '../artigos/artigos_page.dart';
 
@@ -53,6 +56,65 @@ class HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     print('Home Page ${FirebaseAuth.instance.currentUser!.uid}');
+    // uploadCsvToFirestore('assets/Modelo StepMD - Flashcards.csv');
+  }
+
+  Future<void> uploadCsvToFirestore(String filePath) async {
+    // Carregar o arquivo CSV
+    final input = await rootBundle.loadString(filePath);
+    final fields = CsvToListConverter().convert(input);
+
+    // Obter a referência do Firestore
+    final firestore = FirebaseFirestore.instance;
+
+    // Iterar sobre as linhas do CSV e inserir no Firestore
+    for (var i = 1; i < fields.length; i++) {
+      final row = fields[i];
+      final label = row[0];
+      final text = row[1];
+      final textVerse = row[2];
+      final category = row[3];
+      final imageUrl = row[4];
+
+      // Buscar o ID da categoria no Firestore
+      final categoryQuerySnapshot = await firestore
+          .collection('categories')
+          .where('name', isEqualTo: category)
+          .get();
+
+      String categoryId;
+      if (categoryQuerySnapshot.docs.isNotEmpty) {
+        categoryId = categoryQuerySnapshot.docs.first.id;
+      } else {
+        // Se a categoria não existir, criar uma nova
+        final newCategoryDoc =
+            await firestore.collection('categories').add({'name': category});
+        categoryId = newCategoryDoc.id;
+      }
+      // Verificar se o documento já existe
+      final querySnapshot = await firestore
+          .collection('flashcards')
+          .where('label', isEqualTo: label)
+          .where('categoryId', isEqualTo: categoryId)
+          .get();
+      if (querySnapshot.docs.isEmpty) {
+        // Criar um mapa de dados
+        final data = {
+          'label': label,
+          'labelVerse': label,
+          'text': text,
+          'textVerse': textVerse,
+          'categoryId': category,
+          'imageUrl': imageUrl,
+        };
+
+        // Inserir no Firestore
+        await firestore.collection('flashcards').add(data);
+        print('Documento adicionado: $label');
+      } else {
+        print('Documento já existe: $label');
+      }
+    }
   }
 
   @override
@@ -193,7 +255,6 @@ class HomePageState extends State<HomePage> {
                         onTap: () {
                           _onItemTapped(1); // Ativa "Banco de questões"
                           store.selectedIndexDB = 0;
-                          Navigator.pop(context);
                         },
                       ),
                       Visibility(
@@ -307,7 +368,6 @@ class HomePageState extends State<HomePage> {
                               2); // Atualiza o índice principal para Flashcards
                           store.selectedIndexDB =
                               -1; // Reseta o estado de subitens
-                          Navigator.pop(context);
                         },
                       ),
                       Visibility(

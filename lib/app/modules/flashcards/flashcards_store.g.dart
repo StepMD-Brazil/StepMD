@@ -9,6 +9,22 @@ part of 'flashcards_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
+  late final _$timeAtom =
+      Atom(name: '_FlashcardsStoreBase.time', context: context);
+
+  @override
+  int get time {
+    _$timeAtom.reportRead();
+    return super.time;
+  }
+
+  @override
+  set time(int value) {
+    _$timeAtom.reportWrite(value, super.time, () {
+      super.time = value;
+    });
+  }
+
   late final _$secondsAtom =
       Atom(name: '_FlashcardsStoreBase.seconds', context: context);
 
@@ -57,6 +73,22 @@ mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
     });
   }
 
+  late final _$countAnsweredsAtom =
+      Atom(name: '_FlashcardsStoreBase.countAnswereds', context: context);
+
+  @override
+  int get countAnswereds {
+    _$countAnsweredsAtom.reportRead();
+    return super.countAnswereds;
+  }
+
+  @override
+  set countAnswereds(int value) {
+    _$countAnsweredsAtom.reportWrite(value, super.countAnswereds, () {
+      super.countAnswereds = value;
+    });
+  }
+
   late final _$timeIsRunningAtom =
       Atom(name: '_FlashcardsStoreBase.timeIsRunning', context: context);
 
@@ -70,6 +102,22 @@ mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
   set timeIsRunning(bool value) {
     _$timeIsRunningAtom.reportWrite(value, super.timeIsRunning, () {
       super.timeIsRunning = value;
+    });
+  }
+
+  late final _$categoryIdAtom =
+      Atom(name: '_FlashcardsStoreBase.categoryId', context: context);
+
+  @override
+  String get categoryId {
+    _$categoryIdAtom.reportRead();
+    return super.categoryId;
+  }
+
+  @override
+  set categoryId(String value) {
+    _$categoryIdAtom.reportWrite(value, super.categoryId, () {
+      super.categoryId = value;
     });
   }
 
@@ -137,6 +185,22 @@ mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
     });
   }
 
+  late final _$answersAtom =
+      Atom(name: '_FlashcardsStoreBase.answers', context: context);
+
+  @override
+  ObservableList<Map<dynamic, dynamic>> get answers {
+    _$answersAtom.reportRead();
+    return super.answers;
+  }
+
+  @override
+  set answers(ObservableList<Map<dynamic, dynamic>> value) {
+    _$answersAtom.reportWrite(value, super.answers, () {
+      super.answers = value;
+    });
+  }
+
   late final _$checkedCategoriesAtom =
       Atom(name: '_FlashcardsStoreBase.checkedCategories', context: context);
 
@@ -170,6 +234,28 @@ mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
         name: '_FlashcardsStoreBase.fetchcardsByIdsAsStream');
     try {
       return super.fetchcardsByIdsAsStream(disciplineIds);
+    } finally {
+      _$_FlashcardsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void fillAnswers(List<Map<dynamic, dynamic>> flashcards) {
+    final _$actionInfo = _$_FlashcardsStoreBaseActionController.startAction(
+        name: '_FlashcardsStoreBase.fillAnswers');
+    try {
+      return super.fillAnswers(flashcards);
+    } finally {
+      _$_FlashcardsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setAnswer(int index, int difficulty) {
+    final _$actionInfo = _$_FlashcardsStoreBaseActionController.startAction(
+        name: '_FlashcardsStoreBase.setAnswer');
+    try {
+      return super.setAnswer(index, difficulty);
     } finally {
       _$_FlashcardsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -222,14 +308,18 @@ mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
   @override
   String toString() {
     return '''
+time: ${time},
 seconds: ${seconds},
 minutes: ${minutes},
 hours: ${hours},
+countAnswereds: ${countAnswereds},
 timeIsRunning: ${timeIsRunning},
+categoryId: ${categoryId},
 cardSelect: ${cardSelect},
 disciplineIds: ${disciplineIds},
 cards: ${cards},
 cardsStream: ${cardsStream},
+answers: ${answers},
 checkedCategories: ${checkedCategories}
     ''';
   }
