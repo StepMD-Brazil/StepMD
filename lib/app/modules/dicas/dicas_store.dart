@@ -6,36 +6,37 @@ part 'dicas_store.g.dart';
 class DicasStore = _DicasStoreBase with _$DicasStore;
 
 abstract class _DicasStoreBase with Store {
-  @observable
-  int value = 0;
 
   @observable
-  String questionId = "#00159";
+  String questionId = "";
 
   @observable
   List<String> disciplines = [];
 
   @observable
-  ObservableStream<List<Map<dynamic, dynamic>>>? tipsStream;
-
-  @action
-  void setQuestionId(String questionId) {
-    this.questionId = questionId;
-  }
+  ObservableStream<List<Map<String, dynamic>>>? tipsStream;
 
   @action
   void fetchTips() {
     try {
       final collection = FirebaseFirestore.instance.collection("tips");
       final stream = collection
-            .where("questionId", isEqualTo: questionId)
-            .snapshots()
-            .map((querySnapshot) =>
-                querySnapshot.docs.map((doc) => doc.data()).toList());
-        
-        tipsStream = ObservableStream(stream);
+          .where("questionId", isEqualTo: questionId)
+          .snapshots()
+          .map((querySnapshot) => querySnapshot.docs.map((doc) {
+                // Assegurando que os dados retornados têm o tipo correto
+                return Map<String, dynamic>.from(doc.data());
+              }).toList());
+
+      tipsStream = ObservableStream(stream);
     } catch (e) {
-      print("Erro ao criar stream de questões: $e");
+      print("Erro ao buscar dicas: $e");
     }
+  }
+
+  @action
+  void setQuestionId(String newQuestion) {
+    questionId = newQuestion;
+    fetchTips();
   }
 }
