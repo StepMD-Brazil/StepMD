@@ -137,6 +137,39 @@ mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
     });
   }
 
+  late final _$countStudiesAtom =
+      Atom(name: '_FlashcardsStoreBase.countStudies', context: context);
+
+  @override
+  int get countStudies {
+    _$countStudiesAtom.reportRead();
+    return super.countStudies;
+  }
+
+  @override
+  set countStudies(int value) {
+    _$countStudiesAtom.reportWrite(value, super.countStudies, () {
+      super.countStudies = value;
+    });
+  }
+
+  late final _$uniqueFlashcardsCountAtom = Atom(
+      name: '_FlashcardsStoreBase.uniqueFlashcardsCount', context: context);
+
+  @override
+  int get uniqueFlashcardsCount {
+    _$uniqueFlashcardsCountAtom.reportRead();
+    return super.uniqueFlashcardsCount;
+  }
+
+  @override
+  set uniqueFlashcardsCount(int value) {
+    _$uniqueFlashcardsCountAtom.reportWrite(value, super.uniqueFlashcardsCount,
+        () {
+      super.uniqueFlashcardsCount = value;
+    });
+  }
+
   late final _$disciplineIdsAtom =
       Atom(name: '_FlashcardsStoreBase.disciplineIds', context: context);
 
@@ -166,6 +199,22 @@ mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
   set cards(List<dynamic> value) {
     _$cardsAtom.reportWrite(value, super.cards, () {
       super.cards = value;
+    });
+  }
+
+  late final _$timeFormatAtom =
+      Atom(name: '_FlashcardsStoreBase.timeFormat', context: context);
+
+  @override
+  String get timeFormat {
+    _$timeFormatAtom.reportRead();
+    return super.timeFormat;
+  }
+
+  @override
+  set timeFormat(String value) {
+    _$timeFormatAtom.reportWrite(value, super.timeFormat, () {
+      super.timeFormat = value;
     });
   }
 
@@ -215,6 +264,14 @@ mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
     _$checkedCategoriesAtom.reportWrite(value, super.checkedCategories, () {
       super.checkedCategories = value;
     });
+  }
+
+  late final _$getCountStudiesAsyncAction =
+      AsyncAction('_FlashcardsStoreBase.getCountStudies', context: context);
+
+  @override
+  Future getCountStudies() {
+    return _$getCountStudiesAsyncAction.run(() => super.getCountStudies());
   }
 
   late final _$finishFlashcardsAsyncAction =
@@ -295,11 +352,11 @@ mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
   }
 
   @override
-  void toggleCategory(String categoryId) {
+  void toggleCategory(String categoryName) {
     final _$actionInfo = _$_FlashcardsStoreBaseActionController.startAction(
         name: '_FlashcardsStoreBase.toggleCategory');
     try {
-      return super.toggleCategory(categoryId);
+      return super.toggleCategory(categoryName);
     } finally {
       _$_FlashcardsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -316,8 +373,11 @@ countAnswereds: ${countAnswereds},
 timeIsRunning: ${timeIsRunning},
 categoryId: ${categoryId},
 cardSelect: ${cardSelect},
+countStudies: ${countStudies},
+uniqueFlashcardsCount: ${uniqueFlashcardsCount},
 disciplineIds: ${disciplineIds},
 cards: ${cards},
+timeFormat: ${timeFormat},
 cardsStream: ${cardsStream},
 answers: ${answers},
 checkedCategories: ${checkedCategories}

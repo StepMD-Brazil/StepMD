@@ -25,15 +25,74 @@ mixin _$DicasStore on _DicasStoreBase, Store {
     });
   }
 
+  late final _$questionIdAtom =
+      Atom(name: '_DicasStoreBase.questionId', context: context);
+
+  @override
+  String get questionId {
+    _$questionIdAtom.reportRead();
+    return super.questionId;
+  }
+
+  @override
+  set questionId(String value) {
+    _$questionIdAtom.reportWrite(value, super.questionId, () {
+      super.questionId = value;
+    });
+  }
+
+  late final _$disciplinesAtom =
+      Atom(name: '_DicasStoreBase.disciplines', context: context);
+
+  @override
+  List<String> get disciplines {
+    _$disciplinesAtom.reportRead();
+    return super.disciplines;
+  }
+
+  @override
+  set disciplines(List<String> value) {
+    _$disciplinesAtom.reportWrite(value, super.disciplines, () {
+      super.disciplines = value;
+    });
+  }
+
+  late final _$tipsStreamAtom =
+      Atom(name: '_DicasStoreBase.tipsStream', context: context);
+
+  @override
+  ObservableStream<List<Map<dynamic, dynamic>>>? get tipsStream {
+    _$tipsStreamAtom.reportRead();
+    return super.tipsStream;
+  }
+
+  @override
+  set tipsStream(ObservableStream<List<Map<dynamic, dynamic>>>? value) {
+    _$tipsStreamAtom.reportWrite(value, super.tipsStream, () {
+      super.tipsStream = value;
+    });
+  }
+
   late final _$_DicasStoreBaseActionController =
       ActionController(name: '_DicasStoreBase', context: context);
 
   @override
-  void increment() {
+  void setQuestionId(String questionId) {
     final _$actionInfo = _$_DicasStoreBaseActionController.startAction(
-        name: '_DicasStoreBase.increment');
+        name: '_DicasStoreBase.setQuestionId');
     try {
-      return super.increment();
+      return super.setQuestionId(questionId);
+    } finally {
+      _$_DicasStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void fetchTips() {
+    final _$actionInfo = _$_DicasStoreBaseActionController.startAction(
+        name: '_DicasStoreBase.fetchTips');
+    try {
+      return super.fetchTips();
     } finally {
       _$_DicasStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -42,7 +101,10 @@ mixin _$DicasStore on _DicasStoreBase, Store {
   @override
   String toString() {
     return '''
-value: ${value}
+value: ${value},
+questionId: ${questionId},
+disciplines: ${disciplines},
+tipsStream: ${tipsStream}
     ''';
   }
 }

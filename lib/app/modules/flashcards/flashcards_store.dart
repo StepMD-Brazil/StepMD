@@ -158,7 +158,7 @@ abstract class _FlashcardsStoreBase with Store {
   }
 
   @action
-  void getCountStudies() async {
+  getCountStudies() async {
     try {
       var userId = FirebaseAuth.instance.currentUser!.uid;
       print(userId);
