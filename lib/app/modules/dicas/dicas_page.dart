@@ -37,7 +37,7 @@ class DicasPageState extends State<DicasPage> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(50),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

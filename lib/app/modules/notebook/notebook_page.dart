@@ -33,6 +33,7 @@ class NotebookPageState extends State<NotebookPage> {
       body: Row(
         children: [
           Container(
+            padding: EdgeInsets.only(left: 12),
             width: MediaQuery.of(context).size.width * 0.15,
             height: MediaQuery.of(context).size.height,
             decoration: const BoxDecoration(
@@ -60,22 +61,7 @@ class NotebookPageState extends State<NotebookPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 56,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Container(
-                    child: Text(
-                      'Caderno',
-                      style: TextStyle(
-                        color: Color(0xFF51628A),
-                        fontSize: 16,
-                        fontFamily: 'Work Sans',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
+                const SizedBox(height: 25),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.13,
                   height: 35,

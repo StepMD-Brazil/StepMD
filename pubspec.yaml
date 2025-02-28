@@ -46,6 +46,7 @@ dependencies:
   flash_card: ^0.0.5
   flutter_quill: ^10.8.5
   brasil_fields: ^1.15.0
+  flutter_simple_calculator: ^2.3.0
 
   rxdart: ^0.27.0
 
@@ -115,6 +116,7 @@ flutter:
     - assets/svg/playing_cards.svg
     - assets/svg/icon-rotation.svg
     - assets/svg/icon-edit_square.svg
+    - assets/svg/icon-save.svg
     - assets/svg/icon-delete.svg
     - assets/svg/desktop_windows.svg
     - assets/svg/g_translate.svg

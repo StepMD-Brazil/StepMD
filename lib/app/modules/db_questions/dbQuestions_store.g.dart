@@ -249,6 +249,14 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
     });
   }
 
+  late final _$resetAsyncAction =
+      AsyncAction('_DbQuestionsStoreBase.reset', context: context);
+
+  @override
+  Future<dynamic> reset() {
+    return _$resetAsyncAction.run(() => super.reset());
+  }
+
   late final _$_DbQuestionsStoreBaseActionController =
       ActionController(name: '_DbQuestionsStoreBase', context: context);
 
@@ -385,11 +393,11 @@ mixin _$DbQuestionsStore on _DbQuestionsStoreBase, Store {
   }
 
   @override
-  void toggleCategory(String categoryId) {
+  void toggleCategory(String categoryName) {
     final _$actionInfo = _$_DbQuestionsStoreBaseActionController.startAction(
         name: '_DbQuestionsStoreBase.toggleCategory');
     try {
-      return super.toggleCategory(categoryId);
+      return super.toggleCategory(categoryName);
     } finally {
       _$_DbQuestionsStoreBaseActionController.endAction(_$actionInfo);
     }

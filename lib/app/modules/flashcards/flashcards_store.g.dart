@@ -282,6 +282,14 @@ mixin _$FlashcardsStore on _FlashcardsStoreBase, Store {
     return _$finishFlashcardsAsyncAction.run(() => super.finishFlashcards());
   }
 
+  late final _$resetAsyncAction =
+      AsyncAction('_FlashcardsStoreBase.reset', context: context);
+
+  @override
+  Future<dynamic> reset() {
+    return _$resetAsyncAction.run(() => super.reset());
+  }
+
   late final _$_FlashcardsStoreBaseActionController =
       ActionController(name: '_FlashcardsStoreBase', context: context);
 

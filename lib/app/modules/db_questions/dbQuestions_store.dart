@@ -32,10 +32,10 @@ abstract class _DbQuestionsStoreBase with Store {
   @observable
   int countAnswereds = 0;
 
-  // Modo de teste: Tutor/ cronometrado
   @observable
   String testName = "";
 
+  // Modo de teste: Tutor/ cronometrado
   @observable
   String testMode = "tutor";
 
@@ -67,6 +67,7 @@ abstract class _DbQuestionsStoreBase with Store {
     if (index >= 0 && index < answers.length) {
       answers[index]['status'] = value;
       answers[index]['indexOption'] = indexOption;
+      countAnswereds += 1;
     } else {
       print("Índice inválido para a lista de respostas.");
     }
@@ -166,6 +167,7 @@ abstract class _DbQuestionsStoreBase with Store {
   void stopCounter() {
     timeIsRunning = false;
     _timer?.cancel();
+    _timer = null;
   }
 
   void dispose() {
@@ -205,13 +207,12 @@ abstract class _DbQuestionsStoreBase with Store {
     return checkedCategories.contains(categoryId);
   }
 
-  addNote(String type, String typeId, String note) async {
+  addNote(String questionId, String note) async {
     var newNote = {
       "userId": FirebaseAuth.instance.currentUser!.uid,
       "dateCreated": DateTime.now(),
-      "type": type, // question ou flashcard
-      "typeId": typeId,
-      "note": note
+      "questionId": questionId,
+      "text": note,
     };
 
     try {
@@ -224,8 +225,7 @@ abstract class _DbQuestionsStoreBase with Store {
     }
   }
 
-  finishTest() async {
-    // print(answers);
+  Future finishTest() async {
     var newTest;
     if (testMode == "cronometrado") {
       newTest = {
@@ -253,8 +253,32 @@ abstract class _DbQuestionsStoreBase with Store {
           await FirebaseFirestore.instance.collection("tests").add(newTest);
       var documentId = response.id;
       await response.update({"testId": documentId});
+
+      return true;
     } catch (e) {
       print("Error adding document: $e");
+      return false;
     }
+  }
+
+  @action
+  Future<dynamic> reset() async {
+    stopCounter();
+    questionsStream?.close(); // Fecha explicitamente a stream
+    questionsStream = null;
+    questionSelect = 0;
+    timeSpend = 0;
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+    timeIsRunning = false;
+    countAnswereds = 0; // Resetando o contador de respostas
+    testName = "";
+    testMode = "tutor";
+    testModel = "stepmd";
+    questionIDs = "";
+    questions.clear();
+    answers.clear();
+    checkedCategories.clear();
   }
 }

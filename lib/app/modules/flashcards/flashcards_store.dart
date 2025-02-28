@@ -129,6 +129,7 @@ abstract class _FlashcardsStoreBase with Store {
   void stopCounter() {
     timeIsRunning = false;
     _timer?.cancel();
+    _timer = null;
   }
 
   void dispose() {
@@ -182,8 +183,8 @@ abstract class _FlashcardsStoreBase with Store {
           .where("dateCreated", isLessThanOrEqualTo: endOfDay)
           .get();
 
-      timeFormat = formatTime(
-          time.docs.fold(0, (sum, doc) => sum + doc['timeSpend']));
+      timeFormat =
+          formatTime(time.docs.fold(0, (sum, doc) => sum + doc['timeSpend']));
 
       // Contar flashcards únicos
       Set<String> uniqueFlashcardIds = {};
@@ -241,5 +242,27 @@ abstract class _FlashcardsStoreBase with Store {
     } catch (e) {
       print("Error adding document: $e");
     }
+  }
+
+  @action
+  Future<dynamic> reset() async {
+    stopCounter();
+    cardsStream?.close();
+    cardsStream = null;
+    time = 0;
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+    countAnswereds = 0;
+    timeIsRunning = false;
+    categoryId = "";
+    cardSelect = 0;
+    countStudies = 0;
+    uniqueFlashcardsCount = 0;
+    disciplineIds = [];
+    cards = [];
+    timeFormat = "";
+    answers.clear();
+    checkedCategories.clear();
   }
 }

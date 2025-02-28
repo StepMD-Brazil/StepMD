@@ -195,7 +195,7 @@ class NovoEstudoFlash extends StatelessWidget {
                                                   );
                                                 }
                                                 return Text(
-                                                  '${snapshot.data}',
+                                                  '${snapshot.data} cards',
                                                   style: TextStyle(
                                                     fontSize: 16.0,
                                                     fontWeight: FontWeight.w600,

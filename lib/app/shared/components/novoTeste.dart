@@ -405,19 +405,19 @@ class NovoTeste extends StatelessWidget {
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState ==
                                         ConnectionState.waiting) {
-                                      return Center(
+                                      return const Center(
                                           child: CircularProgressIndicator());
                                     }
 
                                     if (snapshot.hasError) {
-                                      return Center(
+                                      return const Center(
                                           child: Text(
                                               'Erro ao carregar categorias'));
                                     }
 
                                     if (!snapshot.hasData ||
                                         snapshot.data!.docs.isEmpty) {
-                                      return Center(
+                                      return const Center(
                                           child: Text(
                                               'Nenhuma categoria encontrada'));
                                     }
@@ -478,10 +478,10 @@ class NovoTeste extends StatelessWidget {
                                               ),
                                               trailing: Checkbox(
                                                 value: dbStore
-                                                    .isChecked(categoryName),
+                                                    .isChecked(categoryId),
                                                 onChanged: (_) {
                                                   dbStore.toggleCategory(
-                                                      categoryName);
+                                                      categoryId);
                                                 },
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
