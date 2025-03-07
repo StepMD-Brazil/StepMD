@@ -18,10 +18,10 @@ class ArtigosPageState extends State<ArtigosPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text(
-          'Notes',
+        title: Text(
+          'Reviews',
           style: TextStyle(
-            color: Color(0xFF957B0B),
+            color: Theme.of(context).hintColor,
             fontSize: 20,
             fontFamily: appFont,
             fontWeight: FontWeight.w400,

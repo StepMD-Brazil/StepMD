@@ -33,23 +33,9 @@ class HomePageState extends State<HomePage> {
   final RootStore rootStore = Modular.get();
   final FlashcardsStore flashStore = Modular.get();
 
-  int _selectedIndex = 0;
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    InitialPagePage(),
-    DbQuestionsPage(),
-    FlashcardsPage(),
-    NotebookPage(),
-    NotesPage(),
-    ArtigosPage(),
-    DicasPage(),
-    SuportePage(),
-    ConfiguracaoPage(),
-  ];
-
   _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      store.selectedIndex = index;
     });
   }
 
@@ -129,7 +115,7 @@ class HomePageState extends State<HomePage> {
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: appColorDeafut,
+                    color: Theme.of(context).hintColor,
                     width: 0.5, // Set the border width
                   ),
                 ),
@@ -148,7 +134,7 @@ class HomePageState extends State<HomePage> {
                           height: MediaQuery.of(context).size.height * 0.05,
                           child: SvgPicture.asset(
                             'assets/svg/logo.svg',
-                            color: appColorDeafut,
+                            color: Theme.of(context).primaryColor,
                           ),
                         ),
                       ),
@@ -161,7 +147,6 @@ class HomePageState extends State<HomePage> {
                           width: MediaQuery.of(context).size.width * 0.05,
                           height: 35,
                           decoration: ShapeDecoration(
-                            color: Colors.white,
                             shape: RoundedRectangleBorder(
                               side: const BorderSide(
                                 width: 1,
@@ -177,18 +162,18 @@ class HomePageState extends State<HomePage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.search,
-                                  color: appColorDeafut,
+                                  color: Theme.of(context).hintColor,
                                 ),
                                 const SizedBox(width: 3),
                                 SizedBox(
                                   width: 100,
                                   child: TextFormField(
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                       hintText: 'Pesquisar',
                                       hintStyle: TextStyle(
-                                        color: appColorPrimary,
+                                        color: Theme.of(context).hintColor,
                                         fontSize: 14,
                                         fontFamily: appFont,
                                         fontWeight: FontWeight.w300,
@@ -206,18 +191,18 @@ class HomePageState extends State<HomePage> {
                         height: 20,
                       ),
                       ListTile(
-                        title: const Row(
+                        title: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Icon(
                               Icons.home_outlined,
-                              color: appColorDeafut,
+                              color: Theme.of(context).primaryColor,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               'Home',
                               style: TextStyle(
-                                color: appColorPrimary,
+                                color: Theme.of(context).hintColor,
                                 fontSize: 14,
                                 fontFamily: appFont,
                                 fontWeight: FontWeight.w500,
@@ -225,7 +210,7 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 0,
+                        selected: store.selectedIndex == 0,
                         onTap: () {
                           // Update the state of the app
                           _onItemTapped(0);
@@ -234,18 +219,18 @@ class HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        title: const Row(
+                        title: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Icon(
                               Icons.quiz_outlined,
-                              color: appColorDeafut,
+                              color: Theme.of(context).primaryColor,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               'StepMD Qbank',
                               style: TextStyle(
-                                color: appColorPrimary,
+                                color: Theme.of(context).hintColor,
                                 fontSize: 14,
                                 fontFamily: appFont,
                                 fontWeight: FontWeight.w500,
@@ -253,14 +238,14 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 1,
+                        selected: store.selectedIndex == 1,
                         onTap: () {
                           _onItemTapped(1); // Ativa "Banco de questões"
                           store.selectedIndexDB = 0;
                         },
                       ),
                       Visibility(
-                        visible: _selectedIndex ==
+                        visible: store.selectedIndex ==
                             1, // Ativa apenas quando "Banco de questões" está ativo
                         child: Column(
                           children: [
@@ -283,10 +268,10 @@ class HomePageState extends State<HomePage> {
                                         : const BoxDecoration(),
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: const Text(
+                                      child: Text(
                                         'Novo teste',
                                         style: TextStyle(
-                                          color: appColorPrimary,
+                                          color: Theme.of(context).hintColor,
                                           fontSize: 14,
                                           fontFamily: appFont,
                                           fontWeight: FontWeight.w500,
@@ -321,10 +306,10 @@ class HomePageState extends State<HomePage> {
                                         : const BoxDecoration(),
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: const Text(
+                                      child: Text(
                                         'Testes realizados',
                                         style: TextStyle(
-                                          color: appColorPrimary,
+                                          color: Theme.of(context).hintColor,
                                           fontSize: 14,
                                           fontFamily: appFont,
                                           fontWeight: FontWeight.w500,
@@ -349,13 +334,13 @@ class HomePageState extends State<HomePage> {
                           children: [
                             SvgPicture.asset(
                               'assets/svg/flash.svg',
-                              color: appColorDeafut,
+                              color: Theme.of(context).primaryColor,
                             ),
                             const SizedBox(width: 10),
-                            const Text(
+                            Text(
                               'Flashcards',
                               style: TextStyle(
-                                color: appColorPrimary,
+                                color: Theme.of(context).hintColor,
                                 fontSize: 14,
                                 fontFamily: appFont,
                                 fontWeight: FontWeight.w500,
@@ -363,7 +348,7 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex ==
+                        selected: store.selectedIndex ==
                             2, // Define o estado selecionado de Flashcards
                         onTap: () async {
                           _onItemTapped(
@@ -373,7 +358,7 @@ class HomePageState extends State<HomePage> {
                         },
                       ),
                       Visibility(
-                        visible: _selectedIndex ==
+                        visible: store.selectedIndex ==
                             2, // Ativa os subitens apenas quando Flashcards está selecionado
                         child: Column(
                           children: [
@@ -396,10 +381,10 @@ class HomePageState extends State<HomePage> {
                                         : const BoxDecoration(),
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: const Text(
+                                      child: Text(
                                         'Meus decks',
                                         style: TextStyle(
-                                          color: appColorPrimary,
+                                          color: Theme.of(context).hintColor,
                                           fontSize: 14,
                                           fontFamily: appFont,
                                           fontWeight: FontWeight.w500,
@@ -435,10 +420,10 @@ class HomePageState extends State<HomePage> {
                                         : const BoxDecoration(),
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: const Text(
+                                      child: Text(
                                         'Decks prontos',
                                         style: TextStyle(
-                                          color: appColorPrimary,
+                                          color: Theme.of(context).hintColor,
                                           fontSize: 14,
                                           fontFamily: appFont,
                                           fontWeight: FontWeight.w500,
@@ -464,13 +449,13 @@ class HomePageState extends State<HomePage> {
                           children: [
                             SvgPicture.asset(
                               'assets/svg/book.svg',
-                              color: appColorDeafut,
+                              color: Theme.of(context).primaryColor,
                             ),
                             const SizedBox(width: 10),
-                            const Text(
+                            Text(
                               'Meu caderno',
                               style: TextStyle(
-                                color: appColorPrimary,
+                                color: Theme.of(context).hintColor,
                                 fontSize: 14,
                                 fontFamily: appFont,
                                 fontWeight: FontWeight.w500,
@@ -478,7 +463,7 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 3,
+                        selected: store.selectedIndex == 3,
                         onTap: () {
                           // Update the state of the app
                           _onItemTapped(3);
@@ -491,13 +476,13 @@ class HomePageState extends State<HomePage> {
                           children: [
                             SvgPicture.asset(
                               'assets/svg/add_notes.svg',
-                              color: appColorDeafut,
+                              color: Theme.of(context).primaryColor,
                             ),
                             const SizedBox(width: 10),
-                            const Text(
+                            Text(
                               'Notes',
                               style: TextStyle(
-                                color: appColorPrimary,
+                                color: Theme.of(context).hintColor,
                                 fontSize: 14,
                                 fontFamily: appFont,
                                 fontWeight: FontWeight.w500,
@@ -505,7 +490,7 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 4,
+                        selected: store.selectedIndex == 4,
                         onTap: () {
                           // Update the state of the app
                           _onItemTapped(4);
@@ -518,13 +503,13 @@ class HomePageState extends State<HomePage> {
                           children: [
                             SvgPicture.asset(
                               'assets/svg/notes.svg',
-                              color: appColorDeafut,
+                              color: Theme.of(context).primaryColor,
                             ),
                             const SizedBox(width: 10),
-                            const Text(
+                            Text(
                               'Reviews',
                               style: TextStyle(
-                                color: appColorPrimary,
+                                color: Theme.of(context).hintColor,
                                 fontSize: 14,
                                 fontFamily: appFont,
                                 fontWeight: FontWeight.w500,
@@ -532,7 +517,7 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 5,
+                        selected: store.selectedIndex == 5,
                         onTap: () {
                           // Update the state of the app
                           _onItemTapped(5);
@@ -540,18 +525,18 @@ class HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        title: const Row(
+                        title: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Icon(
                               Icons.lightbulb_outline_sharp,
-                              color: appColorDeafut,
+                              color: Theme.of(context).primaryColor,
                             ),
                             SizedBox(width: 10),
                             Text(
                               'High Yield Tips',
                               style: TextStyle(
-                                color: appColorPrimary,
+                                color: Theme.of(context).hintColor,
                                 fontSize: 14,
                                 fontFamily: appFont,
                                 fontWeight: FontWeight.w500,
@@ -559,7 +544,7 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 6,
+                        selected: store.selectedIndex == 6,
                         onTap: () {
                           // Update the state of the app
                           _onItemTapped(6);
@@ -570,18 +555,18 @@ class HomePageState extends State<HomePage> {
                         height: 270,
                       ),
                       ListTile(
-                        title: const Row(
+                        title: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Icon(
                               Icons.help_outline_outlined,
-                              color: appColorDeafut,
+                              color: Theme.of(context).primaryColor,
                             ),
                             SizedBox(width: 10),
                             Text(
                               'Suporte',
                               style: TextStyle(
-                                color: appColorPrimary,
+                                color: Theme.of(context).hintColor,
                                 fontSize: 14,
                                 fontFamily: appFont,
                                 fontWeight: FontWeight.w500,
@@ -589,7 +574,7 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 7,
+                        selected: store.selectedIndex == 7,
                         onTap: () {
                           // Update the state of the app
                           _onItemTapped(7);
@@ -597,18 +582,18 @@ class HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        title: const Row(
+                        title: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Icon(
                               Icons.settings_rounded,
-                              color: appColorDeafut,
+                              color: Theme.of(context).primaryColor,
                             ),
                             SizedBox(width: 10),
                             Text(
                               'Configurações',
                               style: TextStyle(
-                                color: appColorPrimary,
+                                color: Theme.of(context).hintColor,
                                 fontSize: 14,
                                 fontFamily: appFont,
                                 fontWeight: FontWeight.w500,
@@ -616,7 +601,7 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 8,
+                        selected: store.selectedIndex == 8,
                         onTap: () {
                           // Update the state of the app
                           _onItemTapped(8);
@@ -625,18 +610,18 @@ class HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        title: const Row(
+                        title: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Icon(
                               Icons.login,
-                              color: appColorDeafut,
+                              color: Theme.of(context).primaryColor,
                             ),
                             SizedBox(width: 10),
                             Text(
                               'Log out',
                               style: TextStyle(
-                                color: appColorPrimary,
+                                color: Theme.of(context).hintColor,
                                 fontSize: 14,
                                 fontFamily: appFont,
                                 fontWeight: FontWeight.w500,
@@ -644,7 +629,7 @@ class HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        selected: _selectedIndex == 9,
+                        selected: store.selectedIndex == 9,
                         onTap: () async {
                           // Update the state of the app
                           _onItemTapped(9);
@@ -657,7 +642,7 @@ class HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              Expanded(child: _widgetOptions[_selectedIndex]),
+              Expanded(child: store.widgetOptions[store.selectedIndex ?? 0]),
             ],
           ),
         ),

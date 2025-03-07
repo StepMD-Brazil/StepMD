@@ -32,10 +32,10 @@ class NotesPageState extends State<NotesPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text(
+        title: Text(
           'Notes',
           style: TextStyle(
-            color: Color(0xFF957B0B),
+            color: Theme.of(context).hintColor,
             fontSize: 20,
             fontFamily: appFont,
             fontWeight: FontWeight.w400,
@@ -101,15 +101,20 @@ class NotesPageState extends State<NotesPage> {
 
   Widget buildNotesList() {
     return ListView(
-      padding: const EdgeInsets.only(left: 50, top: 8, bottom: 8), // Margem à esquerda e espaçamento vertical
+      padding: const EdgeInsets.only(
+          left: 50,
+          top: 8,
+          bottom: 8), // Margem à esquerda e espaçamento vertical
       children: store.notesList.map((note) {
         final formattedDate =
             DateFormat('dd/MM/yyyy HH:mm').format(note['dateCreated'].toDate());
         final index = store.notesList.indexOf(note);
         textControllers[index] = TextEditingController(text: note['text']);
         return Container(
-          width: MediaQuery.of(context).size.width * 0.75, // Largura limitada a 75% da tela
-          margin: const EdgeInsets.only(bottom: 8), // Espaçamento entre os itens
+          width: MediaQuery.of(context).size.width *
+              0.75, // Largura limitada a 75% da tela
+          margin:
+              const EdgeInsets.only(bottom: 8), // Espaçamento entre os itens
           height: 130,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
@@ -219,7 +224,10 @@ class NotesPageState extends State<NotesPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Excluir nota', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+        title: Text(
+          'Excluir nota',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
         content: Text('Você tem certeza de que deseja excluir esta nota?'),
         actions: [
           TextButton(

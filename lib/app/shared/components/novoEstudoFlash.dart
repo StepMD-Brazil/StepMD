@@ -93,11 +93,6 @@ class NovoEstudoFlash extends StatelessWidget {
                               .collection('categories')
                               .snapshots(),
                           builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Center(child: CircularProgressIndicator());
-                            }
-
                             if (snapshot.hasError) {
                               return Center(
                                   child: Text('Erro ao carregar categorias'));
@@ -189,10 +184,7 @@ class NovoEstudoFlash extends StatelessWidget {
                                               builder: (context, snapshot) {
                                                 if (snapshot.connectionState ==
                                                     ConnectionState.waiting) {
-                                                  return const Center(
-                                                    child:
-                                                        CircularProgressIndicator(),
-                                                  );
+                                                  return Container();
                                                 }
                                                 return Text(
                                                   '${snapshot.data} cards',

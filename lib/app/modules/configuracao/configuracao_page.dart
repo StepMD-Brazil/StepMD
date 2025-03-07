@@ -115,7 +115,7 @@ class ConfiguracaoPageState extends State<ConfiguracaoPage> {
                                     height: 24,
                                     child: SvgPicture.asset(
                                       'assets/svg/desktop_windows.svg',
-                                      color: appColorDeafut,
+                                      color: Theme.of(context).hintColor,
                                     ),
                                   ),
                                   const SizedBox(width: 8),
@@ -175,7 +175,8 @@ class ConfiguracaoPageState extends State<ConfiguracaoPage> {
                                                 height: 24,
                                                 child: SvgPicture.asset(
                                                   'assets/svg/g_translate.svg',
-                                                  color: appColorDeafut,
+                                                  color: Theme.of(context)
+                                                      .hintColor,
                                                 ),
                                               ),
                                               const SizedBox(width: 8),
@@ -365,7 +366,8 @@ class ConfiguracaoPageState extends State<ConfiguracaoPage> {
                                               height: 24,
                                               child: SvgPicture.asset(
                                                 'assets/svg/custom_typography.svg',
-                                                color: appColorDeafut,
+                                                color:
+                                                    Theme.of(context).hintColor,
                                               ),
                                             ),
                                             const SizedBox(width: 8),
@@ -512,7 +514,8 @@ class ConfiguracaoPageState extends State<ConfiguracaoPage> {
                                                 height: 24,
                                                 child: SvgPicture.asset(
                                                   'assets/svg/contrast.svg',
-                                                  color: appColorDeafut,
+                                                  color: Theme.of(context)
+                                                      .hintColor,
                                                 ),
                                               ),
                                               const SizedBox(width: 8),
@@ -591,8 +594,9 @@ class ConfiguracaoPageState extends State<ConfiguracaoPage> {
                                                             height: 24,
                                                             child: Icon(
                                                               Icons.light_mode,
-                                                              color:
-                                                                  appColorDeafut,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .hintColor,
                                                             ),
                                                           ),
                                                           const SizedBox(
@@ -678,8 +682,9 @@ class ConfiguracaoPageState extends State<ConfiguracaoPage> {
                                                               child: Icon(
                                                                 Icons
                                                                     .dark_mode_outlined,
-                                                                color:
-                                                                    appColorDeafut,
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .hintColor,
                                                               ),
                                                             ),
                                                             const SizedBox(
@@ -778,7 +783,7 @@ class ConfiguracaoPageState extends State<ConfiguracaoPage> {
                                       height: 24,
                                       child: Icon(
                                         Icons.account_circle_outlined,
-                                        color: appColorDeafut,
+                                        color: Theme.of(context).hintColor,
                                       )),
                                   const SizedBox(width: 8),
                                   Text(
@@ -1347,6 +1352,9 @@ class ConfiguracaoPageState extends State<ConfiguracaoPage> {
                                                                     content: Text(
                                                                         'Configurações salvas com sucesso!')),
                                                               );
+                                                              Modular.to
+                                                                  .pushReplacementNamed(
+                                                                      '/home');
                                                             }).catchError(
                                                                     (error) {
                                                               ScaffoldMessenger
@@ -1368,7 +1376,9 @@ class ConfiguracaoPageState extends State<ConfiguracaoPage> {
                                                                           8),
                                                             ),
                                                             backgroundColor:
-                                                                appColorDeafut,
+                                                                Theme.of(
+                                                                        context)
+                                                                    .hintColor,
                                                           ),
                                                           child: Text(
                                                             'Salvar',

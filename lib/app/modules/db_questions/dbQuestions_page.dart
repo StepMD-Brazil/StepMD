@@ -29,7 +29,7 @@ class DbQuestionsPageState extends State<DbQuestionsPage> {
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
       return Scaffold(
-          body: Center(child: _widgetOptions[homeStore.selectedIndexDB]));
+          body: Center(child: _widgetOptions[homeStore.selectedIndexDB ?? 0]));
     });
   }
 }

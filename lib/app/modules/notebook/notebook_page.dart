@@ -20,10 +20,10 @@ class NotebookPageState extends State<NotebookPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text(
+        title:  Text(
           'Caderno',
           style: TextStyle(
-            color: Color(0xFF957B0B),
+            color: Theme.of(context).hintColor,
             fontSize: 20,
             fontFamily: appFont,
             fontWeight: FontWeight.w400,
@@ -83,9 +83,9 @@ class NotebookPageState extends State<NotebookPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(
+                         Icon(
                           Icons.search,
-                          color: appColorDeafut,
+                          color: Theme.of(context).hintColor,
                         ),
                         const SizedBox(width: 3),
                         SizedBox(

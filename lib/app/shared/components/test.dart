@@ -7,6 +7,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stepmd/app/modules/db_questions/dbQuestions_store.dart';
 import 'package:stepmd/app/modules/home/home_page.dart';
+import 'package:stepmd/app/shared/components/resultadoTesteRealizado.dart';
 import 'package:stepmd/app/shared/components/testeRealizados.dart';
 import 'package:stepmd/app/shared/constants.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
@@ -1478,7 +1479,8 @@ class _TestState extends State<Test> {
               dbStore.finishTest();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TestesRealizados()),
+                MaterialPageRoute(
+                    builder: (context) => ResultadoTestesRealizados()),
               );
             },
             style: TextButton.styleFrom(

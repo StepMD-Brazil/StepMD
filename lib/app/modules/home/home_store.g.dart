@@ -28,15 +28,47 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       Atom(name: '_HomeStoreBase.selectedIndexDB', context: context);
 
   @override
-  int get selectedIndexDB {
+  int? get selectedIndexDB {
     _$selectedIndexDBAtom.reportRead();
     return super.selectedIndexDB;
   }
 
   @override
-  set selectedIndexDB(int value) {
+  set selectedIndexDB(int? value) {
     _$selectedIndexDBAtom.reportWrite(value, super.selectedIndexDB, () {
       super.selectedIndexDB = value;
+    });
+  }
+
+  late final _$selectedIndexAtom =
+      Atom(name: '_HomeStoreBase.selectedIndex', context: context);
+
+  @override
+  int? get selectedIndex {
+    _$selectedIndexAtom.reportRead();
+    return super.selectedIndex;
+  }
+
+  @override
+  set selectedIndex(int? value) {
+    _$selectedIndexAtom.reportWrite(value, super.selectedIndex, () {
+      super.selectedIndex = value;
+    });
+  }
+
+  late final _$widgetOptionsAtom =
+      Atom(name: '_HomeStoreBase.widgetOptions', context: context);
+
+  @override
+  List<Widget> get widgetOptions {
+    _$widgetOptionsAtom.reportRead();
+    return super.widgetOptions;
+  }
+
+  @override
+  set widgetOptions(List<Widget> value) {
+    _$widgetOptionsAtom.reportWrite(value, super.widgetOptions, () {
+      super.widgetOptions = value;
     });
   }
 
@@ -58,7 +90,9 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   String toString() {
     return '''
 value: ${value},
-selectedIndexDB: ${selectedIndexDB}
+selectedIndexDB: ${selectedIndexDB},
+selectedIndex: ${selectedIndex},
+widgetOptions: ${widgetOptions}
     ''';
   }
 }
