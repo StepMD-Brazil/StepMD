@@ -1,12 +1,13 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:stepmd/app/modules/notebook/notebook_store.dart';
 import 'package:flutter/material.dart';
-import 'package:stepmd/app/shared/constants.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:stepmd/app/modules/notebook/notebook_store.dart';
+import 'package:stepmd/app/modules/notebook/notebook_page_model.dart';
 
 class NotebookPage extends StatefulWidget {
-  final String title;
-  const NotebookPage({Key? key, this.title = 'NotebookPage'}) : super(key: key);
+  const NotebookPage({Key? key}) : super(key: key);
+
   @override
   NotebookPageState createState() => NotebookPageState();
 }
@@ -16,186 +17,87 @@ class NotebookPageState extends State<NotebookPage> {
   final QuillController _controller = QuillController.basic();
 
   @override
+  void initState() {
+    super.initState();
+    store.loadPages();
+  }
+
+  void _onPageSelected(NotebookPageModel page) {
+    store.setSelectedPage(page);
+    _controller.document = Document()..insert(0, page.content);
+  }
+
+  void _addNewPage() {
+    int newPageNumber = store.pages.length + 1;
+    String newPageTitle = "Página $newPageNumber";
+    store.addPage(newPageTitle, "");
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title:  Text(
-          'Caderno',
-          style: TextStyle(
-            color: Theme.of(context).hintColor,
-            fontSize: 20,
-            fontFamily: appFont,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-      ),
+      appBar: AppBar(title: const Text('Caderno')),
       body: Row(
         children: [
-          Container(
-            padding: EdgeInsets.only(left: 12),
-            width: MediaQuery.of(context).size.width * 0.15,
-            height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              border: Border(
-                left: BorderSide(
-                  strokeAlign: BorderSide.strokeAlignOutside,
-                  color: Color(0xFFDAE9EE),
-                ),
-                top: BorderSide(
-                  strokeAlign: BorderSide.strokeAlignOutside,
-                  color: Color(0xFFDAE9EE),
-                ),
-                right: BorderSide(
-                  width: 1,
-                  strokeAlign: BorderSide.strokeAlignOutside,
-                  color: Color(0xFFDAE9EE),
-                ),
-                bottom: BorderSide(
-                  strokeAlign: BorderSide.strokeAlignOutside,
-                  color: Color(0xFFDAE9EE),
-                ),
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 25),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.13,
-                  height: 35,
-                  padding: const EdgeInsets.only(left: 8),
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                        width: 1,
-                        strokeAlign: BorderSide.strokeAlignOutside,
-                        color: Color(0xFFCBD5E1),
+          // Lista de páginas
+          Observer(
+            builder: (_) {
+              return Container(
+                width: MediaQuery.of(context).size.width * 0.2,
+                color: Colors.grey[200],
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: store.pages.length,
+                        itemBuilder: (context, index) {
+                          final page = store.pages[index];
+                          return ListTile(
+                            title: Text(page.title),
+                            selected: store.selectedPage?.id == page.id,
+                            tileColor: store.selectedPage?.id == page.id
+                                ? Colors.blue.withOpacity(0.2) // Cor de destaque
+                                : null,
+                            onTap: () => _onPageSelected(page),
+                          );
+                        },
                       ),
-                      borderRadius: BorderRadius.circular(9999),
                     ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                         Icon(
-                          Icons.search,
-                          color: Theme.of(context).hintColor,
-                        ),
-                        const SizedBox(width: 3),
-                        SizedBox(
-                          width: 100,
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                              hintText: 'Pesquisar',
-                              hintStyle: TextStyle(
-                                color: appColorPrimary,
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w300,
-                              ),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 656,
-                          padding:
-                              const EdgeInsets.only(top: 8, left: 8, right: 8),
-                          child: ListView.builder(
-                            itemCount: 7,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                  padding: const EdgeInsets.only(
-                                    top: 8,
-                                    left: 16,
-                                    right: 8,
-                                    bottom: 8,
-                                  ),
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          height: 20,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                child: Text(
-                                                  'Página $index',
-                                                  style: TextStyle(
-                                                    color: Color(0xFF51628A),
-                                                    fontSize: 14,
-                                                    fontFamily: appFont,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ));
-                            },
-                          ),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: _addNewPage,
+                        child: const Text("Adicionar Página"),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width * 0.65,
+          // Editor de texto
+          Expanded(
             child: Column(
-              children: <Widget>[
-                Container(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    width: MediaQuery.of(context).size.width * 0.75,
-                    child: QuillToolbar.simple(controller: _controller)),
-                const SizedBox(height: 16),
+              children: [
+                QuillToolbar.simple(controller: _controller),
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.withOpacity(0.5)),
-                    ),
-                    child: QuillEditor.basic(
-                      controller: _controller,
-                      configurations: QuillEditorConfigurations(
-                        placeholder:
-                            'Dê um título a esta página, digite aqui suas anotações',
-                      ),
+                  child: QuillEditor.basic(
+                    controller: _controller,
+                    configurations: const QuillEditorConfigurations(
+                      placeholder: 'Digite suas anotações',
                     ),
                   ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (store.selectedPage != null) {
+                      store.updatePage(
+                        store.selectedPage!.id,
+                        _controller.document.toPlainText(),
+                      );
+                    }
+                  },
+                  child: const Text("Salvar Página"),
                 ),
               ],
             ),
