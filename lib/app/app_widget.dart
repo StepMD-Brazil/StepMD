@@ -35,6 +35,7 @@ class AppWidget extends StatelessWidget {
               primarySwatch: Colors.blue,
               hintColor: const Color(0xFF051333),
               useMaterial3: false,
+              scaffoldBackgroundColor: Colors.white,
             ),
             darkTheme: ThemeData(
               brightness: Brightness.dark,

@@ -246,39 +246,29 @@ class FlashcardsPageState extends State<FlashcardsPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 92,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              'Use flashcards para memorizar o conteúdo',
-                              style: TextStyle(
-                                color: appColorPrimary,
-                                fontSize: 28,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.45,
-                            child: Text(
-                              'Os flashcards são ótimos para memorização, pois facilitam a revisão ativa e ajudam a fixar conteúdo através de perguntas e respostas rápidas. Essa prática melhora a retenção e torna o estudo mais eficiente.',
-                              style: TextStyle(
-                                color: Color(0xFF51628A),
-                                fontSize: 16,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                          ),
-                        ],
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        'Use flashcards para memorizar o conteúdo',
+                        style: TextStyle(
+                          color: appColorPrimary,
+                          fontSize: 28,
+                          fontFamily: appFont,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      child: Text(
+                        'Os flashcards são ótimos para memorização, pois facilitam a revisão ativa e ajudam a fixar conteúdo através de perguntas e respostas rápidas. Essa prática melhora a retenção e torna o estudo mais eficiente.',
+                        style: TextStyle(
+                          color: Color(0xFF51628A),
+                          fontSize: 16,
+                          fontFamily: appFont,
+                          fontWeight: FontWeight.w300,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),

@@ -1477,11 +1477,11 @@ class _TestState extends State<Test> {
           TextButton(
             onPressed: () {
               dbStore.finishTest();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ResultadoTestesRealizados()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //       builder: (context) => ResultadoTestesRealizados()),
+              // );
             },
             style: TextButton.styleFrom(
               backgroundColor: Colors.red[600], // Cor de fundo correta

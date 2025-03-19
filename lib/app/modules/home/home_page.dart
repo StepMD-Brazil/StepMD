@@ -120,7 +120,7 @@ class HomePageState extends State<HomePage> {
                   ),
                 ),
                 child: Drawer(
-                  width: MediaQuery.of(context).size.width * 0.13,
+                  width: MediaQuery.of(context).size.width * 0.14,
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: [
@@ -134,7 +134,6 @@ class HomePageState extends State<HomePage> {
                           height: MediaQuery.of(context).size.height * 0.05,
                           child: SvgPicture.asset(
                             'assets/svg/logo.svg',
-                            color: Theme.of(context).primaryColor,
                           ),
                         ),
                       ),
@@ -256,7 +255,7 @@ class HomePageState extends State<HomePage> {
                                   Container(
                                     height: 40,
                                     width: MediaQuery.of(context).size.width *
-                                        0.11,
+                                        0.09,
                                     decoration: store.selectedIndexDB == 0
                                         ? ShapeDecoration(
                                             color: const Color(0xFFE2F1FF),

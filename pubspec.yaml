@@ -34,6 +34,7 @@ dependencies:
   flutter_mobx: ^2.2.1+1
   mobx_codegen: ^2.6.1
   build_runner: ^2.4.12
+  percent_indicator: ^4.2.3
 
   firebase_core: ^3.7.0
   firebase_auth: ^5.3.1
@@ -125,6 +126,8 @@ flutter:
     - assets/svg/eua.svg
     - assets/svg/contrast.svg
     - assets/svg/infectiousDisease.svg
+    - assets/svg/ophthalmology.svg
+    - assets/svg/toxicology.svg
     - assets/svg/biochemistry.svg
     - assets/svg/flashcard.svg
     - assets/img/eua.png

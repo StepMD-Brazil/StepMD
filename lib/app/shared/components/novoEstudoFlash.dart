@@ -115,7 +115,6 @@ class NovoEstudoFlash extends StatelessWidget {
                                 final categoryName = category['name'];
                                 // final categoryIcon =
                                 //     category['icon'] ?? Icons.category;
-
                                 return Observer(
                                   builder: (_) => Container(
                                     width:
@@ -143,7 +142,7 @@ class NovoEstudoFlash extends StatelessWidget {
                                         child: FutureBuilder(
                                           future: DefaultAssetBundle.of(context)
                                               .loadString(
-                                                  'assets/svg/$categoryName.svg'),
+                                                  'assets/svg/${categoryName ?? 'pathology'}.svg'),
                                           builder: (context, snapshot) {
                                             if (snapshot.connectionState ==
                                                     ConnectionState.done &&

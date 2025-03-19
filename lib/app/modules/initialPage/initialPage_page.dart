@@ -42,73 +42,6 @@ class InitialPagePageState extends State<InitialPagePage> {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              SizedBox(width: 16),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   children: [
-              //     Container(
-              //       padding:
-              //           const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              //       clipBehavior: Clip.antiAlias,
-              //       decoration: ShapeDecoration(
-              //         shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(6)),
-              //       ),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         crossAxisAlignment: CrossAxisAlignment.center,
-              //         children: [
-              //           SvgPicture.asset(
-              //             color: Color(0xFF957B0B),
-              //             'assets/svg/dashboard.svg',
-              //           ),
-              //           const SizedBox(width: 4),
-              //           const Text(
-              //             'Dashboard',
-              //             style: TextStyle(
-              //               color: Color(0xFF957B0B),
-              //               fontSize: 14,
-              //               fontFamily: 'Work Sans',
-              //               fontWeight: FontWeight.w500,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //     const SizedBox(width: 8),
-              //     Container(
-              //       padding:
-              //           const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              //       clipBehavior: Clip.antiAlias,
-              //       decoration: ShapeDecoration(
-              //         color: const Color(0xFFE1F3FF),
-              //         shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(6)),
-              //       ),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         crossAxisAlignment: CrossAxisAlignment.center,
-              //         children: [
-              //           SvgPicture.asset(
-              //             color: Color(0xFF957B0B),
-              //             'assets/svg/autobook.svg',
-              //           ),
-              //           const SizedBox(width: 4),
-              //           const Text(
-              //             'Disciplinas',
-              //             style: TextStyle(
-              //               color: Color(0xFF957B0B),
-              //               fontSize: 14,
-              //               fontFamily: 'Work Sans',
-              //               fontWeight: FontWeight.w500,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         ),
@@ -787,6 +720,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                                     onTap: () {
                                       setState(() {
                                         homeStore.selectedIndex = 1;
+                                        homeStore.selectedIndexDB = 0;
                                       });
                                     },
                                     child: Container(
@@ -795,7 +729,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                                       clipBehavior: Clip.antiAlias,
                                       decoration: ShapeDecoration(
                                         shape: RoundedRectangleBorder(
-                                          side: BorderSide(
+                                          side: const BorderSide(
                                               width: 1,
                                               color: Color(0xFF1584EB)),
                                           borderRadius:
@@ -809,7 +743,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Text(
+                                          const Text(
                                             'Acessar',
                                             style: TextStyle(
                                               color: Color(0xFF1584EB),
@@ -845,7 +779,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                                       width: 1, color: Color(0xFFDAE9EE)),
                                   borderRadius: BorderRadius.circular(16),
                                 ),
-                                shadows: [
+                                shadows: const [
                                   BoxShadow(
                                     color: Color(0x3FAEAEAE),
                                     blurRadius: 4,

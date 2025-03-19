@@ -462,7 +462,7 @@ class NovoTeste extends StatelessWidget {
                                                 padding:
                                                     const EdgeInsets.all(8.0),
                                                 child: SvgPicture.asset(
-                                                  'assets/svg/${categoryName}.svg',
+                                                  'assets/svg/${categoryName ?? 'pathology'}.svg',
                                                   color: Colors.blue.shade800,
                                                   width: 20,
                                                   height: 20,
