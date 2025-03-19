@@ -6,6 +6,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stepmd/app/modules/configuracao/configuracao_store.dart';
 import 'package:flutter/material.dart';
+import 'package:stepmd/app/root/root_store.dart';
 import 'package:stepmd/app/shared/constants.dart';
 
 class ConfiguracaoPage extends StatefulWidget {
@@ -18,6 +19,8 @@ class ConfiguracaoPage extends StatefulWidget {
 
 class ConfiguracaoPageState extends State<ConfiguracaoPage> {
   final ConfiguracaoStore store = Modular.get();
+  final RootStore rootStore = Modular.get();
+
   String language = '';
   @override
   void initState() {
@@ -1352,9 +1355,11 @@ class ConfiguracaoPageState extends State<ConfiguracaoPage> {
                                                                     content: Text(
                                                                         'Configurações salvas com sucesso!')),
                                                               );
+                                                              rootStore
+                                                                  .selectedTrunk = 1;
                                                               Modular.to
                                                                   .pushReplacementNamed(
-                                                                      '/home');
+                                                                      '/');
                                                             }).catchError(
                                                                     (error) {
                                                               ScaffoldMessenger
@@ -1380,7 +1385,7 @@ class ConfiguracaoPageState extends State<ConfiguracaoPage> {
                                                                         context)
                                                                     .hintColor,
                                                           ),
-                                                          child: Text(
+                                                          child: const Text(
                                                             'Salvar',
                                                             style: TextStyle(
                                                               color:

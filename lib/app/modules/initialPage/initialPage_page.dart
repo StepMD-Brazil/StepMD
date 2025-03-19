@@ -205,7 +205,6 @@ class InitialPagePageState extends State<InitialPagePage> {
                   ],
                 ),
               ),
-
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
@@ -478,6 +477,217 @@ class InitialPagePageState extends State<InitialPagePage> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.6,
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        'Certificação ECFMG?',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).hintColor,
+                          fontSize: 40,
+                          fontFamily: 'Work Sans',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'A certificação da',
+                            style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                              fontSize: 18,
+                              fontFamily: 'Mulish',
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          TextSpan(
+                            text:
+                                'Educational Commission for Foreign Medical Graduates (ECFMG)',
+                            style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                              fontSize: 18,
+                              fontFamily: 'Mulish',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          TextSpan(
+                            text:
+                                ' é um requisito essencial para médicos formados no exterior que desejam exercer a medicina nos Estados Unidos. Ela comprova que o profissional possui os conhecimentos e habilidades necessários para ingressar em programas de residência médica no país.\n',
+                            style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                              fontSize: 18,
+                              fontFamily: 'Mulish',
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          TextSpan(
+                            text:
+                                '\nOs principais requisitos para obter a certificação ECFMG são:\n',
+                            style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                              fontSize: 18,
+                              fontFamily: 'Mulish',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '\n• Aprovação no USMLE Step 1.',
+                            style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                              fontSize: 18,
+                              fontFamily: 'Mulish',
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          TextSpan(
+                            text:
+                                '\n• Aprovação no USMLE Step 2 CK (Clinical Knowledge).',
+                            style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                              fontSize: 18,
+                              fontFamily: 'Mulish',
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          TextSpan(
+                            text:
+                                '\n• Demonstração de proficiência no inglês médico através do Occupational English Test (OET).',
+                            style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                              fontSize: 18,
+                              fontFamily: 'Mulish',
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.7,
+                decoration: const BoxDecoration(color: Color(0xFFEEF6FF)),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            child: Text(
+                              'OET – Occupational English Test',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Theme.of(context).hintColor,
+                                fontSize: 40,
+                                fontFamily: 'Work Sans',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        'Além dos exames USMLE, os candidatos devem comprovar proficiência em inglês médico por meio do OET. A certificação ECFMG exige pontuações mínimas em uma única tentativa do teste:',
+                                    style: TextStyle(
+                                      color: Theme.of(context).hintColor,
+                                      fontSize: 18,
+                                      fontFamily: 'Mulish',
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: '\n• Listening: 350',
+                                    style: TextStyle(
+                                      color: Theme.of(context).hintColor,
+                                      fontSize: 18,
+                                      fontFamily: 'Mulish',
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: '\n• Reading: 350',
+                                    style: TextStyle(
+                                      color: Theme.of(context).hintColor,
+                                      fontSize: 18,
+                                      fontFamily: 'Mulish',
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: '\n• Speaking: 350',
+                                    style: TextStyle(
+                                      color: Theme.of(context).hintColor,
+                                      fontSize: 18,
+                                      fontFamily: 'Mulish',
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: '\n• Writing: 300\n',
+                                    style: TextStyle(
+                                      color: Theme.of(context).hintColor,
+                                      fontSize: 18,
+                                      fontFamily: 'Mulish',
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        '\nO OET avalia as habilidades de comunicação médica em inglês, garantindo que os profissionais sejam capazes de se comunicar de forma clara e eficaz em contextos clínicos.',
+                                    style: TextStyle(
+                                      color: Theme.of(context).hintColor,
+                                      fontSize: 18,
+                                      fontFamily: 'Mulish',
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+              ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.6,
                 height: MediaQuery.of(context).size.height * 0.7,
@@ -501,11 +711,11 @@ class InitialPagePageState extends State<InitialPagePage> {
                               decoration: ShapeDecoration(
                                 color: Colors.white,
                                 shape: RoundedRectangleBorder(
-                                  side: BorderSide(
+                                  side: const BorderSide(
                                       width: 1, color: Color(0xFFDAE9EE)),
                                   borderRadius: BorderRadius.circular(16),
                                 ),
-                                shadows: [
+                                shadows: const [
                                   BoxShadow(
                                     color: Color(0x3FAEAEAE),
                                     blurRadius: 4,
@@ -667,7 +877,11 @@ class InitialPagePageState extends State<InitialPagePage> {
                                             Container(
                                               width: 32,
                                               height: 32,
-                                              child: FlutterLogo(),
+                                              child: SvgPicture.asset(
+                                                'assets/svg/flashcards.svg',
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
                                             ),
                                             const SizedBox(width: 8),
                                             const Text(
@@ -811,7 +1025,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                                                 child: SvgPicture.asset(
                                                   'assets/svg/book.svg',
                                                   color: Theme.of(context)
-                                                      .hintColor,
+                                                      .primaryColor,
                                                 ),
                                               ),
                                               const SizedBox(width: 8),
@@ -877,7 +1091,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Text(
+                                          const Text(
                                             'Acessar',
                                             style: TextStyle(
                                               color: Color(0xFF1584EB),
@@ -890,7 +1104,8 @@ class InitialPagePageState extends State<InitialPagePage> {
                                           Container(
                                             width: 24,
                                             height: 24,
-                                            child: Icon(Icons.arrow_forward,
+                                            child: const Icon(
+                                                Icons.arrow_forward,
                                                 color: Color(0xFF1584EB)),
                                           ),
                                         ],
@@ -909,11 +1124,11 @@ class InitialPagePageState extends State<InitialPagePage> {
                               decoration: ShapeDecoration(
                                 color: Colors.white,
                                 shape: RoundedRectangleBorder(
-                                  side: BorderSide(
+                                  side: const BorderSide(
                                       width: 1, color: Color(0xFFDAE9EE)),
                                   borderRadius: BorderRadius.circular(16),
                                 ),
-                                shadows: [
+                                shadows: const [
                                   BoxShadow(
                                     color: Color(0x3FAEAEAE),
                                     blurRadius: 4,
@@ -949,7 +1164,11 @@ class InitialPagePageState extends State<InitialPagePage> {
                                               Container(
                                                 width: 32,
                                                 height: 32,
-                                                child: FlutterLogo(),
+                                                child: Icon(
+                                                  Icons.description_outlined,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
                                               ),
                                               const SizedBox(width: 8),
                                               Text(
@@ -995,21 +1214,21 @@ class InitialPagePageState extends State<InitialPagePage> {
                                       clipBehavior: Clip.antiAlias,
                                       decoration: ShapeDecoration(
                                         shape: RoundedRectangleBorder(
-                                          side: BorderSide(
+                                          side: const BorderSide(
                                               width: 1,
                                               color: Color(0xFF1584EB)),
                                           borderRadius:
                                               BorderRadius.circular(6),
                                         ),
                                       ),
-                                      child: Row(
+                                      child: const Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          const Text(
+                                          Text(
                                             'Acessar',
                                             style: TextStyle(
                                               color: Color(0xFF1584EB),
@@ -1018,8 +1237,8 @@ class InitialPagePageState extends State<InitialPagePage> {
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
-                                          const SizedBox(width: 8),
-                                          Container(
+                                          SizedBox(width: 8),
+                                          SizedBox(
                                             width: 24,
                                             height: 24,
                                             child: Icon(Icons.arrow_forward,
@@ -1039,666 +1258,6 @@ class InitialPagePageState extends State<InitialPagePage> {
                   ],
                 ),
               )
-              // Row(
-              //   children: [
-              //     SizedBox(
-              //       width: MediaQuery.of(context).size.width * 0.5,
-              //       child: Center(
-              //         child: SizedBox(
-              //           width: MediaQuery.of(context).size.width * 0.3,
-              //           child: const Text(
-              //             'Conteúdo da Home ainda será feito quando tiver todas as funcionalidades prontas\n\nícones ainda vão ser mudados',
-              //             style: TextStyle(
-              //               color: Color(0xFF51628A),
-              //               fontSize: 22,
-              //               fontFamily: appFont,
-              //               fontWeight: FontWeight.w500,
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //     Container(
-              //       width: MediaQuery.of(context).size.width * 0.35,
-              //       height: MediaQuery.of(context).size.height * 0.5,
-              //       padding:
-              //           const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              //       decoration: ShapeDecoration(
-              //         color: Colors.white,
-              //         shape: RoundedRectangleBorder(
-              //           borderRadius: BorderRadius.circular(16),
-              //         ),
-              //         shadows: const [
-              //           BoxShadow(
-              //             color: Color(0x3FAEAEAE),
-              //             blurRadius: 4,
-              //             offset: Offset(0, 4),
-              //             spreadRadius: 0,
-              //           )
-              //         ],
-              //       ),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.start,
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           Container(
-              //             child: Column(
-              //               mainAxisAlignment: MainAxisAlignment.start,
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               children: [
-              //                 Container(
-              //                   padding: const EdgeInsets.symmetric(
-              //                       horizontal: 8, vertical: 4),
-              //                   clipBehavior: Clip.antiAlias,
-              //                   decoration: ShapeDecoration(
-              //                     shape: RoundedRectangleBorder(
-              //                         borderRadius: BorderRadius.circular(6)),
-              //                   ),
-              //                   child: Row(
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     crossAxisAlignment: CrossAxisAlignment.center,
-              //                     children: [
-              //                       SvgPicture.asset(
-              //                         color: Color(0xFF957B0B),
-              //                         'assets/svg/behavioralScience.svg',
-              //                       ),
-              //                       const SizedBox(width: 4),
-              //                       const Text(
-              //                         'Behavioral Science',
-              //                         style: TextStyle(
-              //                           color: Color(0xFF020F2B),
-              //                           fontSize: 14,
-              //                           fontFamily: 'Work Sans',
-              //                           fontWeight: FontWeight.w500,
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ),
-              //                 const SizedBox(height: 8),
-              //                 Container(
-              //                   padding: const EdgeInsets.symmetric(
-              //                       horizontal: 8, vertical: 4),
-              //                   clipBehavior: Clip.antiAlias,
-              //                   decoration: ShapeDecoration(
-              //                     shape: RoundedRectangleBorder(
-              //                         borderRadius: BorderRadius.circular(6)),
-              //                   ),
-              //                   child: Row(
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     crossAxisAlignment: CrossAxisAlignment.center,
-              //                     children: [
-              //                       SvgPicture.asset(
-              //                         color: Color(0xFF957B0B),
-              //                         'assets/svg/biochemistry.svg',
-              //                       ),
-              //                       const SizedBox(width: 4),
-              //                       const Text(
-              //                         'Biochemistry',
-              //                         style: TextStyle(
-              //                           color: Color(0xFF020F2B),
-              //                           fontSize: 14,
-              //                           fontFamily: 'Work Sans',
-              //                           fontWeight: FontWeight.w500,
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ),
-              //                 const SizedBox(height: 8),
-              //                 Container(
-              //                   padding: const EdgeInsets.symmetric(
-              //                       horizontal: 8, vertical: 4),
-              //                   clipBehavior: Clip.antiAlias,
-              //                   decoration: ShapeDecoration(
-              //                     shape: RoundedRectangleBorder(
-              //                         borderRadius: BorderRadius.circular(6)),
-              //                   ),
-              //                   child: Row(
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     crossAxisAlignment: CrossAxisAlignment.center,
-              //                     children: [
-              //                       SvgPicture.asset(
-              //                         color: Color(0xFF957B0B),
-              //                         'assets/svg/biochemistry.svg',
-              //                       ),
-              //                       const SizedBox(width: 4),
-              //                       const Text(
-              //                         'Biostatistics/Epidemiology',
-              //                         style: TextStyle(
-              //                           color: Color(0xFF020F2B),
-              //                           fontSize: 14,
-              //                           fontFamily: 'Work Sans',
-              //                           fontWeight: FontWeight.w500,
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ),
-              //                 const SizedBox(height: 8),
-              //                 Container(
-              //                   padding: const EdgeInsets.symmetric(
-              //                       horizontal: 8, vertical: 4),
-              //                   clipBehavior: Clip.antiAlias,
-              //                   decoration: ShapeDecoration(
-              //                     shape: RoundedRectangleBorder(
-              //                         borderRadius: BorderRadius.circular(6)),
-              //                   ),
-              //                   child: Row(
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     crossAxisAlignment: CrossAxisAlignment.center,
-              //                     children: [
-              //                       SvgPicture.asset(
-              //                         color: Color(0xFF957B0B),
-              //                         'assets/svg/cardiology.svg',
-              //                       ),
-              //                       const SizedBox(width: 4),
-              //                       const Text(
-              //                         'Cardiology',
-              //                         style: TextStyle(
-              //                           color: Color(0xFF020F2B),
-              //                           fontSize: 14,
-              //                           fontFamily: 'Work Sans',
-              //                           fontWeight: FontWeight.w500,
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ),
-              //                 const SizedBox(height: 8),
-              //                 Container(
-              //                   padding: const EdgeInsets.symmetric(
-              //                       horizontal: 8, vertical: 4),
-              //                   clipBehavior: Clip.antiAlias,
-              //                   decoration: ShapeDecoration(
-              //                     shape: RoundedRectangleBorder(
-              //                         borderRadius: BorderRadius.circular(6)),
-              //                   ),
-              //                   child: Row(
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     crossAxisAlignment: CrossAxisAlignment.center,
-              //                     children: [
-              //                       SvgPicture.asset(
-              //                         color: Color(0xFF957B0B),
-              //                         'assets/svg/dermatology.svg',
-              //                       ),
-              //                       const SizedBox(width: 4),
-              //                       const Text(
-              //                         'Dermatology',
-              //                         style: TextStyle(
-              //                           color: Color(0xFF020F2B),
-              //                           fontSize: 14,
-              //                           fontFamily: 'Work Sans',
-              //                           fontWeight: FontWeight.w500,
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ),
-              //                 const SizedBox(height: 8),
-              //                 Container(
-              //                   padding: const EdgeInsets.symmetric(
-              //                       horizontal: 8, vertical: 4),
-              //                   clipBehavior: Clip.antiAlias,
-              //                   decoration: ShapeDecoration(
-              //                     shape: RoundedRectangleBorder(
-              //                         borderRadius: BorderRadius.circular(6)),
-              //                   ),
-              //                   child: Row(
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     crossAxisAlignment: CrossAxisAlignment.center,
-              //                     children: [
-              //                       SvgPicture.asset(
-              //                         color: Color(0xFF957B0B),
-              //                         'assets/svg/endocrinology.svg',
-              //                       ),
-              //                       const SizedBox(width: 4),
-              //                       const Text(
-              //                         'Endocrinology',
-              //                         style: TextStyle(
-              //                           color: Color(0xFF020F2B),
-              //                           fontSize: 14,
-              //                           fontFamily: 'Work Sans',
-              //                           fontWeight: FontWeight.w500,
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ),
-              //                 const SizedBox(height: 8),
-              //                 Container(
-              //                   padding: const EdgeInsets.symmetric(
-              //                       horizontal: 8, vertical: 4),
-              //                   clipBehavior: Clip.antiAlias,
-              //                   decoration: ShapeDecoration(
-              //                     shape: RoundedRectangleBorder(
-              //                         borderRadius: BorderRadius.circular(6)),
-              //                   ),
-              //                   child: Row(
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     crossAxisAlignment: CrossAxisAlignment.center,
-              //                     children: [
-              //                       SvgPicture.asset(
-              //                         color: Color(0xFF957B0B),
-              //                         'assets/svg/gastroenterology.svg',
-              //                       ),
-              //                       const SizedBox(width: 4),
-              //                       const Text(
-              //                         'Gastroenterology',
-              //                         style: TextStyle(
-              //                           color: Color(0xFF020F2B),
-              //                           fontSize: 14,
-              //                           fontFamily: 'Work Sans',
-              //                           fontWeight: FontWeight.w500,
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ),
-              //                 const SizedBox(height: 8),
-              //                 Container(
-              //                   padding: const EdgeInsets.symmetric(
-              //                       horizontal: 8, vertical: 4),
-              //                   clipBehavior: Clip.antiAlias,
-              //                   decoration: ShapeDecoration(
-              //                     shape: RoundedRectangleBorder(
-              //                         borderRadius: BorderRadius.circular(6)),
-              //                   ),
-              //                   child: Row(
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     crossAxisAlignment: CrossAxisAlignment.center,
-              //                     children: [
-              //                       SvgPicture.asset(
-              //                         color: Color(0xFF957B0B),
-              //                         'assets/svg/genetics.svg',
-              //                       ),
-              //                       const SizedBox(width: 4),
-              //                       const Text(
-              //                         'Genetics',
-              //                         style: TextStyle(
-              //                           color: Color(0xFF020F2B),
-              //                           fontSize: 14,
-              //                           fontFamily: 'Work Sans',
-              //                           fontWeight: FontWeight.w500,
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ),
-              //                 const SizedBox(height: 8),
-              //                 Container(
-              //                   padding: const EdgeInsets.symmetric(
-              //                       horizontal: 8, vertical: 4),
-              //                   clipBehavior: Clip.antiAlias,
-              //                   decoration: ShapeDecoration(
-              //                     shape: RoundedRectangleBorder(
-              //                         borderRadius: BorderRadius.circular(6)),
-              //                   ),
-              //                   child: Row(
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     crossAxisAlignment: CrossAxisAlignment.center,
-              //                     children: [
-              //                       SvgPicture.asset(
-              //                         color: Color(0xFF957B0B),
-              //                         'assets/svg/hematology.svg',
-              //                       ),
-              //                       const SizedBox(width: 4),
-              //                       const Text(
-              //                         'Hematology',
-              //                         style: TextStyle(
-              //                           color: Color(0xFF020F2B),
-              //                           fontSize: 14,
-              //                           fontFamily: 'Work Sans',
-              //                           fontWeight: FontWeight.w500,
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ),
-              //                 const SizedBox(height: 8),
-              //                 Container(
-              //                   padding: const EdgeInsets.symmetric(
-              //                       horizontal: 8, vertical: 4),
-              //                   clipBehavior: Clip.antiAlias,
-              //                   decoration: ShapeDecoration(
-              //                     shape: RoundedRectangleBorder(
-              //                         borderRadius: BorderRadius.circular(6)),
-              //                   ),
-              //                   child: Row(
-              //                     mainAxisAlignment: MainAxisAlignment.start,
-              //                     crossAxisAlignment: CrossAxisAlignment.center,
-              //                     children: [
-              //                       SvgPicture.asset(
-              //                         color: Color(0xFF957B0B),
-              //                         'assets/svg/immunology.svg',
-              //                       ),
-              //                       const SizedBox(width: 4),
-              //                       const Text(
-              //                         'Immunology',
-              //                         style: TextStyle(
-              //                           color: Color(0xFF020F2B),
-              //                           fontSize: 14,
-              //                           fontFamily: 'Work Sans',
-              //                           fontWeight: FontWeight.w500,
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ),
-              //               ],
-              //             ),
-              //           ),
-              //           const SizedBox(width: 5),
-              //           Column(
-              //             mainAxisAlignment: MainAxisAlignment.start,
-              //             crossAxisAlignment: CrossAxisAlignment.start,
-              //             children: [
-              //               Container(
-              //                 padding: const EdgeInsets.symmetric(
-              //                     horizontal: 8, vertical: 4),
-              //                 clipBehavior: Clip.antiAlias,
-              //                 decoration: ShapeDecoration(
-              //                   shape: RoundedRectangleBorder(
-              //                       borderRadius: BorderRadius.circular(6)),
-              //                 ),
-              //                 child: Row(
-              //                   mainAxisAlignment: MainAxisAlignment.start,
-              //                   crossAxisAlignment: CrossAxisAlignment.center,
-              //                   children: [
-              //                     SvgPicture.asset(
-              //                       color: Color(0xFF957B0B),
-              //                       'assets/svg/immunology.svg',
-              //                     ),
-              //                     const SizedBox(width: 4),
-              //                     const Text(
-              //                       'Infectious Disease',
-              //                       style: TextStyle(
-              //                         color: Color(0xFF020F2B),
-              //                         fontSize: 14,
-              //                         fontFamily: 'Work Sans',
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //               const SizedBox(height: 8),
-              //               Container(
-              //                 padding: const EdgeInsets.symmetric(
-              //                     horizontal: 8, vertical: 4),
-              //                 clipBehavior: Clip.antiAlias,
-              //                 decoration: ShapeDecoration(
-              //                   shape: RoundedRectangleBorder(
-              //                       borderRadius: BorderRadius.circular(6)),
-              //                 ),
-              //                 child: Row(
-              //                   mainAxisAlignment: MainAxisAlignment.start,
-              //                   crossAxisAlignment: CrossAxisAlignment.center,
-              //                   children: [
-              //                     SvgPicture.asset(
-              //                       color: Color(0xFF957B0B),
-              //                       'assets/svg/musculoskeletal.svg',
-              //                     ),
-              //                     const SizedBox(width: 4),
-              //                     const Text(
-              //                       'Musculoskeletal',
-              //                       style: TextStyle(
-              //                         color: Color(0xFF020F2B),
-              //                         fontSize: 14,
-              //                         fontFamily: 'Work Sans',
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //               const SizedBox(height: 8),
-              //               Container(
-              //                 padding: const EdgeInsets.symmetric(
-              //                     horizontal: 8, vertical: 4),
-              //                 clipBehavior: Clip.antiAlias,
-              //                 decoration: ShapeDecoration(
-              //                   shape: RoundedRectangleBorder(
-              //                       borderRadius: BorderRadius.circular(6)),
-              //                 ),
-              //                 child: Row(
-              //                   mainAxisAlignment: MainAxisAlignment.start,
-              //                   crossAxisAlignment: CrossAxisAlignment.center,
-              //                   children: [
-              //                     SvgPicture.asset(
-              //                       color: Color(0xFF957B0B),
-              //                       'assets/svg/neurology.svg',
-              //                     ),
-              //                     const SizedBox(width: 4),
-              //                     const Text(
-              //                       'Neurology',
-              //                       style: TextStyle(
-              //                         color: Color(0xFF020F2B),
-              //                         fontSize: 14,
-              //                         fontFamily: 'Work Sans',
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //               const SizedBox(height: 8),
-              //               Container(
-              //                 padding: const EdgeInsets.symmetric(
-              //                     horizontal: 8, vertical: 4),
-              //                 clipBehavior: Clip.antiAlias,
-              //                 decoration: ShapeDecoration(
-              //                   shape: RoundedRectangleBorder(
-              //                       borderRadius: BorderRadius.circular(6)),
-              //                 ),
-              //                 child: Row(
-              //                   mainAxisAlignment: MainAxisAlignment.start,
-              //                   crossAxisAlignment: CrossAxisAlignment.center,
-              //                   children: [
-              //                     SvgPicture.asset(
-              //                       color: Color(0xFF957B0B),
-              //                       'assets/svg/pathology.svg',
-              //                     ),
-              //                     const SizedBox(width: 4),
-              //                     const Text(
-              //                       'Pathology',
-              //                       style: TextStyle(
-              //                         color: Color(0xFF020F2B),
-              //                         fontSize: 14,
-              //                         fontFamily: 'Work Sans',
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //               const SizedBox(height: 8),
-              //               Container(
-              //                 padding: const EdgeInsets.symmetric(
-              //                     horizontal: 8, vertical: 4),
-              //                 clipBehavior: Clip.antiAlias,
-              //                 decoration: ShapeDecoration(
-              //                   shape: RoundedRectangleBorder(
-              //                       borderRadius: BorderRadius.circular(6)),
-              //                 ),
-              //                 child: Row(
-              //                   mainAxisAlignment: MainAxisAlignment.start,
-              //                   crossAxisAlignment: CrossAxisAlignment.center,
-              //                   children: [
-              //                     SvgPicture.asset(
-              //                       color: Color(0xFF957B0B),
-              //                       'assets/svg/pharmacology.svg',
-              //                     ),
-              //                     const SizedBox(width: 4),
-              //                     const Text(
-              //                       'Pharmacology',
-              //                       style: TextStyle(
-              //                         color: Color(0xFF020F2B),
-              //                         fontSize: 14,
-              //                         fontFamily: 'Work Sans',
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //               const SizedBox(height: 8),
-              //               Container(
-              //                 padding: const EdgeInsets.symmetric(
-              //                     horizontal: 8, vertical: 4),
-              //                 clipBehavior: Clip.antiAlias,
-              //                 decoration: ShapeDecoration(
-              //                   shape: RoundedRectangleBorder(
-              //                       borderRadius: BorderRadius.circular(6)),
-              //                 ),
-              //                 child: Row(
-              //                   mainAxisAlignment: MainAxisAlignment.start,
-              //                   crossAxisAlignment: CrossAxisAlignment.center,
-              //                   children: [
-              //                     SvgPicture.asset(
-              //                       color: Color(0xFF957B0B),
-              //                       'assets/svg/psychiatry.svg',
-              //                     ),
-              //                     const SizedBox(width: 4),
-              //                     const Text(
-              //                       'Psychiatry',
-              //                       style: TextStyle(
-              //                         color: Color(0xFF020F2B),
-              //                         fontSize: 14,
-              //                         fontFamily: 'Work Sans',
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //               const SizedBox(height: 8),
-              //               Container(
-              //                 padding: const EdgeInsets.symmetric(
-              //                     horizontal: 8, vertical: 4),
-              //                 clipBehavior: Clip.antiAlias,
-              //                 decoration: ShapeDecoration(
-              //                   shape: RoundedRectangleBorder(
-              //                       borderRadius: BorderRadius.circular(6)),
-              //                 ),
-              //                 child: Row(
-              //                   mainAxisAlignment: MainAxisAlignment.start,
-              //                   crossAxisAlignment: CrossAxisAlignment.center,
-              //                   children: [
-              //                     SvgPicture.asset(
-              //                       color: Color(0xFF957B0B),
-              //                       'assets/svg/pulmonary.svg',
-              //                     ),
-              //                     const SizedBox(width: 4),
-              //                     const Text(
-              //                       'Pulmonary',
-              //                       style: TextStyle(
-              //                         color: Color(0xFF020F2B),
-              //                         fontSize: 14,
-              //                         fontFamily: 'Work Sans',
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //               const SizedBox(height: 8),
-              //               Container(
-              //                 padding: const EdgeInsets.symmetric(
-              //                     horizontal: 8, vertical: 4),
-              //                 clipBehavior: Clip.antiAlias,
-              //                 decoration: ShapeDecoration(
-              //                   shape: RoundedRectangleBorder(
-              //                       borderRadius: BorderRadius.circular(6)),
-              //                 ),
-              //                 child: Row(
-              //                   mainAxisAlignment: MainAxisAlignment.start,
-              //                   crossAxisAlignment: CrossAxisAlignment.center,
-              //                   children: [
-              //                     SvgPicture.asset(
-              //                       color: Color(0xFF957B0B),
-              //                       'assets/svg/renal.svg',
-              //                     ),
-              //                     const SizedBox(width: 4),
-              //                     const Text(
-              //                       'Renal',
-              //                       style: TextStyle(
-              //                         color: Color(0xFF020F2B),
-              //                         fontSize: 14,
-              //                         fontFamily: 'Work Sans',
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //               const SizedBox(height: 8),
-              //               Container(
-              //                 padding: const EdgeInsets.symmetric(
-              //                     horizontal: 8, vertical: 4),
-              //                 clipBehavior: Clip.antiAlias,
-              //                 decoration: ShapeDecoration(
-              //                   shape: RoundedRectangleBorder(
-              //                       borderRadius: BorderRadius.circular(6)),
-              //                 ),
-              //                 child: Row(
-              //                   mainAxisAlignment: MainAxisAlignment.start,
-              //                   crossAxisAlignment: CrossAxisAlignment.center,
-              //                   children: [
-              //                     SvgPicture.asset(
-              //                       color: Color(0xFF957B0B),
-              //                       'assets/svg/gynecology.svg',
-              //                     ),
-              //                     const SizedBox(width: 4),
-              //                     const Text(
-              //                       'Female Genital ,Reproductive & Breast',
-              //                       style: TextStyle(
-              //                         color: Color(0xFF020F2B),
-              //                         fontSize: 14,
-              //                         fontFamily: 'Work Sans',
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //               const SizedBox(height: 8),
-              //               Container(
-              //                 padding: const EdgeInsets.symmetric(
-              //                     horizontal: 8, vertical: 4),
-              //                 clipBehavior: Clip.antiAlias,
-              //                 decoration: ShapeDecoration(
-              //                   shape: RoundedRectangleBorder(
-              //                       borderRadius: BorderRadius.circular(6)),
-              //                 ),
-              //                 child: Row(
-              //                   mainAxisAlignment: MainAxisAlignment.start,
-              //                   crossAxisAlignment: CrossAxisAlignment.center,
-              //                   children: [
-              //                     SvgPicture.asset(
-              //                       color: Color(0xFF957B0B),
-              //                       'assets/svg/male.svg',
-              //                     ),
-              //                     const SizedBox(width: 4),
-              //                     const Text(
-              //                       'Male Pathology',
-              //                       style: TextStyle(
-              //                         color: Color(0xFF020F2B),
-              //                         fontSize: 14,
-              //                         fontFamily: 'Work Sans',
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ],
-              //       ),
-              //     )
-              //   ],
-              // ),
             ],
           ),
         ),

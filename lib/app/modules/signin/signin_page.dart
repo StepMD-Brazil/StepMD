@@ -25,10 +25,11 @@ class SigninPageState extends State<SigninPage> {
         backgroundColor: Colors.white,
         title: SizedBox(
           width: MediaQuery.of(context).size.width * 0.15,
-          height: MediaQuery.of(context).size.height * 0.05,
+          height: MediaQuery.of(context).size.height * 0.06,
           child: SvgPicture.asset(
             'assets/svg/logo.svg',
-            color: Color(0xFF020E2B),
+            height: MediaQuery.of(context).size.height * 0.07,
+            width: MediaQuery.of(context).size.width * 0.2,
           ),
         ),
       ),
