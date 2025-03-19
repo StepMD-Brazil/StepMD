@@ -27,6 +27,12 @@ class NotebookPageState extends State<NotebookPage> {
     _controller.document = Document()..insert(0, page.content);
   }
 
+  void _addNewPage() {
+    int newPageNumber = store.pages.length + 1;
+    String newPageTitle = "Página $newPageNumber";
+    store.addPage(newPageTitle, "");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,34 +40,41 @@ class NotebookPageState extends State<NotebookPage> {
       body: Row(
         children: [
           // Lista de páginas
-          Observer(builder: (_) {
-            return Container(
-              width: MediaQuery.of(context).size.width * 0.2,
-              color: Colors.grey[200],
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () => store.addPage("Nova Página", ""),
-                    child: const Text("Adicionar Página"),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: store.pages.length,
-                      itemBuilder: (context, index) {
-                        final page = store.pages[index];
-                        return ListTile(
-                          title: Text(page.title),
-                          selected: store.selectedPage?.id == page.id,
-                          onTap: () => _onPageSelected(page),
-                        );
-                      },
+          Observer(
+            builder: (_) {
+              return Container(
+                width: MediaQuery.of(context).size.width * 0.2,
+                color: Colors.grey[200],
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: store.pages.length,
+                        itemBuilder: (context, index) {
+                          final page = store.pages[index];
+                          return ListTile(
+                            title: Text(page.title),
+                            selected: store.selectedPage?.id == page.id,
+                            tileColor: store.selectedPage?.id == page.id
+                                ? Colors.blue.withOpacity(0.2) // Cor de destaque
+                                : null,
+                            onTap: () => _onPageSelected(page),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          }),
-
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: _addNewPage,
+                        child: const Text("Adicionar Página"),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
           // Editor de texto
           Expanded(
             child: Column(
@@ -71,14 +84,17 @@ class NotebookPageState extends State<NotebookPage> {
                   child: QuillEditor.basic(
                     controller: _controller,
                     configurations: const QuillEditorConfigurations(
-                        placeholder: 'Digite suas anotações'),
+                      placeholder: 'Digite suas anotações',
+                    ),
                   ),
                 ),
                 ElevatedButton(
                   onPressed: () {
                     if (store.selectedPage != null) {
                       store.updatePage(
-                          store.selectedPage!.id, _controller.document.toPlainText());
+                        store.selectedPage!.id,
+                        _controller.document.toPlainText(),
+                      );
                     }
                   },
                   child: const Text("Salvar Página"),

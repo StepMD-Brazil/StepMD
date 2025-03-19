@@ -27,7 +27,7 @@ abstract class _NotebookStoreBase with Store {
 
     isLoading = true;
 
-    _firestore.collection('notebooks').doc(user.uid).snapshots().listen((doc) {
+    _firestore.collection('notebooks').doc(user.uid).snapshots().listen((doc) async {
       if (doc.exists) {
         final data = doc.data();
         pages = ObservableList.of(
@@ -38,6 +38,11 @@ abstract class _NotebookStoreBase with Store {
         );
       } else {
         pages.clear();
+      }
+      
+      // Se não houver páginas, criar "Página 1" automaticamente
+      if (pages.isEmpty) {
+        await addPage("Página 1", "");
       }
       isLoading = false;
     }, onError: (e) {
