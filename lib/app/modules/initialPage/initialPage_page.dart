@@ -257,7 +257,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.6,
-                      height: MediaQuery.of(context).size.height * 0.38,
+                      height: MediaQuery.of(context).size.height * 0.24,
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -291,7 +291,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                                 children: [
                                   Container(
                                     width: double.infinity,
-                                    height: 204,
+                                    height: 172,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       mainAxisAlignment:
@@ -336,7 +336,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                           const SizedBox(width: 16),
                           Expanded(
                             child: Container(
-                              height: MediaQuery.of(context).size.height * 0.38,
+                              height: MediaQuery.of(context).size.height * 0.24,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 32),
                               decoration: ShapeDecoration(
@@ -362,7 +362,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                                 children: [
                                   SizedBox(
                                     width: double.infinity,
-                                    height: 204,
+                                    height: 172,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       mainAxisAlignment:
@@ -388,6 +388,77 @@ class InitialPagePageState extends State<InitialPagePage> {
                                           width: double.infinity,
                                           child: Text(
                                             'CK (Clinical Knowledge): Foca no conhecimento clínico e na aplicação prática, avaliando a capacidade de diagnosticar e tratar pacientes.',
+                                            style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 16,
+                                              fontFamily: 'Mulish',
+                                              fontWeight: FontWeight.w300,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.24,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 24, vertical: 32),
+                              decoration: ShapeDecoration(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                      width: 1, color: Color(0xFFDAE9EE)),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                shadows: const [
+                                  BoxShadow(
+                                    color: Color(0x3FAEAEAE),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: double.infinity,
+                                    height: 172,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: Text(
+                                            'Step 3:',
+                                            style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 28,
+                                              fontFamily: 'Work Sans',
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: Text(
+                                            'Testa a habilidade de aplicar conhecimentos de forma independente no contexto clínico, sendo a última etapa antes de se qualificar para a licença médica.',
                                             style: TextStyle(
                                               color:
                                                   Theme.of(context).hintColor,
@@ -535,7 +606,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                             width: MediaQuery.of(context).size.width * 0.7,
                             height: MediaQuery.of(context).size.height * 0.2,
                             child: Text(
-                              'OET – Occupational English Test',
+                              'OET - Occupational English Test',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Theme.of(context).hintColor,
@@ -638,7 +709,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                           children: [
                             Container(
                               width: double.infinity,
-                              height: MediaQuery.of(context).size.height * 0.3,
+                              height: MediaQuery.of(context).size.height * 0.24,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 32),
                               decoration: ShapeDecoration(
@@ -769,7 +840,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                             const SizedBox(height: 24),
                             Container(
                               width: double.infinity,
-                              height: MediaQuery.of(context).size.height * 0.3,
+                              height: MediaQuery.of(context).size.height * 0.24,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 32),
                               decoration: ShapeDecoration(
@@ -910,7 +981,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                           children: [
                             Container(
                               width: double.infinity,
-                              height: MediaQuery.of(context).size.height * 0.3,
+                              height: MediaQuery.of(context).size.height * 0.24,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 32),
                               decoration: ShapeDecoration(
@@ -1052,7 +1123,7 @@ class InitialPagePageState extends State<InitialPagePage> {
                             const SizedBox(height: 24),
                             Container(
                               width: double.infinity,
-                              height: MediaQuery.of(context).size.height * 0.3,
+                              height: MediaQuery.of(context).size.height * 0.24,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 32),
                               decoration: ShapeDecoration(
