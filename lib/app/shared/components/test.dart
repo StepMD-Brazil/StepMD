@@ -294,7 +294,6 @@ class _TestState extends State<Test> {
                           ),
                         ),
                         Container(
-                          // Barra de progresso e dropdown de questões
                           width: MediaQuery.of(context).size.width * 0.20,
                           height: MediaQuery.of(context).size.height,
                           decoration: const BoxDecoration(
@@ -318,17 +317,17 @@ class _TestState extends State<Test> {
                               ),
                             ),
                           ),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                // Linha com "Seu progresso", porcentagem e dropdown
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Seu progresso',
                                       style: TextStyle(
                                         color: Color(0xFF51628A),
@@ -337,124 +336,119 @@ class _TestState extends State<Test> {
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                    Text(
-                                      '(${((dbStore.countAnswereds) / snapshot.data!.length * 100).truncate()}%)',
-                                      style: TextStyle(
-                                        color: Color(0xFF51628A),
-                                        fontSize: 12,
-                                        fontFamily: appFont,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '(${((dbStore.countAnswereds) / snapshot.data!.length * 100).truncate()}%)',
+                                          style: TextStyle(
+                                            color: Color(0xFF51628A),
+                                            fontSize: 12,
+                                            fontFamily: appFont,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        SizedBox(width: 8),
+                                        // Evita erro de renderização com SizedBox
+                                        SizedBox(
+                                          width:
+                                              100, // Ajuste conforme necessário
+                                          child: DropdownButton<String>(
+                                            value:
+                                                '${snapshot.data![dbStore.questionSelect]['questionId']}',
+                                            underline: SizedBox(),
+                                            icon: Icon(Icons.arrow_drop_down,
+                                                color: Color(0xFF51628A)),
+                                            isDense: true,
+                                            isExpanded:
+                                                true, // Garante que o botão ocupe o espaço correto
+                                            items: snapshot.data!
+                                                .map<DropdownMenuItem<String>>(
+                                                    (item) {
+                                              int index =
+                                                  snapshot.data!.indexOf(item);
+                                              int status = dbStore
+                                                  .answers[index]['status'];
+
+                                              // Define o ícone com base no status
+                                              Icon statusIcon;
+                                              if (status == 1) {
+                                                statusIcon = Icon(
+                                                    Icons.check_circle_outlined,
+                                                    color: Colors.green,
+                                                    size: 18);
+                                              } else if (status == -1) {
+                                                statusIcon = Icon(
+                                                    Icons.close_rounded,
+                                                    color: Colors.red,
+                                                    size: 18);
+                                              } else {
+                                                statusIcon = Icon(
+                                                    Icons.info_outline,
+                                                    color: Colors.grey,
+                                                    size: 18);
+                                              }
+
+                                              return DropdownMenuItem<String>(
+                                                value: item['questionId'],
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Text(
+                                                        '${index + 1} - ${item['label']}',
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontFamily: appFont,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: snapshot.data![
+                                                                          dbStore
+                                                                              .questionSelect][
+                                                                      'questionId'] ==
+                                                                  item[
+                                                                      'questionId']
+                                                              ? Color.fromRGBO(
+                                                                  34,
+                                                                  109,
+                                                                  159,
+                                                                  1)
+                                                              : Color.fromRGBO(
+                                                                  5, 19, 51, 1),
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 8),
+                                                    statusIcon,
+                                                  ],
+                                                ),
+                                              );
+                                            }).toList(),
+                                            onChanged: (newValue) {
+                                              final selectedIndex = snapshot
+                                                  .data!
+                                                  .indexWhere((item) =>
+                                                      item['questionId'] ==
+                                                      newValue);
+                                              if (selectedIndex != -1) {
+                                                dbStore
+                                                    .setSelect(selectedIndex);
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
+                                SizedBox(height: 4),
+                                // Barra de progresso mais fina
                                 LinearProgressIndicator(
                                   value: (dbStore.countAnswereds /
                                       snapshot.data!.length),
                                   backgroundColor: Colors.grey[300],
                                   color: Colors.blue,
-                                  minHeight: 10,
-                                ),
-                                Container(
-                                  decoration:
-                                      BoxDecoration(color: Colors.white),
-                                  child: DropdownButton<String>(
-                                    hint: Text("Selecione uma opção"),
-                                    value:
-                                        '${snapshot.data![dbStore.questionSelect]['questionId']}',
-                                    isExpanded: true,
-                                    items: snapshot.data!
-                                        .map<DropdownMenuItem<String>>((item) {
-                                      return DropdownMenuItem<String>(
-                                        value: item['questionId'],
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              '${snapshot.data!.indexOf(item) + 1} - ${item['label']}',
-                                              style: TextStyle(
-                                                color: snapshot.data![dbStore
-                                                                .questionSelect]
-                                                            ['questionId'] ==
-                                                        item['questionId']
-                                                    ? Color.fromRGBO(
-                                                        34, 109, 159, 1)
-                                                    : Color.fromRGBO(
-                                                        5, 19, 51, 1),
-                                                fontSize: 14,
-                                                fontFamily: appFont,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                            Spacer(),
-                                            Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: ShapeDecoration(
-                                                color: dbStore.answers[snapshot
-                                                                .data!
-                                                                .indexOf(item)]
-                                                            ['status'] ==
-                                                        1
-                                                    ? Color(0xFFCFE6D8)
-                                                    : dbStore.answers[snapshot
-                                                                    .data!
-                                                                    .indexOf(
-                                                                        item)]
-                                                                ['status'] ==
-                                                            -1
-                                                        ? Color(0xFFF8D7DA)
-                                                        : Color(0xFFE0E0E0),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          9999),
-                                                ),
-                                              ),
-                                              child: Icon(
-                                                dbStore.answers[snapshot.data!
-                                                                .indexOf(item)]
-                                                            ['status'] ==
-                                                        1
-                                                    ? Icons
-                                                        .check_circle_outlined
-                                                    : dbStore.answers[snapshot
-                                                                    .data!
-                                                                    .indexOf(
-                                                                        item)]
-                                                                ['status'] ==
-                                                            -1
-                                                        ? Icons.close_rounded
-                                                        : Icons.info_outline,
-                                                color: dbStore.answers[snapshot
-                                                                .data!
-                                                                .indexOf(item)]
-                                                            ['status'] ==
-                                                        1
-                                                    ? Colors.green
-                                                    : dbStore.answers[snapshot
-                                                                    .data!
-                                                                    .indexOf(
-                                                                        item)]
-                                                                ['status'] ==
-                                                            -1
-                                                        ? Colors.red
-                                                        : null,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
-                                    onChanged: (newValue) {
-                                      final selectedIndex = snapshot.data!
-                                          .indexWhere((item) =>
-                                              item['questionId'] == newValue);
-
-                                      if (selectedIndex != -1) {
-                                        dbStore.setSelect(selectedIndex);
-                                      }
-                                    },
-                                  ),
+                                  minHeight: 3, // Barra fina
                                 ),
                               ],
                             ),
@@ -655,6 +649,8 @@ class _TestState extends State<Test> {
                                     height: MediaQuery.of(context).size.height *
                                         0.37,
                                     child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           mainAxisAlignment:
