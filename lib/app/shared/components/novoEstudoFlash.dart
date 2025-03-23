@@ -69,9 +69,9 @@ class NovoEstudoFlash extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: const SizedBox(
+                      const Padding(
+                        padding: EdgeInsets.only(left: 30),
+                        child: SizedBox(
                           height: 20,
                           child: Text(
                             'Estude com flashcards relacionados a disciplinas selecionadas ou selecione todas e pratique todo o conteúdo.',
@@ -115,6 +115,7 @@ class NovoEstudoFlash extends StatelessWidget {
                                 final categoryName = category['name'];
                                 // final categoryIcon =
                                 //     category['icon'] ?? Icons.category;
+                                print('Nomes categoria ${categoryName}');
                                 return Observer(
                                   builder: (_) => Container(
                                     width:
@@ -142,7 +143,7 @@ class NovoEstudoFlash extends StatelessWidget {
                                         child: FutureBuilder(
                                           future: DefaultAssetBundle.of(context)
                                               .loadString(
-                                                  'assets/svg/${categoryName ?? 'pathology'}.svg'),
+                                                  'svg/${categoryName ?? 'pathology'}.svg'),
                                           builder: (context, snapshot) {
                                             if (snapshot.connectionState ==
                                                     ConnectionState.done &&
@@ -150,15 +151,17 @@ class NovoEstudoFlash extends StatelessWidget {
                                               return SvgPicture.string(
                                                 snapshot.data!,
                                                 colorFilter: ColorFilter.mode(
-                                                    Colors.blue.shade800,
+                                                    Theme.of(context)
+                                                        .primaryColor,
                                                     BlendMode.srcIn),
                                                 width: 20,
                                                 height: 20,
                                               );
                                             } else {
                                               return Icon(
-                                                Icons.error,
-                                                color: Colors.red,
+                                                Icons.circle_outlined,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
                                                 size: 20,
                                               );
                                             }
@@ -221,36 +224,41 @@ class NovoEstudoFlash extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
-                            clipBehavior: Clip.antiAlias,
-                            decoration: ShapeDecoration(
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 1,
-                                  strokeAlign: BorderSide.strokeAlignOutside,
-                                  color: Color(0xFFDAE9EE),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 12),
+                              clipBehavior: Clip.antiAlias,
+                              decoration: ShapeDecoration(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    width: 1,
+                                    strokeAlign: BorderSide.strokeAlignOutside,
+                                    color: Color(0xFFDAE9EE),
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                borderRadius: BorderRadius.circular(8),
                               ),
-                            ),
-                            child: const Text(
-                              'Cancelar',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF957B0B),
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
+                              child: const Text(
+                                'Cancelar',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF957B0B),
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
                           const SizedBox(width: 8),
                           InkWell(
                             onTap: () {
-                              if (flashStore.checkedCategories.length != 0) {
+                              if (flashStore.checkedCategories.isNotEmpty) {
                                 flashStore.fetchcardsByIdsAsStream(
                                     flashStore.checkedCategories);
                                 Navigator.push(

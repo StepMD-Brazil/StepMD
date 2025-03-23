@@ -4,14 +4,15 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stepmd/app/modules/db_questions/dbQuestions_store.dart';
+import 'package:stepmd/app/modules/home/home_store.dart';
 import 'package:stepmd/app/shared/components/test.dart';
 import 'package:stepmd/app/shared/constants.dart';
 
 class NovoTeste extends StatelessWidget {
   final DbQuestionsStore dbStore = Modular.get();
-
+  final HomeStore homeStore = Modular.get();
   Map<String, bool> _checkedCategories = {};
-  
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -502,32 +503,38 @@ class NovoTeste extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
-                              clipBehavior: Clip.antiAlias,
-                              decoration: ShapeDecoration(
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                    width: 1,
-                                    strokeAlign: BorderSide.strokeAlignOutside,
-                                    color: Color(0xFFDAE9EE),
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              child: const Text(
-                                'Cancelar',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color(0xFF957B0B),
-                                  fontSize: 14,
-                                  fontFamily: appFont,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
+                            // InkWell(
+                            //   onTap: () {
+
+                            //   },
+                            //   child: Container(
+                            //     padding: const EdgeInsets.symmetric(
+                            //         horizontal: 16, vertical: 12),
+                            //     clipBehavior: Clip.antiAlias,
+                            //     decoration: ShapeDecoration(
+                            //       color: Colors.white,
+                            //       shape: RoundedRectangleBorder(
+                            //         side: const BorderSide(
+                            //           width: 1,
+                            //           strokeAlign:
+                            //               BorderSide.strokeAlignOutside,
+                            //           color: Color(0xFFDAE9EE),
+                            //         ),
+                            //         borderRadius: BorderRadius.circular(8),
+                            //       ),
+                            //     ),
+                            //     child: const Text(
+                            //       'Cancelar',
+                            //       textAlign: TextAlign.center,
+                            //       style: TextStyle(
+                            //         color: Color(0xFF957B0B),
+                            //         fontSize: 14,
+                            //         fontFamily: appFont,
+                            //         fontWeight: FontWeight.w500,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             const SizedBox(width: 8),
                             InkWell(
                               onTap: () {

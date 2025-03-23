@@ -130,6 +130,12 @@ flutter:
     - assets/svg/toxicology.svg
     - assets/svg/biochemistry.svg
     - assets/svg/flashcard.svg
+    - assets/svg/anatomy.svg
+    - assets/svg/embriology.svg
+    - assets/svg/surgery.svg
+    - assets/svg/pneumology.svg
+    - assets/svg/rheumatology.svg
+
     - assets/img/eua.png
     - assets/img/brazil.png
     - assets/img/banner.png
