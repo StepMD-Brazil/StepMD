@@ -364,12 +364,12 @@ class _TestState extends State<Test> {
                                   child: DropdownButton<String>(
                                     hint: Text("Selecione uma opção"),
                                     value:
-                                        '${snapshot.data![dbStore.questionSelect]['label']}',
+                                        '${snapshot.data![dbStore.questionSelect]['questionId']}',
                                     isExpanded: true,
                                     items: snapshot.data!
                                         .map<DropdownMenuItem<String>>((item) {
                                       return DropdownMenuItem<String>(
-                                        value: item['label'],
+                                        value: item['questionId'],
                                         child: Row(
                                           children: [
                                             Text(
@@ -377,8 +377,8 @@ class _TestState extends State<Test> {
                                               style: TextStyle(
                                                 color: snapshot.data![dbStore
                                                                 .questionSelect]
-                                                            ['label'] ==
-                                                        item['label']
+                                                            ['questionId'] ==
+                                                        item['questionId']
                                                     ? Color.fromRGBO(
                                                         34, 109, 159, 1)
                                                     : Color.fromRGBO(
@@ -451,7 +451,7 @@ class _TestState extends State<Test> {
                                     onChanged: (newValue) {
                                       final selectedIndex = snapshot.data!
                                           .indexWhere((item) =>
-                                              item['label'] == newValue);
+                                              item['questionId'] == newValue);
 
                                       if (selectedIndex != -1) {
                                         dbStore.setSelect(selectedIndex);
