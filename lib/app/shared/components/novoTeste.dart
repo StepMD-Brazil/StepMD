@@ -11,7 +11,7 @@ class NovoTeste extends StatelessWidget {
   final DbQuestionsStore dbStore = Modular.get();
 
   Map<String, bool> _checkedCategories = {};
-
+  
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
