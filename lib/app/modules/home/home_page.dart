@@ -45,6 +45,7 @@ class HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     if (kIsWeb) {
       // Prevent browser back button
       html.window.history.pushState({}, '', html.window.location.href);
