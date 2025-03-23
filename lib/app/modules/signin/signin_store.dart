@@ -71,6 +71,7 @@ abstract class _SigninStoreBase with Store {
         Navigator.pushReplacementNamed(context, '/home');
       } else {
         print('User exists');
+        Modular.to.pushReplacementNamed('/home');
         Navigator.pushReplacementNamed(context, '/home');
       }
     } on FirebaseAuthException catch (e) {

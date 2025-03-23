@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,6 +19,7 @@ import 'package:stepmd/app/root/root_store.dart';
 import 'package:stepmd/app/shared/constants.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'dart:html' as html;
 
 import '../artigos/artigos_page.dart';
 
@@ -43,8 +45,74 @@ class HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('Home Page ${FirebaseAuth.instance.currentUser!.uid}');
-    // uploadCsvToFirestore('assets/Modelo StepMD - Flashcards.csv');
+    if (kIsWeb) {
+      // Prevent browser back button
+      html.window.history.pushState({}, '', html.window.location.href);
+
+      // Add event listeners to prevent navigation
+      html.window.onPopState.listen((event) {
+        html.window.history.pushState({}, '', html.window.location.href);
+      });
+
+      // Prevent browser refresh and navigation
+      html.window.onBeforeUnload.listen((event) {
+        event.preventDefault();
+      });
+
+      // Add JavaScript to prevent back button and navigation
+      const script = '''
+        // Prevent browser back button
+        window.history.pushState(null, '', window.location.href);
+        
+        // Override the back button behavior
+        window.onpopstate = function(event) {
+          window.history.pushState(null, '', window.location.href);
+        };
+        
+        // Prevent browser refresh
+        window.addEventListener('beforeunload', function(e) {
+          e.preventDefault();
+          e.returnValue = '';
+          return '';
+        });
+        
+        // Disable browser back button and keyboard shortcuts
+        window.addEventListener('keydown', function(e) {
+          if (e.key === 'Backspace' || 
+              e.key === 'Alt+Left' || 
+              (e.ctrlKey && e.key === 'r') ||
+              (e.ctrlKey && e.key === 'w') ||
+              (e.ctrlKey && e.key === 't') ||
+              (e.ctrlKey && e.key === 'n')) {
+            e.preventDefault();
+            window.history.pushState(null, '', window.location.href);
+          }
+        });
+
+        // Prevent right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+        });
+
+        // Disable browser navigation
+        window.addEventListener('hashchange', function(e) {
+          e.preventDefault();
+          window.history.pushState(null, '', window.location.href);
+        });
+
+        // Disable browser back button
+        window.addEventListener('popstate', function(e) {
+          window.history.pushState(null, '', window.location.href);
+        });
+      ''';
+
+      // Add the script to the page
+      html.document.body?.appendHtml('''
+        <script>
+          $script
+        </script>
+      ''');
+    } // uploadCsvToFirestore('assets/Modelo StepMD - Flashcards.csv');
   }
 
   Future<void> uploadCsvToFirestore(String filePath) async {
@@ -108,541 +176,550 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
-      return Scaffold(
-        body: Center(
-          child: Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Theme.of(context).hintColor,
-                    width: 0.5, // Set the border width
+      return new WillPopScope(
+        onWillPop: () async {
+          if (kIsWeb) {
+            html.window.history.pushState({}, '', html.window.location.href);
+            return false;
+          }
+          return true;
+        },
+        child: Scaffold(
+          body: Center(
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Theme.of(context).hintColor,
+                      width: 0.5, // Set the border width
+                    ),
                   ),
-                ),
-                child: Drawer(
-                  width: MediaQuery.of(context).size.width * 0.14,
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.15,
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          child: SvgPicture.asset(
-                            'assets/svg/logo.svg',
-                          ),
+                  child: Drawer(
+                    width: MediaQuery.of(context).size.width * 0.14,
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: [
+                        const SizedBox(
+                          height: 20,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.05,
-                          height: 35,
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                width: 1,
-                                strokeAlign: BorderSide.strokeAlignOutside,
-                                color: Color(0xFFCBD5E1),
-                              ),
-                              borderRadius: BorderRadius.circular(9999),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            child: SvgPicture.asset(
+                              'assets/svg/logo.svg',
                             ),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.search,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.05,
+                            height: 35,
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  width: 1,
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                  color: Color(0xFFCBD5E1),
+                                ),
+                                borderRadius: BorderRadius.circular(9999),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.search,
+                                    color: Theme.of(context).hintColor,
+                                  ),
+                                  const SizedBox(width: 3),
+                                  SizedBox(
+                                    width: 100,
+                                    child: TextFormField(
+                                      decoration: InputDecoration(
+                                        hintText: 'Pesquisar',
+                                        hintStyle: TextStyle(
+                                          color: Theme.of(context).hintColor,
+                                          fontSize: 14,
+                                          fontFamily: appFont,
+                                          fontWeight: FontWeight.w300,
+                                        ),
+                                        border: InputBorder.none,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.home_outlined,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                'Home',
+                                style: TextStyle(
                                   color: Theme.of(context).hintColor,
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                                const SizedBox(width: 3),
-                                SizedBox(
-                                  width: 100,
-                                  child: TextFormField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Pesquisar',
-                                      hintStyle: TextStyle(
-                                        color: Theme.of(context).hintColor,
-                                        fontSize: 14,
-                                        fontFamily: appFont,
-                                        fontWeight: FontWeight.w300,
+                              ),
+                            ],
+                          ),
+                          selected: store.selectedIndex == 0,
+                          onTap: () {
+                            // Update the state of the app
+                            _onItemTapped(0);
+                            // Then close the drawer
+                            Navigator.pop(context);
+                          },
+                        ),
+                        ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.quiz_outlined,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                'StepMD Qbank',
+                                style: TextStyle(
+                                  color: Theme.of(context).hintColor,
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                          selected: store.selectedIndex == 1,
+                          onTap: () {
+                            _onItemTapped(1); // Ativa "Banco de questões"
+                            store.selectedIndexDB = 0;
+                          },
+                        ),
+                        Visibility(
+                          visible: store.selectedIndex ==
+                              1, // Ativa apenas quando "Banco de questões" está ativo
+                          child: Column(
+                            children: [
+                              ListTile(
+                                title: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.09,
+                                      decoration: store.selectedIndexDB == 0
+                                          ? ShapeDecoration(
+                                              color: const Color(0xFFE2F1FF),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                              ),
+                                            )
+                                          : const BoxDecoration(),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Text(
+                                          'Novo teste',
+                                          style: TextStyle(
+                                            color: Theme.of(context).hintColor,
+                                            fontSize: 14,
+                                            fontFamily: appFont,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
                                       ),
-                                      border: InputBorder.none,
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                                selected: store.selectedIndexDB == 0,
+                                onTap: () async {
+                                  store.selectedIndexDB =
+                                      0; // Atualiza o índice do Banco de questões
+                                },
+                              ),
+                              ListTile(
+                                title: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.11,
+                                      decoration: store.selectedIndexDB == 1
+                                          ? ShapeDecoration(
+                                              color: const Color(0xFFE2F1FF),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                              ),
+                                            )
+                                          : const BoxDecoration(),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Text(
+                                          'Testes realizados',
+                                          style: TextStyle(
+                                            color: Theme.of(context).hintColor,
+                                            fontSize: 14,
+                                            fontFamily: appFont,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                selected: store.selectedIndexDB == 1,
+                                onTap: () {
+                                  store.selectedIndexDB =
+                                      1; // Atualiza o índice do Banco de questões
+                                },
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.home_outlined,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              'Home',
-                              style: TextStyle(
-                                color: Theme.of(context).hintColor,
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
+                        ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/svg/flash.svg',
+                                color: Theme.of(context).primaryColor,
                               ),
-                            ),
-                          ],
-                        ),
-                        selected: store.selectedIndex == 0,
-                        onTap: () {
-                          // Update the state of the app
-                          _onItemTapped(0);
-                          // Then close the drawer
-                          Navigator.pop(context);
-                        },
-                      ),
-                      ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.quiz_outlined,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              'StepMD Qbank',
-                              style: TextStyle(
-                                color: Theme.of(context).hintColor,
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
+                              const SizedBox(width: 10),
+                              Text(
+                                'Flashcards',
+                                style: TextStyle(
+                                  color: Theme.of(context).hintColor,
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                          selected: store.selectedIndex ==
+                              2, // Define o estado selecionado de Flashcards
+                          onTap: () async {
+                            _onItemTapped(
+                                2); // Atualiza o índice principal para Flashcards
+                            store.selectedIndexDB =
+                                -1; // Reseta o estado de subitens
+                          },
                         ),
-                        selected: store.selectedIndex == 1,
-                        onTap: () {
-                          _onItemTapped(1); // Ativa "Banco de questões"
-                          store.selectedIndexDB = 0;
-                        },
-                      ),
-                      Visibility(
-                        visible: store.selectedIndex ==
-                            1, // Ativa apenas quando "Banco de questões" está ativo
-                        child: Column(
-                          children: [
-                            ListTile(
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.09,
-                                    decoration: store.selectedIndexDB == 0
-                                        ? ShapeDecoration(
-                                            color: const Color(0xFFE2F1FF),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                            ),
-                                          )
-                                        : const BoxDecoration(),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Text(
-                                        'Novo teste',
-                                        style: TextStyle(
-                                          color: Theme.of(context).hintColor,
-                                          fontSize: 14,
-                                          fontFamily: appFont,
-                                          fontWeight: FontWeight.w500,
+                        Visibility(
+                          visible: store.selectedIndex ==
+                              2, // Ativa os subitens apenas quando Flashcards está selecionado
+                          child: Column(
+                            children: [
+                              ListTile(
+                                title: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.11,
+                                      decoration: store.selectedIndexDB == 0
+                                          ? ShapeDecoration(
+                                              color: Color(0xFFE2F1FF),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                              ),
+                                            )
+                                          : const BoxDecoration(),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Text(
+                                          'Meus decks',
+                                          style: TextStyle(
+                                            color: Theme.of(context).hintColor,
+                                            fontSize: 14,
+                                            fontFamily: appFont,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
+                                selected: store.selectedIndexDB ==
+                                    0, // Verifica o estado do subitem
+                                onTap: () async {
+                                  store.selectedIndexDB =
+                                      0; // Atualiza o índice de subitens
+                                },
                               ),
-                              selected: store.selectedIndexDB == 0,
-                              onTap: () async {
-                                store.selectedIndexDB =
-                                    0; // Atualiza o índice do Banco de questões
-                              },
-                            ),
-                            ListTile(
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.11,
-                                    decoration: store.selectedIndexDB == 1
-                                        ? ShapeDecoration(
-                                            color: const Color(0xFFE2F1FF),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                            ),
-                                          )
-                                        : const BoxDecoration(),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Text(
-                                        'Testes realizados',
-                                        style: TextStyle(
-                                          color: Theme.of(context).hintColor,
-                                          fontSize: 14,
-                                          fontFamily: appFont,
-                                          fontWeight: FontWeight.w500,
+                              ListTile(
+                                title: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.11,
+                                      decoration: store.selectedIndexDB == 1
+                                          ? ShapeDecoration(
+                                              color: Color(0xFFE2F1FF),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                              ),
+                                            )
+                                          : const BoxDecoration(),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Text(
+                                          'Decks prontos',
+                                          style: TextStyle(
+                                            color: Theme.of(context).hintColor,
+                                            fontSize: 14,
+                                            fontFamily: appFont,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
+                                selected: store.selectedIndexDB ==
+                                    1, // Verifica o estado do subitem
+                                onTap: () {
+                                  store.selectedIndexDB =
+                                      1; // Atualiza o índice de subitens
+                                },
                               ),
-                              selected: store.selectedIndexDB == 1,
-                              onTap: () {
-                                store.selectedIndexDB =
-                                    1; // Atualiza o índice do Banco de questões
-                              },
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/svg/flash.svg',
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              'Flashcards',
-                              style: TextStyle(
-                                color: Theme.of(context).hintColor,
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
+                        ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/svg/book.svg',
+                                color: Theme.of(context).primaryColor,
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 10),
+                              Text(
+                                'Meu caderno',
+                                style: TextStyle(
+                                  color: Theme.of(context).hintColor,
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                          selected: store.selectedIndex == 3,
+                          onTap: () {
+                            // Update the state of the app
+                            _onItemTapped(3);
+                            // Then close the drawer
+                          },
                         ),
-                        selected: store.selectedIndex ==
-                            2, // Define o estado selecionado de Flashcards
-                        onTap: () async {
-                          _onItemTapped(
-                              2); // Atualiza o índice principal para Flashcards
-                          store.selectedIndexDB =
-                              -1; // Reseta o estado de subitens
-                        },
-                      ),
-                      Visibility(
-                        visible: store.selectedIndex ==
-                            2, // Ativa os subitens apenas quando Flashcards está selecionado
-                        child: Column(
-                          children: [
-                            ListTile(
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.11,
-                                    decoration: store.selectedIndexDB == 0
-                                        ? ShapeDecoration(
-                                            color: Color(0xFFE2F1FF),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                            ),
-                                          )
-                                        : const BoxDecoration(),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Text(
-                                        'Meus decks',
-                                        style: TextStyle(
-                                          color: Theme.of(context).hintColor,
-                                          fontSize: 14,
-                                          fontFamily: appFont,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                        ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/svg/add_notes.svg',
+                                color: Theme.of(context).primaryColor,
                               ),
-                              selected: store.selectedIndexDB ==
-                                  0, // Verifica o estado do subitem
-                              onTap: () async {
-                                store.selectedIndexDB =
-                                    0; // Atualiza o índice de subitens
-                              },
-                            ),
-                            ListTile(
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.11,
-                                    decoration: store.selectedIndexDB == 1
-                                        ? ShapeDecoration(
-                                            color: Color(0xFFE2F1FF),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                            ),
-                                          )
-                                        : const BoxDecoration(),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Text(
-                                        'Decks prontos',
-                                        style: TextStyle(
-                                          color: Theme.of(context).hintColor,
-                                          fontSize: 14,
-                                          fontFamily: appFont,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              const SizedBox(width: 10),
+                              Text(
+                                'Notes',
+                                style: TextStyle(
+                                  color: Theme.of(context).hintColor,
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                              selected: store.selectedIndexDB ==
-                                  1, // Verifica o estado do subitem
-                              onTap: () {
-                                store.selectedIndexDB =
-                                    1; // Atualiza o índice de subitens
-                              },
-                            ),
-                          ],
+                            ],
+                          ),
+                          selected: store.selectedIndex == 4,
+                          onTap: () {
+                            // Update the state of the app
+                            _onItemTapped(4);
+                            // Then close the drawer
+                          },
                         ),
-                      ),
-                      ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/svg/book.svg',
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              'Meu caderno',
-                              style: TextStyle(
-                                color: Theme.of(context).hintColor,
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
+                        ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/svg/notes.svg',
+                                color: Theme.of(context).primaryColor,
                               ),
-                            ),
-                          ],
-                        ),
-                        selected: store.selectedIndex == 3,
-                        onTap: () {
-                          // Update the state of the app
-                          _onItemTapped(3);
-                          // Then close the drawer
-                        },
-                      ),
-                      ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/svg/add_notes.svg',
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              'Notes',
-                              style: TextStyle(
-                                color: Theme.of(context).hintColor,
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
+                              const SizedBox(width: 10),
+                              Text(
+                                'Reviews',
+                                style: TextStyle(
+                                  color: Theme.of(context).hintColor,
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                          selected: store.selectedIndex == 5,
+                          onTap: () {
+                            // Update the state of the app
+                            _onItemTapped(5);
+                            // Then close the drawer
+                          },
                         ),
-                        selected: store.selectedIndex == 4,
-                        onTap: () {
-                          // Update the state of the app
-                          _onItemTapped(4);
-                          // Then close the drawer
-                        },
-                      ),
-                      ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/svg/notes.svg',
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              'Reviews',
-                              style: TextStyle(
-                                color: Theme.of(context).hintColor,
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
+                        ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.lightbulb_outline_sharp,
+                                color: Theme.of(context).primaryColor,
                               ),
-                            ),
-                          ],
-                        ),
-                        selected: store.selectedIndex == 5,
-                        onTap: () {
-                          // Update the state of the app
-                          _onItemTapped(5);
-                          // Then close the drawer
-                        },
-                      ),
-                      ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.lightbulb_outline_sharp,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'High Yield Tips',
-                              style: TextStyle(
-                                color: Theme.of(context).hintColor,
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
+                              SizedBox(width: 10),
+                              Text(
+                                'High Yield Tips',
+                                style: TextStyle(
+                                  color: Theme.of(context).hintColor,
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                          selected: store.selectedIndex == 6,
+                          onTap: () {
+                            // Update the state of the app
+                            _onItemTapped(6);
+                            // Then close the drawer
+                          },
                         ),
-                        selected: store.selectedIndex == 6,
-                        onTap: () {
-                          // Update the state of the app
-                          _onItemTapped(6);
-                          // Then close the drawer
-                        },
-                      ),
-                      const SizedBox(
-                        height: 270,
-                      ),
-                      ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.help_outline_outlined,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'Suporte',
-                              style: TextStyle(
-                                color: Theme.of(context).hintColor,
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
+                        const SizedBox(
+                          height: 270,
+                        ),
+                        ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.help_outline_outlined,
+                                color: Theme.of(context).primaryColor,
                               ),
-                            ),
-                          ],
-                        ),
-                        selected: store.selectedIndex == 7,
-                        onTap: () {
-                          // Update the state of the app
-                          _onItemTapped(7);
-                          // Then close the drawer
-                        },
-                      ),
-                      ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.settings_rounded,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'Configurações',
-                              style: TextStyle(
-                                color: Theme.of(context).hintColor,
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
+                              SizedBox(width: 10),
+                              Text(
+                                'Suporte',
+                                style: TextStyle(
+                                  color: Theme.of(context).hintColor,
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                          selected: store.selectedIndex == 7,
+                          onTap: () {
+                            // Update the state of the app
+                            _onItemTapped(7);
+                            // Then close the drawer
+                          },
                         ),
-                        selected: store.selectedIndex == 8,
-                        onTap: () {
-                          // Update the state of the app
-                          _onItemTapped(8);
+                        ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.settings_rounded,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                'Configurações',
+                                style: TextStyle(
+                                  color: Theme.of(context).hintColor,
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                          selected: store.selectedIndex == 8,
+                          onTap: () {
+                            // Update the state of the app
+                            _onItemTapped(8);
 
-                          // Then close the drawer
-                        },
-                      ),
-                      ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.login,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'Log out',
-                              style: TextStyle(
-                                color: Theme.of(context).hintColor,
-                                fontSize: 14,
-                                fontFamily: appFont,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
+                            // Then close the drawer
+                          },
                         ),
-                        selected: store.selectedIndex == 9,
-                        onTap: () async {
-                          // Update the state of the app
-                          _onItemTapped(9);
-                          await rootStore.signout();
+                        ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.login,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                'Log out',
+                                style: TextStyle(
+                                  color: Theme.of(context).hintColor,
+                                  fontSize: 14,
+                                  fontFamily: appFont,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                          selected: store.selectedIndex == 9,
+                          onTap: () async {
+                            // Update the state of the app
+                            _onItemTapped(9);
+                            await rootStore.signout();
 
-                          // Then close the drawer
-                        },
-                      ),
-                    ],
+                            // Then close the drawer
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Expanded(child: store.widgetOptions[store.selectedIndex ?? 0]),
-            ],
+                Expanded(child: store.widgetOptions[store.selectedIndex ?? 0]),
+              ],
+            ),
           ),
         ),
       );

@@ -56,9 +56,9 @@ class NovoEstudoFlash extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: const Text(
+                      const Padding(
+                        padding: EdgeInsets.only(left: 30),
+                        child: Text(
                           'Quais disciplinas você deseja revisar?',
                           style: TextStyle(
                             color: appColorPrimary,
@@ -94,7 +94,7 @@ class NovoEstudoFlash extends StatelessWidget {
                               .snapshots(),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
-                              return Center(
+                              return const Center(
                                   child: Text('Erro ao carregar categorias'));
                             }
 
