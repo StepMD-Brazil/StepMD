@@ -77,7 +77,7 @@ mixin _$NotebookStore on _NotebookStoreBase, Store {
       ActionController(name: '_NotebookStoreBase', context: context);
 
   @override
-  void loadPages() {
+  dynamic loadPages() {
     final _$actionInfo = _$_NotebookStoreBaseActionController.startAction(
         name: '_NotebookStoreBase.loadPages');
     try {
