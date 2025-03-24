@@ -7,6 +7,8 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stepmd/app/modules/db_questions/dbQuestions_store.dart';
 import 'package:stepmd/app/modules/home/home_page.dart';
+import 'package:stepmd/app/modules/home/home_store.dart';
+import 'package:stepmd/app/root/root_store.dart';
 import 'package:stepmd/app/shared/components/resultadoTesteRealizado.dart';
 import 'package:stepmd/app/shared/components/testeRealizados.dart';
 import 'package:stepmd/app/shared/constants.dart';
@@ -19,6 +21,7 @@ class Test extends StatefulWidget {
 
 class _TestState extends State<Test> {
   final DbQuestionsStore dbStore = Modular.get();
+  final HomeStore homeStore = Modular.get();
   final QuillController _controller = QuillController.basic();
 
   @override
@@ -1529,7 +1532,12 @@ class _TestState extends State<Test> {
                 onPressed: () async {
                   Navigator.of(context).pop();
                   await dbStore.reset();
-                  await Modular.to.pushReplacementNamed('/home');
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
+                  //  homeStore.widgetOptions[0];
+                  // await Modular.to.pushReplacementNamed('/home');
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.red[600], // Cor de fundo correta
