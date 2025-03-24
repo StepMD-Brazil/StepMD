@@ -81,7 +81,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/svg/logo.svg
+    - assets/svg/Logo.svg
     - assets/svg/add_notes.svg
     - assets/svg/notes.svg
     - assets/svg/book.svg
@@ -125,11 +125,17 @@ flutter:
     - assets/svg/brazil.svg
     - assets/svg/eua.svg
     - assets/svg/contrast.svg
-    - assets/svg/infectiousDisease.svg
+    - assets/svg/InfectiousDisease.svg
     - assets/svg/ophthalmology.svg
     - assets/svg/toxicology.svg
     - assets/svg/biochemistry.svg
     - assets/svg/flashcard.svg
+    - assets/svg/anatomy.svg
+    - assets/svg/embriology.svg
+    - assets/svg/surgery.svg
+    - assets/svg/pneumology.svg
+    - assets/svg/rheumatology.svg
+
     - assets/img/eua.png
     - assets/img/brazil.png
     - assets/img/banner.png

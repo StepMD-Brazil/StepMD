@@ -65,11 +65,9 @@ abstract class _RootStoreBase with Store {
   }
 
   signout() async {
-    print('signout');
-    status = await AuthStatus.signed_out;
     await FirebaseAuth.instance.signOut();
+    status = AuthStatus.signed_out;
     selectedTrunk = 0;
-
     await Modular.to.pushReplacementNamed('/signin');
   }
 

@@ -7,6 +7,8 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stepmd/app/modules/db_questions/dbQuestions_store.dart';
 import 'package:stepmd/app/modules/home/home_page.dart';
+import 'package:stepmd/app/modules/home/home_store.dart';
+import 'package:stepmd/app/root/root_store.dart';
 import 'package:stepmd/app/modules/notebook/notebook_page_model.dart';
 import 'package:stepmd/app/modules/notebook/notebook_store.dart';
 import 'package:stepmd/app/shared/components/resultadoTesteRealizado.dart';
@@ -21,6 +23,7 @@ class Test extends StatefulWidget {
 
 class _TestState extends State<Test> {
   final DbQuestionsStore dbStore = Modular.get();
+  final HomeStore homeStore = Modular.get();
   final QuillController _controller = QuillController.basic();
 
   final NotebookStore notebookStore = Modular.get();
