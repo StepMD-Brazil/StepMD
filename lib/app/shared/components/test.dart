@@ -9,6 +9,8 @@ import 'package:stepmd/app/modules/db_questions/dbQuestions_store.dart';
 import 'package:stepmd/app/modules/home/home_page.dart';
 import 'package:stepmd/app/modules/home/home_store.dart';
 import 'package:stepmd/app/root/root_store.dart';
+import 'package:stepmd/app/modules/notebook/notebook_page_model.dart';
+import 'package:stepmd/app/modules/notebook/notebook_store.dart';
 import 'package:stepmd/app/shared/components/resultadoTesteRealizado.dart';
 import 'package:stepmd/app/shared/components/testeRealizados.dart';
 import 'package:stepmd/app/shared/constants.dart';
@@ -24,10 +26,277 @@ class _TestState extends State<Test> {
   final HomeStore homeStore = Modular.get();
   final QuillController _controller = QuillController.basic();
 
+  final NotebookStore notebookStore = Modular.get();
+
   @override
   void dispose() {
     dbStore.reset();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    notebookStore.loadPages();
+  }
+
+  void _onPageSelected(NotebookPageModel page) {
+    setState(() {
+      notebookStore.setSelectedPage(page);
+      _controller.document = Document()..insert(0, page.content);
+    });
+  }
+
+  void _addNewPage() {
+    int newPageNumber = notebookStore.pages.length + 1;
+    String newPageTitle = "Página $newPageNumber";
+    notebookStore.addPage(newPageTitle, "").then((_) {
+      if (notebookStore.selectedPage != null) {
+        _onPageSelected(notebookStore.selectedPage!);
+      }
+    });
+  }
+
+  Future<bool> _showNotebook(BuildContext context) async {
+    await notebookStore
+        .loadPages(); // Garante que as páginas sejam carregadas antes de abrir o diálogo
+
+    return await showDialog<bool>(
+          context: context,
+          builder: (context) => Dialog(
+            insetPadding: const EdgeInsets.all(16),
+            child: Container(
+              width: MediaQuery.of(context).size.width *
+                  0.8, // Aumentei a largura para acomodar a lista de páginas
+              height: MediaQuery.of(context).size.height * 0.8,
+              padding: const EdgeInsets.all(16),
+              child: Observer(
+                builder: (_) {
+                  // Verifica se há uma página selecionada antes de atualizar o controlador
+                  if (notebookStore.selectedPage != null) {
+                    _controller.document = Document()
+                      ..insert(0, notebookStore.selectedPage!.content);
+                  } else {
+                    _controller.document = Document(); // Documento vazio
+                  }
+
+                  return Row(
+                    children: [
+                      // Lista de páginas
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        color: Colors.grey[200],
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: ListView.builder(
+                                itemCount: notebookStore.pages.length,
+                                itemBuilder: (context, index) {
+                                  final page = notebookStore.pages[index];
+                                  return ListTile(
+                                    title: Text(
+                                      page.title,
+                                      style: TextStyle(
+                                        color: notebookStore.selectedPage?.id ==
+                                                page.id
+                                            ? Colors.blue
+                                            : Colors
+                                                .black, // Azul quando selecionado
+                                        fontWeight: notebookStore
+                                                    .selectedPage?.id ==
+                                                page.id
+                                            ? FontWeight.bold
+                                            : FontWeight
+                                                .normal, // Negrito quando selecionado
+                                      ),
+                                    ),
+                                    selected: notebookStore.selectedPage?.id ==
+                                        page.id,
+                                    tileColor: notebookStore.selectedPage?.id ==
+                                            page.id
+                                        ? Colors.blue.withOpacity(
+                                            0.2) // Fundo azul claro quando selecionado
+                                        : null,
+                                    onTap: () => _onPageSelected(page),
+                                  );
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ElevatedButton(
+                                onPressed: _addNewPage,
+                                child: const Text("Adicionar Página"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                          width: 16), // Espaço entre a lista e o editor
+                      // Editor de texto
+                      Expanded(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              width: double.infinity,
+                              child:
+                                  QuillToolbar.simple(controller: _controller),
+                            ),
+                            const SizedBox(height: 16),
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.5))),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.6,
+                                  child: QuillEditor.basic(
+                                    controller: _controller,
+                                    configurations:
+                                        const QuillEditorConfigurations(
+                                      placeholder:
+                                          'Dê um título a esta página, digite aqui suas anotações',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (notebookStore.selectedPage != null) {
+                                    notebookStore.updatePage(
+                                      notebookStore.selectedPage!.id,
+                                      _controller.document.toPlainText(),
+                                    );
+                                    Navigator.of(context).pop(
+                                        true); // Fecha o diálogo após salvar
+                                  }
+                                },
+                                child: const Text("Salvar Página"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+        ) ??
+        false;
+  }
+
+  void _showFinishConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(
+          'Finalizar teste',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        content: const Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Você tem certeza que deseja finalizar o teste?',
+                style: TextStyle(fontSize: 14),
+              ),
+            ]),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              dbStore.finishTest();
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //       builder: (context) => ResultadoTestesRealizados()),
+              // );
+            },
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.red[600], // Cor de fundo correta
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 16, vertical: 16), // Espaçamento interno
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8), // Bordas arredondadas
+              ),
+            ),
+            child: const Text(
+              'Sim, finalizar o teste',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<bool> _showBackConfirmation(BuildContext context) async {
+    return await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text(
+              'Cancelar teste',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            content: const Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Você tem certeza que deseja cancelar o teste?',
+                  style: TextStyle(fontSize: 14),
+                ),
+                Text(
+                  'Isso fará com que perca todo seu progresso neste teste.',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Não cancelar'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  await dbStore.reset();
+                  await Modular.to.pushReplacementNamed('/home');
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.red[600], // Cor de fundo correta
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 16), // Espaçamento interno
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(8), // Bordas arredondadas
+                  ),
+                ),
+                child: const Text(
+                  'Sim, cancelar o teste',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+        ) ??
+        false;
   }
 
   @override
@@ -297,41 +566,19 @@ class _TestState extends State<Test> {
                           ),
                         ),
                         Container(
-                          // Barra de progresso e dropdown de questões
-                          width: MediaQuery.of(context).size.width * 0.20,
+                          width: MediaQuery.of(context).size.width * 0.15,
                           height: MediaQuery.of(context).size.height,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              left: BorderSide(
-                                strokeAlign: BorderSide.strokeAlignOutside,
-                                color: Color(0xFFDAE9EE),
-                              ),
-                              top: BorderSide(
-                                strokeAlign: BorderSide.strokeAlignOutside,
-                                color: Color(0xFFDAE9EE),
-                              ),
-                              right: BorderSide(
-                                width: 1,
-                                strokeAlign: BorderSide.strokeAlignOutside,
-                                color: Color(0xFFDAE9EE),
-                              ),
-                              bottom: BorderSide(
-                                strokeAlign: BorderSide.strokeAlignOutside,
-                                color: Color(0xFFDAE9EE),
-                              ),
-                            ),
-                          ),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Seu progresso',
                                       style: TextStyle(
                                         color: Color(0xFF51628A),
@@ -340,124 +587,117 @@ class _TestState extends State<Test> {
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                    Text(
-                                      '(${((dbStore.countAnswereds) / snapshot.data!.length * 100).truncate()}%)',
-                                      style: TextStyle(
-                                        color: Color(0xFF51628A),
-                                        fontSize: 12,
-                                        fontFamily: appFont,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '(${((dbStore.countAnswereds) / snapshot.data!.length * 100).truncate()}%)',
+                                          style: TextStyle(
+                                            color: Color(0xFF51628A),
+                                            fontSize: 12,
+                                            fontFamily: appFont,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        SizedBox(width: 8),
+                                        SizedBox(
+                                          width: 100,
+                                          child: DropdownButton<String>(
+                                            value:
+                                                '${snapshot.data![dbStore.questionSelect]['questionId']}',
+                                            underline: SizedBox(),
+                                            icon: Icon(Icons.arrow_drop_down,
+                                                color: Color(0xFF51628A)),
+                                            isDense: true,
+                                            isExpanded:
+                                                true, // Garante que o botão ocupe o espaço correto
+                                            items: snapshot.data!
+                                                .map<DropdownMenuItem<String>>(
+                                                    (item) {
+                                              int index =
+                                                  snapshot.data!.indexOf(item);
+                                              int status = dbStore
+                                                  .answers[index]['status'];
+
+                                              // Define o ícone com base no status
+                                              Icon statusIcon;
+                                              if (status == 1) {
+                                                statusIcon = Icon(
+                                                    Icons.check_circle_outlined,
+                                                    color: Colors.green,
+                                                    size: 18);
+                                              } else if (status == -1) {
+                                                statusIcon = Icon(
+                                                    Icons.close_rounded,
+                                                    color: Colors.red,
+                                                    size: 18);
+                                              } else {
+                                                statusIcon = Icon(
+                                                    Icons.info_outline,
+                                                    color: Colors.grey,
+                                                    size: 18);
+                                              }
+
+                                              return DropdownMenuItem<String>(
+                                                value: item['questionId'],
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Text(
+                                                        '${index + 1} - ${item['label']}',
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontFamily: appFont,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: snapshot.data![
+                                                                          dbStore
+                                                                              .questionSelect][
+                                                                      'questionId'] ==
+                                                                  item[
+                                                                      'questionId']
+                                                              ? Color.fromRGBO(
+                                                                  34,
+                                                                  109,
+                                                                  159,
+                                                                  1)
+                                                              : Color.fromRGBO(
+                                                                  5, 19, 51, 1),
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 8),
+                                                    statusIcon,
+                                                  ],
+                                                ),
+                                              );
+                                            }).toList(),
+                                            onChanged: (newValue) {
+                                              final selectedIndex = snapshot
+                                                  .data!
+                                                  .indexWhere((item) =>
+                                                      item['questionId'] ==
+                                                      newValue);
+                                              if (selectedIndex != -1) {
+                                                dbStore
+                                                    .setSelect(selectedIndex);
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
+                                SizedBox(height: 4),
+                                // Barra de progresso mais fina
                                 LinearProgressIndicator(
                                   value: (dbStore.countAnswereds /
                                       snapshot.data!.length),
                                   backgroundColor: Colors.grey[300],
                                   color: Colors.blue,
-                                  minHeight: 10,
-                                ),
-                                Container(
-                                  decoration:
-                                      BoxDecoration(color: Colors.white),
-                                  child: DropdownButton<String>(
-                                    hint: Text("Selecione uma opção"),
-                                    value:
-                                        '${snapshot.data![dbStore.questionSelect]['questionId']}',
-                                    isExpanded: true,
-                                    items: snapshot.data!
-                                        .map<DropdownMenuItem<String>>((item) {
-                                      return DropdownMenuItem<String>(
-                                        value: item['questionId'],
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              '${snapshot.data!.indexOf(item) + 1} - ${item['label']}',
-                                              style: TextStyle(
-                                                color: snapshot.data![dbStore
-                                                                .questionSelect]
-                                                            ['questionId'] ==
-                                                        item['questionId']
-                                                    ? Color.fromRGBO(
-                                                        34, 109, 159, 1)
-                                                    : Color.fromRGBO(
-                                                        5, 19, 51, 1),
-                                                fontSize: 14,
-                                                fontFamily: appFont,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                            Spacer(),
-                                            Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: ShapeDecoration(
-                                                color: dbStore.answers[snapshot
-                                                                .data!
-                                                                .indexOf(item)]
-                                                            ['status'] ==
-                                                        1
-                                                    ? Color(0xFFCFE6D8)
-                                                    : dbStore.answers[snapshot
-                                                                    .data!
-                                                                    .indexOf(
-                                                                        item)]
-                                                                ['status'] ==
-                                                            -1
-                                                        ? Color(0xFFF8D7DA)
-                                                        : Color(0xFFE0E0E0),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          9999),
-                                                ),
-                                              ),
-                                              child: Icon(
-                                                dbStore.answers[snapshot.data!
-                                                                .indexOf(item)]
-                                                            ['status'] ==
-                                                        1
-                                                    ? Icons
-                                                        .check_circle_outlined
-                                                    : dbStore.answers[snapshot
-                                                                    .data!
-                                                                    .indexOf(
-                                                                        item)]
-                                                                ['status'] ==
-                                                            -1
-                                                        ? Icons.close_rounded
-                                                        : Icons.info_outline,
-                                                color: dbStore.answers[snapshot
-                                                                .data!
-                                                                .indexOf(item)]
-                                                            ['status'] ==
-                                                        1
-                                                    ? Colors.green
-                                                    : dbStore.answers[snapshot
-                                                                    .data!
-                                                                    .indexOf(
-                                                                        item)]
-                                                                ['status'] ==
-                                                            -1
-                                                        ? Colors.red
-                                                        : null,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
-                                    onChanged: (newValue) {
-                                      final selectedIndex = snapshot.data!
-                                          .indexWhere((item) =>
-                                              item['questionId'] == newValue);
-
-                                      if (selectedIndex != -1) {
-                                        dbStore.setSelect(selectedIndex);
-                                      }
-                                    },
-                                  ),
+                                  minHeight: 3, // Barra fina
                                 ),
                               ],
                             ),
@@ -658,6 +898,8 @@ class _TestState extends State<Test> {
                                     height: MediaQuery.of(context).size.height *
                                         0.37,
                                     child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           mainAxisAlignment:
@@ -1398,168 +1640,5 @@ class _TestState extends State<Test> {
         );
       },
     );
-  }
-
-  Future<bool> _showNotebook(BuildContext context) async {
-    return await showDialog<bool>(
-          context: context,
-          builder: (context) => Dialog(
-            insetPadding: const EdgeInsets.all(
-                16), // Padding para evitar que ocupe toda a tela
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.65,
-              height: MediaQuery.of(context).size.height *
-                  0.8, // Define altura do popup
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  // Toolbar do Quill
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    width: double.infinity,
-                    child: QuillToolbar.simple(controller: _controller),
-                  ),
-                  const SizedBox(height: 16),
-                  // Editor de texto
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.withOpacity(0.5)),
-                      ),
-                      child: QuillEditor.basic(
-                        controller: _controller,
-                        configurations: const QuillEditorConfigurations(
-                          placeholder:
-                              'Dê um título a esta página, digite aqui suas anotações',
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  // Botão de fechar
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () =>
-                          Navigator.of(context).pop(true), // Retorna true
-                      child: const Text('Fechar'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ) ??
-        false; // Garante que não retorne null
-  }
-
-  void _showFinishConfirmation(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text(
-          'Finalizar teste',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        content: const Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Você tem certeza que deseja finalizar o teste?',
-                style: TextStyle(fontSize: 14),
-              ),
-            ]),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancelar'),
-          ),
-          TextButton(
-            onPressed: () {
-              dbStore.finishTest();
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => ResultadoTestesRealizados()),
-              // );
-            },
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.red[600], // Cor de fundo correta
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 16, vertical: 16), // Espaçamento interno
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8), // Bordas arredondadas
-              ),
-            ),
-            child: const Text(
-              'Sim, finalizar o teste',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<bool> _showBackConfirmation(BuildContext context) async {
-    return await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text(
-              'Cancelar teste',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            content: const Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Você tem certeza que deseja cancelar o teste?',
-                  style: TextStyle(fontSize: 14),
-                ),
-                Text(
-                  'Isso fará com que perca todo seu progresso neste teste.',
-                  style: TextStyle(fontSize: 14),
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Não cancelar'),
-              ),
-              TextButton(
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  await dbStore.reset();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
-                  );
-                  //  homeStore.widgetOptions[0];
-                  // await Modular.to.pushReplacementNamed('/home');
-                },
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.red[600], // Cor de fundo correta
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 16), // Espaçamento interno
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(8), // Bordas arredondadas
-                  ),
-                ),
-                child: const Text(
-                  'Sim, cancelar o teste',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
-          ),
-        ) ??
-        false;
   }
 }

@@ -21,13 +21,14 @@ abstract class _NotebookStoreBase with Store {
   bool isLoading = false;
 
   @action
-  void loadPages() {
+  dynamic loadPages() {
     final user = _auth.currentUser;
     if (user == null) return;
 
     isLoading = true;
 
-    _firestore.collection('notebooks').doc(user.uid).snapshots().listen((doc) async {
+    _firestore.collection('notebooks').doc(user.uid).snapshots().listen(
+        (doc) async {
       if (doc.exists) {
         final data = doc.data();
         pages = ObservableList.of(
@@ -39,11 +40,14 @@ abstract class _NotebookStoreBase with Store {
       } else {
         pages.clear();
       }
-      
+
       // Se não houver páginas, criar "Página 1" automaticamente
       if (pages.isEmpty) {
         await addPage("Página 1", "");
+      } else {
+        selectedPage = pages.first; // Define a primeira página como selecionada
       }
+
       isLoading = false;
     }, onError: (e) {
       print("Erro ao carregar páginas: $e");
@@ -73,6 +77,8 @@ abstract class _NotebookStoreBase with Store {
     await docRef.set({
       'pages': FieldValue.arrayUnion([newPage.toMap()])
     }, SetOptions(merge: true));
+
+    selectedPage = newPage; // Define a nova página como selecionada
   }
 
   @action
