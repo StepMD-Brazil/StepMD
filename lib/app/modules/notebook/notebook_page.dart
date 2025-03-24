@@ -23,14 +23,20 @@ class NotebookPageState extends State<NotebookPage> {
   }
 
   void _onPageSelected(NotebookPageModel page) {
-    store.setSelectedPage(page);
-    _controller.document = Document()..insert(0, page.content);
+    setState(() {
+      store.setSelectedPage(page);
+      _controller.document = Document()..insert(0, page.content);
+    });
   }
 
   void _addNewPage() {
     int newPageNumber = store.pages.length + 1;
     String newPageTitle = "Página $newPageNumber";
-    store.addPage(newPageTitle, "");
+    store.addPage(newPageTitle, "").then((_) {
+      if (store.selectedPage != null) {
+        _onPageSelected(store.selectedPage!);
+      }
+    });
   }
 
   @override
@@ -53,10 +59,22 @@ class NotebookPageState extends State<NotebookPage> {
                         itemBuilder: (context, index) {
                           final page = store.pages[index];
                           return ListTile(
-                            title: Text(page.title),
+                            title: Text(
+                              page.title,
+                              style: TextStyle(
+                                color: store.selectedPage?.id == page.id
+                                    ? Colors.blue
+                                    : Colors.black, // Azul quando selecionado
+                                fontWeight: store.selectedPage?.id == page.id
+                                    ? FontWeight.bold
+                                    : FontWeight
+                                        .normal, // Deixar em negrito quando selecionado
+                              ),
+                            ),
                             selected: store.selectedPage?.id == page.id,
                             tileColor: store.selectedPage?.id == page.id
-                                ? Colors.blue.withOpacity(0.2) // Cor de destaque
+                                ? Colors.blue.withOpacity(
+                                    0.2) // Fundo azul claro quando selecionado
                                 : null,
                             onTap: () => _onPageSelected(page),
                           );
