@@ -221,11 +221,11 @@ class _TestState extends State<Test> {
           TextButton(
             onPressed: () {
               dbStore.finishTest();
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => ResultadoTestesRealizados()),
-              // );
+              homeStore.selectedIndexDB = 1;
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TestesRealizados()),
+              );
             },
             style: TextButton.styleFrom(
               backgroundColor: Colors.red[600], // Cor de fundo correta
@@ -277,7 +277,10 @@ class _TestState extends State<Test> {
                 onPressed: () async {
                   Navigator.of(context).pop();
                   await dbStore.reset();
-                  await Modular.to.pushReplacementNamed('/home');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.red[600], // Cor de fundo correta

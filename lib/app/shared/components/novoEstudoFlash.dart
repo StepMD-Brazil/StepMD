@@ -7,6 +7,7 @@ import 'package:stepmd/app/modules/flashcards/flashcards_store.dart';
 import 'package:stepmd/app/shared/components/flashcard.dart';
 import 'package:stepmd/app/shared/components/test.dart';
 import 'package:stepmd/app/shared/constants.dart';
+import 'package:stepmd/app/shared/components/dynamic_header.dart';
 
 class NovoEstudoFlash extends StatelessWidget {
   final FlashcardsStore flashStore = Modular.get();
@@ -173,11 +174,10 @@ class NovoEstudoFlash extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            categoryName,
-                                            style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.grey.shade800,
+                                            categoryName ?? 'Patologia',
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           FutureBuilder(
@@ -256,6 +256,10 @@ class NovoEstudoFlash extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 8),
+                          DynamicHeader(
+                            title: categoryName ?? 'Patologia',
+                            isActive: true,
+                          ),
                           InkWell(
                             onTap: () {
                               if (flashStore.checkedCategories.isNotEmpty) {
