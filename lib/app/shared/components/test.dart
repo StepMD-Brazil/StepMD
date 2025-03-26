@@ -11,8 +11,8 @@ import 'package:stepmd/app/modules/home/home_store.dart';
 import 'package:stepmd/app/root/root_store.dart';
 import 'package:stepmd/app/modules/notebook/notebook_page_model.dart';
 import 'package:stepmd/app/modules/notebook/notebook_store.dart';
+import 'package:stepmd/app/shared/components/testeRealizado.dart';
 import 'package:stepmd/app/shared/components/resultadoTesteRealizado.dart';
-import 'package:stepmd/app/shared/components/testeRealizados.dart';
 import 'package:stepmd/app/shared/constants.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 
@@ -221,10 +221,10 @@ class _TestState extends State<Test> {
           TextButton(
             onPressed: () {
               dbStore.finishTest();
-              homeStore.selectedIndexDB = 1;
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TestesRealizados()),
+                MaterialPageRoute(
+                    builder: (context) => ResultadosTestesRealizados()),
               );
             },
             style: TextButton.styleFrom(
@@ -277,10 +277,8 @@ class _TestState extends State<Test> {
                 onPressed: () async {
                   Navigator.of(context).pop();
                   await dbStore.reset();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomePage()));
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.red[600], // Cor de fundo correta

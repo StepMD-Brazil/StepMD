@@ -1,34 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:stepmd/app/shared/components/resultadoTesteRealizado.dart';
 
-class TestesRealizados extends StatelessWidget {
+class ListaTestes extends StatelessWidget {
   final List<Map<String, dynamic>> mockTestes = [
     {
-      'n': '01',
-      'id': '001159',
-      'disciplina': 'Biostatistics &\nEpidemiology',
-      'topicos': 'Gastrointestinal &\nNutrition',
-      'status': 'incorreta',
-      'tempoGasto': '0:04 segs',
-      'contRelacionado': 'Ver conteúdo',
+      'pontuacao': 75,
+      'nomeTeste': 'teste 1',
+      'tipoTeste': 'StepMD\nSimulado',
+      'disciplinas': 'Behavioral\nScience',
+      'topicos': 'Public\nHealth',
+      'numQuestoes': 12,
+      'data': '01/12/2024',
+      'showStar': true,
     },
     {
-      'n': '02',
-      'id': '001159',
-      'disciplina': 'Biostatistics &\nEpidemiology',
-      'topicos': 'Gastrointestinal &\nNutrition',
-      'status': 'correta',
-      'tempoGasto': '0:04 segs',
-      'contRelacionado': 'Ver conteúdo',
+      'pontuacao': 26,
+      'nomeTeste': 'teste 2',
+      'tipoTeste': 'Estilo NBME',
+      'disciplinas': 'Behavioral\nScience',
+      'topicos': 'Public\nHealth',
+      'numQuestoes': 30,
+      'data': '01/12/2024',
+      'showStar': true,
     },
     {
-      'n': '03',
-      'id': '001159',
-      'disciplina': 'Biostatistics &\nEpidemiology',
-      'topicos': 'Gastrointestinal &\nNutrition',
-      'status': 'incorreta',
-      'tempoGasto': '0:04 segs',
-      'contRelacionado': 'Ver conteúdo',
+      'pontuacao': 33,
+      'nomeTeste': 'teste 3',
+      'tipoTeste': 'StepMD\nSimulado',
+      'disciplinas': 'Behavioral\nScience',
+      'topicos': 'Public\nHealth',
+      'numQuestoes': 24,
+      'data': '01/12/2024',
+      'showStar': false,
+    },
+    {
+      'pontuacao': 75,
+      'nomeTeste': 'teste 4',
+      'tipoTeste': 'StepMD\nSimulado',
+      'disciplinas': 'Behavioral\nScience',
+      'topicos': 'Public\nHealth',
+      'numQuestoes': 56,
+      'data': '01/12/2024',
+      'showStar': false,
+    },
+    {
+      'pontuacao': 26,
+      'nomeTeste': 'teste 5',
+      'tipoTeste': 'Personalizado',
+      'disciplinas': 'Behavioral\nScience',
+      'topicos': 'Public\nHealth',
+      'numQuestoes': 12,
+      'data': '01/12/2024',
+      'showStar': false,
+    },
+    {
+      'pontuacao': 75,
+      'nomeTeste': 'teste 6',
+      'tipoTeste': 'Estilo NBME',
+      'disciplinas': 'Behavioral\nScience',
+      'topicos': 'Public\nHealth',
+      'numQuestoes': 15,
+      'data': '01/12/2024',
+      'showStar': false,
     },
   ];
 
@@ -37,26 +71,19 @@ class TestesRealizados extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          color: Color(0xFF51628A),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(
-              Icons.medical_services_outlined,
-              color: Color(0xFF51628A),
-              size: 24,
+              Icons.quiz_outlined,
+              color: Theme.of(context).primaryColor,
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 15),
             Text(
-              'Acompanhe seus resultados',
+              'Testes realizados',
               style: TextStyle(
-                color: Color(0xFF51628A),
+                color: Theme.of(context).hintColor,
                 fontSize: 20,
                 fontFamily: 'Work Sans',
                 fontWeight: FontWeight.w400,
@@ -68,32 +95,51 @@ class TestesRealizados extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 24.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildCircularAcertosProgress(
-                    'Sua taxa de acertos',
-                    0.95,
-                    '95%',
-                    Colors.green,
+                  Text(
+                    'Acompanhe os resultados de seus últimos testes',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF2D3748),
+                    ),
                   ),
-                  _buildCircularMediaProgress(
-                    'Sua média de acertos',
-                    0.72,
-                    '72%',
-                    Colors.green,
+                  Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Color(0xFFE2E8F0)),
+                    ),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Pesquisar',
+                        hintStyle: TextStyle(
+                          color: Color(0xFF718096),
+                          fontSize: 14,
+                        ),
+                        prefixIcon: Icon(Icons.search,
+                            color: Color(0xFF718096), size: 20),
+                        border: InputBorder.none,
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      ),
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 32),
+              SizedBox(height: 24),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.85,
+                  width: MediaQuery.of(context).size.width * 0.83,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
@@ -106,10 +152,10 @@ class TestesRealizados extends StatelessWidget {
                     ],
                   ),
                   child: DataTable(
-                    dataRowHeight: 64,
+                    dataRowHeight: 56,
                     headingRowHeight: 48,
                     horizontalMargin: 24,
-                    columnSpacing: 24,
+                    columnSpacing: 32,
                     headingRowColor:
                         MaterialStateProperty.all(Color(0xFFF7FAFC)),
                     headingTextStyle: TextStyle(
@@ -117,98 +163,96 @@ class TestesRealizados extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
+                    dataTextStyle: TextStyle(
+                      color: Color(0xFF2D3748),
+                      fontSize: 14,
+                    ),
                     columns: [
-                      DataColumn(label: Text('N°')),
-                      DataColumn(label: Text('ID')),
-                      DataColumn(label: Text('Disciplina')),
+                      DataColumn(label: Text('Pontuação')),
+                      DataColumn(label: Text('Nome do teste')),
+                      DataColumn(label: Text('Tipo de teste')),
+                      DataColumn(label: Text('Disciplinas')),
                       DataColumn(label: Text('Tópicos')),
-                      DataColumn(label: Text('Status')),
-                      DataColumn(label: Text('Tempo gasto')),
-                      DataColumn(label: Text('Cont. relacionado')),
+                      DataColumn(label: Text('N° de questões')),
+                      DataColumn(label: Text('Data')),
+                      DataColumn(label: Text('Ações')),
                     ],
                     rows: mockTestes.map((teste) {
-                      final isIncorreta = teste['status'] == 'incorreta';
-
                       return DataRow(
+                        onSelectChanged: (_) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResultadosTestesRealizados()),
+                          );
+                        },
                         cells: [
-                          DataCell(Text(
-                            teste['n'],
-                            style: TextStyle(
-                              color: Color(0xFF2D3748),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          )),
-                          DataCell(Text(
-                            teste['id'],
-                            style: TextStyle(
-                              color: Color(0xFF2D3748),
-                              fontSize: 14,
-                            ),
-                          )),
-                          DataCell(Text(
-                            teste['disciplina'],
-                            style: TextStyle(
-                              color: Color(0xFF2D3748),
-                              fontSize: 14,
-                            ),
-                          )),
-                          DataCell(Text(
-                            teste['topicos'],
-                            style: TextStyle(
-                              color: Color(0xFF2D3748),
-                              fontSize: 14,
-                            ),
-                          )),
                           DataCell(
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: isIncorreta
-                                    ? Color(0xFFFFE4E4)
-                                    : Color(0xFFE6FFE6),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    isIncorreta ? Icons.close : Icons.check,
-                                    size: 16,
-                                    color:
-                                        isIncorreta ? Colors.red : Colors.green,
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (teste['showStar'])
+                                  Icon(Icons.star,
+                                      color: Color(0xFF4299E1), size: 16),
+                                if (teste['showStar']) SizedBox(width: 4),
+                                Text(
+                                  '${teste['pontuacao']}%',
+                                  style: TextStyle(
+                                    color: Color(0xFF2D3748),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
                                   ),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    isIncorreta ? 'Incorreta' : 'Correta',
-                                    style: TextStyle(
-                                      color: isIncorreta
-                                          ? Colors.red
-                                          : Colors.green,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              teste['nomeTeste'],
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              teste['tipoTeste'],
+                              style: TextStyle(color: Color(0xFF718096)),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              teste['disciplinas'],
+                              style: TextStyle(color: Color(0xFF718096)),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              teste['topicos'],
+                              style: TextStyle(color: Color(0xFF718096)),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              '${teste['numQuestoes']}',
+                              style: TextStyle(
+                                color: Color(0xFF2D3748),
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
-                          DataCell(Text(
-                            teste['tempoGasto'],
-                            style: TextStyle(
-                              color: Color(0xFF2D3748),
-                              fontSize: 14,
-                            ),
-                          )),
                           DataCell(
                             Text(
-                              teste['contRelacionado'],
-                              style: TextStyle(
-                                color: Color(0xFF4299E1),
-                                fontSize: 14,
-                                decoration: TextDecoration.underline,
-                              ),
+                              teste['data'],
+                              style: TextStyle(color: Color(0xFF718096)),
+                            ),
+                          ),
+                          DataCell(
+                            IconButton(
+                              icon: Icon(Icons.more_horiz,
+                                  color: Color(0xFF718096)),
+                              onPressed: () {},
+                              padding: EdgeInsets.zero,
+                              constraints: BoxConstraints(),
+                              splashRadius: 24,
                             ),
                           ),
                         ],
