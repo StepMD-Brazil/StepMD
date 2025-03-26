@@ -291,7 +291,6 @@ class HomePageState extends State<HomePage> {
                             // Update the state of the app
                             _onItemTapped(0);
                             // Then close the drawer
-                            Navigator.pop(context);
                           },
                         ),
                         ListTile(

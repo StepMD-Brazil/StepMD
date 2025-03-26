@@ -62,21 +62,31 @@ abstract class _DbQuestionsStoreBase with Store {
   @observable
   ObservableList<String> checkedCategories = ObservableList<String>();
 
+  _DbQuestionsStoreBase() {
+    // Initialize empty stream to avoid null issues
+    questionsStream = ObservableStream(Stream.value([]));
+  }
+
   @action
   void setAnswer(int index, int value, int indexOption) {
     if (index >= 0 && index < answers.length) {
-      answers[index]['status'] = value;
-      answers[index]['indexOption'] = indexOption;
-      countAnswereds += 1;
-    } else {
-      print("Índice inválido para a lista de respostas.");
+      answers[index] = {
+        ...answers[index],
+        'status': value,
+        'indexOption': indexOption,
+      };
+      countAnswereds = answers.where((answer) => answer['status'] != 0).length;
     }
   }
 
   @action
   void fetchQuestionsByIds(List<String> questionIds) {
     try {
-      // Transformar a consulta Firestore em um Stream
+      if (questionIds.isEmpty) {
+        questionsStream = ObservableStream(Stream.value([]));
+        return;
+      }
+
       final collection = FirebaseFirestore.instance.collection("questions");
       final stream = collection
           .where("questionId", whereIn: questionIds)
@@ -84,16 +94,16 @@ abstract class _DbQuestionsStoreBase with Store {
           .map((querySnapshot) =>
               querySnapshot.docs.map((doc) => doc.data()).toList());
 
-      // Atualizar o ObservableStream
       questionsStream = ObservableStream(stream);
 
-      // Vincular a atualização do `answers` ao stream de perguntas
-      questionsStream?.listen((questions) {
-        fillAnswers(questions);
+      stream.listen((questions) {
+        if (questions.isNotEmpty) {
+          fillAnswers(questions);
+        }
       });
     } catch (e) {
       print("Erro ao criar stream de questões: $e");
-      questionsStream = null;
+      questionsStream = ObservableStream(Stream.value([]));
     }
   }
 

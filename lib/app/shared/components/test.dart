@@ -17,6 +17,15 @@ import 'package:stepmd/app/shared/constants.dart';
 import 'package:flutter_simple_calculator/flutter_simple_calculator.dart';
 
 class Test extends StatefulWidget {
+  final String? testId;
+  final String? mode;
+
+  const Test({
+    Key? key,
+    this.testId,
+    this.mode,
+  }) : super(key: key);
+
   @override
   _TestState createState() => _TestState();
 }
@@ -27,6 +36,7 @@ class _TestState extends State<Test> {
   final QuillController _controller = QuillController.basic();
 
   final NotebookStore notebookStore = Modular.get();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void dispose() {
@@ -38,6 +48,24 @@ class _TestState extends State<Test> {
   void initState() {
     super.initState();
     notebookStore.loadPages();
+    if (widget.testId != null) {
+      _loadTest();
+    }
+  }
+
+  Future<void> _loadTest() async {
+    final testDoc =
+        await _firestore.collection('tests').doc(widget.testId).get();
+    if (testDoc.exists) {
+      final testData = testDoc.data()!;
+      dbStore.setTestName(testData['name'] ?? '');
+      dbStore.setTestMode(testData['mode'] ?? 'tutor');
+
+      // Carregar questões
+      final questions = List<String>.from(
+          testData['questions'].map((q) => q['questionId'] as String));
+      dbStore.fetchQuestionsByIds(questions);
+    }
   }
 
   void _onPageSelected(NotebookPageModel page) {
@@ -195,7 +223,8 @@ class _TestState extends State<Test> {
         false;
   }
 
-  void _showFinishConfirmation(BuildContext context) {
+  void _showFinishConfirmation(BuildContext context,
+      AsyncSnapshot<List<Map<dynamic, dynamic>>> snapshot) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -204,35 +233,67 @@ class _TestState extends State<Test> {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         content: const Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Você tem certeza que deseja finalizar o teste?',
-                style: TextStyle(fontSize: 14),
-              ),
-            ]),
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Você tem certeza que deseja finalizar o teste?',
+              style: TextStyle(fontSize: 14),
+            ),
+          ],
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text('Cancelar'),
           ),
           TextButton(
-            onPressed: () {
-              dbStore.finishTest();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ResultadosTestesRealizados()),
-              );
+            onPressed: () async {
+              await dbStore.finishTest();
+              final categoryNames = await _fetchCategoryNames();
+              if (mounted) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResultadosTestesRealizados(
+                      testData: {
+                        'totalQuestions': snapshot.data!.length,
+                        'correctAnswers': dbStore.answers
+                            .where((q) => q['status'] == 1)
+                            .length,
+                        'wrongAnswers': dbStore.answers
+                            .where((q) => q['status'] == -1)
+                            .length,
+                        'unansweredQuestions': dbStore.answers
+                            .where((q) => q['status'] == 0)
+                            .length,
+                        'questions': dbStore.answers.map((answer) {
+                          final question = snapshot.data!.firstWhere(
+                            (q) => q['questionId'] == answer['questionId'],
+                            orElse: () => <String, dynamic>{},
+                          );
+                          return {
+                            ...answer,
+                            'topics': question['topics'] ?? '',
+                            'categoryId': question['categoryId'] ?? '',
+                          };
+                        }).toList(),
+                        'categoryNames': categoryNames,
+                        'testName': dbStore.testName,
+                        'testDate': DateTime.now(),
+                        'testType': dbStore.testMode,
+                      },
+                    ),
+                  ),
+                );
+              }
             },
             style: TextButton.styleFrom(
-              backgroundColor: Colors.red[600], // Cor de fundo correta
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 16, vertical: 16), // Espaçamento interno
+              backgroundColor: Colors.red[600],
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8), // Bordas arredondadas
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
             child: const Text(
@@ -300,19 +361,51 @@ class _TestState extends State<Test> {
         false;
   }
 
+  Future<Map<String, String>> _fetchCategoryNames() async {
+    final categoriesSnapshot = await _firestore.collection('categories').get();
+    final Map<String, String> categoryNames = {};
+
+    for (var doc in categoriesSnapshot.docs) {
+      categoryNames[doc.id] = doc.data()['name'] ?? '';
+    }
+
+    return categoryNames;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<List<Map<dynamic, dynamic>>>(
       stream: dbStore.questionsStream,
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot<List<Map<dynamic, dynamic>>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
+
+        if (snapshot.hasError) {
+          return Center(
+            child: Text('Erro ao carregar questões: ${snapshot.error}'),
+          );
+        }
+
+        if (!snapshot.hasData ||
+            snapshot.data == null ||
+            snapshot.data!.isEmpty) {
+          return const Center(
+            child: Text('Nenhuma questão encontrada'),
+          );
+        }
+
         if (dbStore.testMode == 'cronometrado') {
           dbStore.startCounter();
         }
+
+        // Ensure answers list is initialized
+        if (dbStore.answers.isEmpty) {
+          dbStore.fillAnswers(snapshot.data!);
+        }
+
         return Observer(
           builder: (context) {
             return WillPopScope(
@@ -852,7 +945,8 @@ class _TestState extends State<Test> {
                                       const SizedBox(width: 8),
                                       InkWell(
                                         onTap: () {
-                                          _showFinishConfirmation(context);
+                                          _showFinishConfirmation(
+                                              context, snapshot);
                                         },
                                         child: const Text(
                                           'Finalizar',
@@ -1435,32 +1529,6 @@ class _TestState extends State<Test> {
                                       ),
                                     ],
                                   ),
-                                  // const SizedBox(height: 16),
-                                  // Container(
-                                  //   child: Row(
-                                  //     mainAxisAlignment:
-                                  //         MainAxisAlignment.start,
-                                  //     crossAxisAlignment:
-                                  //         CrossAxisAlignment.center,
-                                  //     children: [
-                                  //       Container(
-                                  //         width: 24,
-                                  //         height: 24,
-                                  //         child: Icon(Icons.feedback_outlined),
-                                  //       ),
-                                  //       const SizedBox(width: 8),
-                                  //       Text(
-                                  //         'Envie um feedback',
-                                  //         style: TextStyle(
-                                  //           color: Color(0xFF957B0B),
-                                  //           fontSize: 14,
-                                  //           fontFamily: appFont,
-                                  //           fontWeight: FontWeight.w500,
-                                  //         ),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             ),
@@ -1586,7 +1654,7 @@ class _TestState extends State<Test> {
                                   snapshot.data!.length - 1) {
                                 dbStore.setSelect(dbStore.questionSelect + 1);
                               } else {
-                                _showFinishConfirmation(context);
+                                _showFinishConfirmation(context, snapshot);
                               }
                             });
                           },

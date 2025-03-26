@@ -256,10 +256,10 @@ class NovoEstudoFlash extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 8),
-                          DynamicHeader(
-                            title: categoryName ?? 'Patologia',
-                            isActive: true,
-                          ),
+                          // DynamicHeader(
+                          //   title: categoryName ?? 'Patologia',
+                          //   isActive: true,
+                          // ),
                           InkWell(
                             onTap: () {
                               if (flashStore.checkedCategories.isNotEmpty) {

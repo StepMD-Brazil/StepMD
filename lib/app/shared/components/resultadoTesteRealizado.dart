@@ -3,224 +3,90 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:stepmd/app/modules/home/home_page.dart';
 
 class ResultadosTestesRealizados extends StatelessWidget {
-  final List<Map<String, dynamic>> mockTestes = [
-    {
-      'n': '01',
-      'id': '001159',
-      'disciplina': 'Biostatistics &\nEpidemiology',
-      'topicos': 'Gastrointestinal &\nNutrition',
-      'status': 'incorreta',
-      'tempoGasto': '0:04 segs',
-      'contRelacionado': 'Ver conteúdo',
-    },
-    {
-      'n': '02',
-      'id': '001159',
-      'disciplina': 'Biostatistics &\nEpidemiology',
-      'topicos': 'Gastrointestinal &\nNutrition',
-      'status': 'correta',
-      'tempoGasto': '0:04 segs',
-      'contRelacionado': 'Ver conteúdo',
-    },
-    {
-      'n': '03',
-      'id': '001159',
-      'disciplina': 'Biostatistics &\nEpidemiology',
-      'topicos': 'Gastrointestinal &\nNutrition',
-      'status': 'incorreta',
-      'tempoGasto': '0:04 segs',
-      'contRelacionado': 'Ver conteúdo',
-    },
-  ];
+  final Map<String, dynamic> testData;
+
+  const ResultadosTestesRealizados({
+    Key? key,
+    required this.testData,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final totalQuestions = testData['totalQuestions'] as int;
+    final correctAnswers = testData['correctAnswers'] as int;
+    final wrongAnswers = testData['wrongAnswers'] as int;
+    final unansweredQuestions = testData['unansweredQuestions'] as int;
+    final questions = testData['questions'] as List;
+    final categoryNames = testData['categoryNames'] as Map<String, String>;
+    final testName = testData['testName'] as String;
+    final testDate = testData['testDate'] as DateTime;
+    final testType = testData['testType'] as String;
+
+    // Calcula as porcentagens para os gráficos
+    final acertosPercent =
+        totalQuestions > 0 ? correctAnswers / totalQuestions : 0.0;
+    final mediaPercent =
+        0.72; // Valor fixo para exemplo, pode ser calculado baseado em histórico
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          color: Color(0xFF51628A),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).primaryColor),
           onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomePage())),
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          ),
         ),
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              Icons.medical_services_outlined,
-              color: Color(0xFF51628A),
-              size: 24,
-            ),
-            SizedBox(width: 12),
+            Icon(Icons.assessment_outlined,
+                color: Theme.of(context).primaryColor),
+            SizedBox(width: 8),
             Text(
               'Acompanhe seus resultados',
               style: TextStyle(
-                color: Color(0xFF51628A),
+                color: Theme.of(context).primaryColor,
                 fontSize: 20,
-                fontFamily: 'Work Sans',
                 fontWeight: FontWeight.w400,
               ),
             ),
           ],
         ),
       ),
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildCircularAcertosProgress(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: _buildCircularAcertosProgress(
                     'Sua taxa de acertos',
-                    0.95,
-                    '95%',
+                    acertosPercent,
+                    '${(acertosPercent * 100).round()}%',
                     Colors.green,
-                  ),
-                  _buildCircularMediaProgress(
-                    'Sua média de acertos',
-                    0.72,
-                    '72%',
-                    Colors.green,
-                  ),
-                ],
-              ),
-              SizedBox(height: 32),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.85,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 4,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: DataTable(
-                    dataRowHeight: 64,
-                    headingRowHeight: 48,
-                    horizontalMargin: 24,
-                    columnSpacing: 24,
-                    headingRowColor:
-                        MaterialStateProperty.all(Color(0xFFF7FAFC)),
-                    headingTextStyle: TextStyle(
-                      color: Color(0xFF4A5568),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    columns: [
-                      DataColumn(label: Text('N°')),
-                      DataColumn(label: Text('ID')),
-                      DataColumn(label: Text('Disciplina')),
-                      DataColumn(label: Text('Tópicos')),
-                      DataColumn(label: Text('Status')),
-                      DataColumn(label: Text('Tempo gasto')),
-                      DataColumn(label: Text('Cont. relacionado')),
-                    ],
-                    rows: mockTestes.map((teste) {
-                      final isIncorreta = teste['status'] == 'incorreta';
-
-                      return DataRow(
-                        cells: [
-                          DataCell(Text(
-                            teste['n'],
-                            style: TextStyle(
-                              color: Color(0xFF2D3748),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          )),
-                          DataCell(Text(
-                            teste['id'],
-                            style: TextStyle(
-                              color: Color(0xFF2D3748),
-                              fontSize: 14,
-                            ),
-                          )),
-                          DataCell(Text(
-                            teste['disciplina'],
-                            style: TextStyle(
-                              color: Color(0xFF2D3748),
-                              fontSize: 14,
-                            ),
-                          )),
-                          DataCell(Text(
-                            teste['topicos'],
-                            style: TextStyle(
-                              color: Color(0xFF2D3748),
-                              fontSize: 14,
-                            ),
-                          )),
-                          DataCell(
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: isIncorreta
-                                    ? Color(0xFFFFE4E4)
-                                    : Color(0xFFE6FFE6),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    isIncorreta ? Icons.close : Icons.check,
-                                    size: 16,
-                                    color:
-                                        isIncorreta ? Colors.red : Colors.green,
-                                  ),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    isIncorreta ? 'Incorreta' : 'Correta',
-                                    style: TextStyle(
-                                      color: isIncorreta
-                                          ? Colors.red
-                                          : Colors.green,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          DataCell(Text(
-                            teste['tempoGasto'],
-                            style: TextStyle(
-                              color: Color(0xFF2D3748),
-                              fontSize: 14,
-                            ),
-                          )),
-                          DataCell(
-                            Text(
-                              teste['contRelacionado'],
-                              style: TextStyle(
-                                color: Color(0xFF4299E1),
-                                fontSize: 14,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    }).toList(),
+                    correctAnswers,
+                    wrongAnswers,
+                    unansweredQuestions,
                   ),
                 ),
-              ),
-            ],
-          ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: _buildCircularMediaProgress(
+                    'Sua média de acertos',
+                    acertosPercent,
+                    '${(acertosPercent * 100).round()}%',
+                    Colors.green,
+                    correctAnswers,
+                    totalQuestions,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 24),
+            _buildQuestionsTable(questions, categoryNames),
+          ],
         ),
       ),
     );
@@ -231,6 +97,9 @@ class ResultadosTestesRealizados extends StatelessWidget {
     double percent,
     String centerText,
     Color color,
+    int correctAnswers,
+    int wrongAnswers,
+    int unansweredQuestions,
   ) {
     return Container(
       padding: EdgeInsets.all(16),
@@ -289,11 +158,19 @@ class ResultadosTestesRealizados extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildLegendItem(
-                  'Questões não respondidas', Colors.grey.withOpacity(0.2)),
+                'Questões não respondidas ($unansweredQuestions)',
+                Colors.grey.withOpacity(0.2),
+              ),
               SizedBox(height: 8),
-              _buildLegendItem('Questões erradas', Colors.red.withOpacity(0.1)),
+              _buildLegendItem(
+                'Questões erradas ($wrongAnswers)',
+                Colors.red.withOpacity(0.1),
+              ),
               SizedBox(height: 8),
-              _buildLegendItem('Questões corretas', Colors.green),
+              _buildLegendItem(
+                'Questões corretas ($correctAnswers)',
+                Colors.green,
+              ),
             ],
           ),
         ],
@@ -306,6 +183,8 @@ class ResultadosTestesRealizados extends StatelessWidget {
     double percent,
     String centerText,
     Color color,
+    int answeredQuestions,
+    int totalQuestions,
   ) {
     return Container(
       padding: EdgeInsets.all(16),
@@ -428,7 +307,7 @@ class ResultadosTestesRealizados extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '38/40',
+                    '$answeredQuestions/$totalQuestions',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -449,7 +328,7 @@ class ResultadosTestesRealizados extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '32',
+                    '$answeredQuestions',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -471,6 +350,98 @@ class ResultadosTestesRealizados extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildQuestionsTable(
+      List questions, Map<String, String> categoryNames) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: DataTable(
+          columns: [
+            DataColumn(label: Text('N°')),
+            DataColumn(label: Text('ID')),
+            DataColumn(label: Text('Disciplina')),
+            DataColumn(label: Text('Tópicos')),
+            DataColumn(label: Text('Status')),
+            DataColumn(label: Text('Tempo gasto')),
+            DataColumn(label: Text('Cont. relacionado')),
+          ],
+          rows: List.generate(
+            questions.length,
+            (index) {
+              final question = questions[index];
+              final categoryId = question['categoryId'] as String;
+              final categoryName = categoryNames[categoryId] ?? categoryId;
+              final status = question['status'] as int;
+
+              return DataRow(
+                cells: [
+                  DataCell(Text('${index + 1}')),
+                  DataCell(Text(question['questionId'] as String)),
+                  DataCell(Text(categoryName)),
+                  DataCell(Text(question['topics']?.toString() ?? '-')),
+                  DataCell(
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          status == 1
+                              ? Icons.check_circle
+                              : status == -1
+                                  ? Icons.cancel
+                                  : Icons.help_outline,
+                          color: status == 1
+                              ? Colors.green
+                              : status == -1
+                                  ? Colors.red
+                                  : Colors.grey,
+                          size: 16,
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          status == 1
+                              ? 'Correta'
+                              : status == -1
+                                  ? 'Incorreta'
+                                  : 'Não respondida',
+                        ),
+                      ],
+                    ),
+                  ),
+                  DataCell(Text('0:04 segs')), // Tempo fixo para exemplo
+                  DataCell(
+                    TextButton(
+                      onPressed: () {
+                        // Implementar ação para ver conteúdo
+                      },
+                      child: Text(
+                        'Ver conteúdo',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
       ),
     );
   }
